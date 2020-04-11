@@ -3,15 +3,34 @@ resource "aws_route53_zone" "hosted_zone" {
   tags = var.labels
 }
 
+# Address record for external load balancer.
 # The record that points to the external load balancer
 # infront of kubernetes that load balances ingress requests
 # between the different kubernetes worker nodes.
 resource "aws_route53_record" "load_balancer_record" {
+  count   = length(var.load_balancer_public_ip) > 0 ? 1 : 0
   zone_id = aws_route53_zone.hosted_zone.zone_id
   name    = "lb.${var.domain_name}"
   type    = "A"
   ttl     = "300"
   records = [var.load_balancer_public_ip]
+}
+
+# Alias record for external load balancer.
+# The record that points to the external load balancer
+# infront of kubernetes that load balances ingress requests
+# between the different kubernetes worker nodes.
+resource "aws_route53_record" "load_balancer_record_alias" {
+  count   = length(var.load_balancer_alias_dns_name) > 0 ? 1 : 0
+  zone_id = aws_route53_zone.hosted_zone.zone_id
+  name    = "lb.${var.domain_name}"
+  type    = "A"
+
+  alias {
+    name                   = var.load_balancer_alias_dns_name
+    zone_id                = var.load_balancer_alias_hosted_zone_id
+    evaluate_target_health = false
+  }
 }
 
 # Create Alias A records for all domain names provided
@@ -24,7 +43,7 @@ resource "aws_route53_record" "alias_record" {
   type    = "A"
 
   alias {
-    name                   = aws_route53_record.load_balancer_record.name
+    name                   = "lb.${var.domain_name}"
     zone_id                = aws_route53_zone.hosted_zone.id
     evaluate_target_health = false
   }

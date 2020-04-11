@@ -47,8 +47,9 @@ module "dns" {
     ]
   )
 
-  # the external load balancer infront of kubernetes workers.
-  load_balancer_public_ip = var.load_balancer_public_ip
+  load_balancer_public_ip      = var.load_balancer_public_ip
+  load_balancer_alias_dns_name = var.load_balancer_alias_dns_name
+  load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
 
   # the primary hosted zone if the new zone if a nested zone.
   primary_hosted_zone_id = var.primary_hosted_zone_id

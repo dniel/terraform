@@ -1,11 +1,27 @@
-provider "kubernetes" {}
-provider "helm" {}
-provider "k8s" {}
+#########################################
+#
+#
+#########################################
+provider "kubernetes" {
+  config_context = "juju-context"
+}
+provider "helm" {
+  kubernetes {
+    config_context = "juju-context"
+  }
+}
+provider "k8s" {
+  config_context = "juju-context"
+}
 provider "aws" {
   version = "~> 2.0"
   region  = "eu-central-1"
 }
 
+#########################################
+#
+#
+#########################################
 locals {
   load_balancer_public_ip = "10.0.50.165"
   domain_name             = "demo.dniel.in"

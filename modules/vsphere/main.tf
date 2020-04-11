@@ -13,7 +13,7 @@ locals {
 #}
 
 resource "kubernetes_storage_class" "thin-disk" {
-#  depends_on = [k8s_manifest.vsphere-rbac-manifest]
+  #  depends_on = [k8s_manifest.vsphere-rbac-manifest]
   metadata {
     name = "thin-disk"
     annotations = {

@@ -3,30 +3,34 @@
 #
 #########################################
 provider "kubernetes" {
-  config_context = "juju-context"
+  config_context = "eks-dniel-prod"
 }
 provider "helm" {
   kubernetes {
-    config_context = "juju-context"
+    config_context = "eks-dniel-prod"
   }
 }
 provider "k8s" {
-  config_context = "juju-context"
+  config_context = "eks-dniel-prod"
 }
 provider "aws" {
   version = "~> 2.0"
   region  = "eu-central-1"
 }
 
-
+#########################################
+#
+#
+#########################################
 locals {
-  domain_name = "dniel.in"
-  name_prefix = "home"
+  domain_name = "dniel.se"
+  name_prefix = "cloud"
 
-  load_balancer_public_ip = "10.0.50.165"
+  load_balancer_alias_dns_name = "ab3f52ad9ddb841a789ff9d7dfb9426c-1236427231.eu-north-1.elb.amazonaws.com."
+  load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
 
   traefik_websecure_port         = 32443
-  traefik_service_type           = "NodePort"
+  traefik_service_type           = "LoadBalancer"
   traefik_default_tls_secretName = "traefik-default-tls"
   traefik_helm_chart_version     = "6.2.0"
 
@@ -56,8 +60,9 @@ locals {
 # - traefik
 # - forwardauth
 # - dns
-# - certificates
 #
+# TODO
+# - cert-manager for certificate management
 #################################################################
 module "base" {
   source      = "../modules/base"
@@ -78,13 +83,12 @@ module "base" {
   traefik_service_type           = local.traefik_service_type
   traefik_default_tls_secretName = local.traefik_default_tls_secretName
 
-  # parameter for public ip where appliactions will be accessed.
-  load_balancer_public_ip = local.load_balancer_public_ip
+  # name of the ELB load balancer dns record infront of kubernetes.
+  load_balancer_alias_dns_name = local.load_balancer_alias_dns_name
+  load_balancer_alias_hosted_zone_id = local.load_balancer_alias_hosted_zone_id
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    module.unifi.dns_name,
-    module.spinnaker.dns_name,
     module.apps.api_graphql_dns_name,
     module.apps.api_posts_dns_name,
     module.apps.whoami_dns_name,
@@ -96,32 +100,9 @@ module "base" {
 }
 
 #################################################################
-# Specific features installed in Internal environment
+# Specific features installed in Cloud environment
 #
 #################################################################
-module "unifi" {
-  source      = "../modules/unifi"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-
-  unifi_helm_release_version = local.unifi_helm_chart_version
-}
-
-module "spinnaker" {
-  source      = "../modules/spinnaker"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-}
-
-module "vsphere" {
-  source      = "../modules/vsphere"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-}
-
 module "certmanager" {
   source      = "../modules/certmanager"
   domain_name = local.domain_name

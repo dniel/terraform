@@ -29,7 +29,7 @@ resource "helm_release" "traefik" {
   repository = data.helm_repository.dniel.id
   chart      = local.app_name
 
-  version   = var.traefik_helm_release_version
+  #  version   = var.traefik_helm_release_version
   namespace = kubernetes_namespace.traefik.id
 
   skip_crds = true
