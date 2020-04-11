@@ -26,7 +26,7 @@ locals {
   domain_name = "dniel.se"
   name_prefix = "cloud"
 
-  load_balancer_alias_dns_name = "ab3f52ad9ddb841a789ff9d7dfb9426c-1236427231.eu-north-1.elb.amazonaws.com."
+  load_balancer_alias_dns_name       = "ab3f52ad9ddb841a789ff9d7dfb9426c-1236427231.eu-north-1.elb.amazonaws.com."
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
 
   traefik_websecure_port         = 32443
@@ -84,7 +84,7 @@ module "base" {
   traefik_default_tls_secretName = local.traefik_default_tls_secretName
 
   # name of the ELB load balancer dns record infront of kubernetes.
-  load_balancer_alias_dns_name = local.load_balancer_alias_dns_name
+  load_balancer_alias_dns_name       = local.load_balancer_alias_dns_name
   load_balancer_alias_hosted_zone_id = local.load_balancer_alias_hosted_zone_id
 
   # DNS names to be registered and pointed to the public load balancer ip.
