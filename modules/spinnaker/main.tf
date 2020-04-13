@@ -1,5 +1,10 @@
-##
+#####################################################################
 # configure spinnaker
+#
+# TODO
+# - add spinnaker terraform provider to create pipelines and stuff
+#
+####################################################################
 locals {
   app_name = "spinnaker"
   labels = merge(var.labels, {
@@ -71,5 +76,3 @@ resource "kubernetes_ingress" "spinnaker_gate_ingress" {
     }
   }
 }
-
-
