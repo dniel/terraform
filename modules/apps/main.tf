@@ -22,6 +22,14 @@ resource "helm_release" "whoami" {
   namespace  = kubernetes_namespace.apps.id
   version    = var.whoami_helm_release_version
 
+  dynamic "set" {
+    for_each = var.labels
+    content {
+      name  = "ingressroute.labels.${set.key}"
+      value = set.value
+    }
+  }
+
   set {
     name  = "ingressroute.enabled"
     value = "true"
@@ -50,6 +58,14 @@ resource "helm_release" "api-posts" {
   chart      = "api-posts"
   namespace  = kubernetes_namespace.apps.id
   version    = var.api_posts_helm_release_version
+
+  dynamic "set" {
+    for_each = var.labels
+    content {
+        name  = "ingressroute.labels.${set.key}"
+        value = set.value
+      }
+  }
 
   set {
     name  = "ingressroute.annotations.kubernetes\\.io/ingress\\.class"
@@ -81,6 +97,14 @@ resource "helm_release" "api-graphql" {
   chart      = "api-graphql"
   namespace  = kubernetes_namespace.apps.id
   version    = var.api_graphql_helm_release_version
+  dynamic "set" {
+    for_each = var.labels
+    content {
+      name  = "ingressroute.labels.${set.key}"
+      value = set.value
+    }
+  }
+
   set {
     name  = "ingressroute.annotations.kubernetes\\.io/ingress\\.class"
     value = "traefik-${var.name_prefix}"
@@ -109,6 +133,15 @@ resource "helm_release" "website" {
   chart      = "www"
   namespace  = kubernetes_namespace.apps.id
   version    = var.website_helm_release_version
+
+  dynamic "set" {
+    for_each = var.labels
+    content {
+      name  = "ingressroute.labels.${set.key}"
+      value = set.value
+    }
+  }
+
   set {
     name  = "ingressroute.annotations.kubernetes\\.io/ingress\\.class"
     value = "traefik-${var.name_prefix}"
