@@ -18,6 +18,10 @@ Under the directory `envs` there is one directory for each deployment.
 - home is my primary deployment on-prem.
 - home-demo is a stack also deployed on-prem, just to make sure its possible to deploy
   multiple stacks in parallel on the same K8s cluster to run multiple versions of the same stack.
+  
+To deploy an environment its meant to stand in its directory and do `terraform apply`
+Secrets are stored in encrypted files in the repo and contains a couple of variables 
+that are needed to run the terraform scripts.
 
 ## Modules
 Under modules I have put all my re-usable code, the environments should not contain much code itself
