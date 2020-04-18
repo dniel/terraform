@@ -28,6 +28,7 @@ module "forwardauth" {
   forwardauth_clientsecret         = var.forwardauth_clientsecret
   forwardauth_token_cookie_domain  = var.forwardauth_token_cookie_domain
   forwardauth_helm_release_version = var.forwardauth_helm_release_version
+  forwardauth_tenant               = var.forwardauth_tenant
 }
 
 ##################################

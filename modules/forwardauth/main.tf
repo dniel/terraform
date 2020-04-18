@@ -60,7 +60,8 @@ resource "helm_release" "forwardauth" {
     templatefile("${path.module}/forwardauth-values.tpl", {
       app_name    = local.app_name,
       domain_name = var.domain_name,
-      name_prefix = var.name_prefix
+      name_prefix = var.name_prefix,
+      tenant      = var.forwardauth_tenant
     })
   ]
 }

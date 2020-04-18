@@ -35,6 +35,7 @@ locals {
   traefik_helm_chart_version     = "6.2.0"
 
   forwardauth_helm_chart_version = "2.0.8"
+  forwardauth_tenant             = "dniel.eu.auth0.com"
   forwardauth_clientid           = var.forwardauth_clientid
   forwardauth_clientsecret       = var.forwardauth_clientsecret
   forwardauth_audience           = "https://${local.domain_name}"
@@ -76,6 +77,7 @@ module "base" {
   forwardauth_audience             = local.forwardauth_audience
   forwardauth_token_cookie_domain  = local.domain_name
   forwardauth_helm_release_version = local.forwardauth_helm_chart_version
+  forwardauth_tenant               = local.forwardauth_tenant
 
   # parameters for traefik
   traefik_helm_release_version   = local.traefik_helm_chart_version

@@ -15,9 +15,9 @@ logLevel: DEBUG
 # If they are set here, they are injected as environment properties
 # on the container instead of read from application.yaml
 # It is also possible to set in application.yaml below.
-domain: https://dniel.eu.auth0.com/
-tokenEndpoint: https://dniel.eu.auth0.com/oauth/token
-authorizeUrl: https://dniel.eu.auth0.com/authorize
+domain: https://${tenant}/
+tokenEndpoint: https://${tenant}/oauth/token
+authorizeUrl: https://${tenant}/authorize
 
 # set the default application client-id and client-secret
 # as environmentvariables to container and inject values from
@@ -47,11 +47,11 @@ ingress:
 # Application config file that are stored as configmap and
 # mounted by the container/pod.
 applicationYaml:
-  domain: https://dniel.eu.auth0.com/
-  token-endpoint: https://dniel.eu.auth0.com/oauth/token
-  authorize-url: https://dniel.eu.auth0.com/authorize
-  userinfo-endpoint: https://dniel.eu.auth0.com/userinfo
-  logout-endpoint:  https://dniel.eu.auth0.com/v2/logout
+  domain: https://${tenant}/
+  token-endpoint: https://${tenant}/oauth/token
+  authorize-url: https://${tenant}/authorize
+  userinfo-endpoint: https://${tenant}/userinfo
+  logout-endpoint:  https://${tenant}/v2/logout
 
   default:
     name: default

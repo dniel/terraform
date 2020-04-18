@@ -8,6 +8,11 @@ variable "name_prefix" {
   description = "prefix to put on resources to be able to deploy multiple parallel versions of the env."
 }
 
+variable "forwardauth_tenant" {
+  type        = string
+  description = "Auth0 tenant domain name."
+}
+
 variable "forwardauth_clientid" {
   type        = string
   description = "Client id used by forwardauth to authenticate and authorize requests."

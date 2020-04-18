@@ -62,9 +62,9 @@ resource "helm_release" "api-posts" {
   dynamic "set" {
     for_each = var.labels
     content {
-        name  = "ingressroute.labels.${set.key}"
-        value = set.value
-      }
+      name  = "ingressroute.labels.${set.key}"
+      value = set.value
+    }
   }
 
   set {
