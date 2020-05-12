@@ -1,5 +1,9 @@
 # Terraform
 This repo contains my Terraform scripts that deployes all Kubernetes manifests to my k8s clusters.
+Providers used to deploy manifests to Kubernetes.
+- Official Kubernetes provider for k8s resources.
+- Community Helm Provider for deploying Helm charts.
+- Unofficial kubernetes provider for raw manifests.
 
 ## Kubernetes deployment
 The terraform scripts does NOT contain the provisioning of Kubernetes itself. I have two clusters 
