@@ -26,7 +26,7 @@ locals {
   domain_name = "dniel.se"
   name_prefix = "cloud"
 
-  load_balancer_alias_dns_name       = "a09192435b42840629929b1da721a2d3-153266060.eu-north-1.elb.amazonaws.com"
+  load_balancer_alias_dns_name       = "afad300d4df2a4e02ac9135de6903f8b-535493825.eu-north-1.elb.amazonaws.com"
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
 
   traefik_websecure_port         = 32443
