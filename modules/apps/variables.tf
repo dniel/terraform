@@ -13,6 +13,10 @@ variable "labels" {
   description = "Labels to add to resources created"
 }
 
+variable "namespace" {
+  description = "Namespace to install apps in."
+}
+
 variable "api_graphql_helm_release_version" {
   type        = string
   description = "Version of Helm Chart to deploy"

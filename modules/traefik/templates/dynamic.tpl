@@ -6,7 +6,7 @@ http:
           - "/api"
     forwardauth:
       forwardAuth:
-        address: http://forwardauth.forwardauth/authorize
+        address: http://forwardauth/authorize
         trustForwardHeader: true
         authResponseHeaders:
           - authorization

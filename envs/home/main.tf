@@ -106,8 +106,22 @@ module "unifi" {
   domain_name = local.domain_name
   name_prefix = local.name_prefix
   labels      = local.labels
+  namespace   = module.base.namespace
 
   unifi_helm_release_version = local.unifi_helm_chart_version
+}
+
+module "apps" {
+  source                           = "../../modules/apps"
+  domain_name                      = local.domain_name
+  name_prefix                      = local.name_prefix
+  namespace                        = module.base.namespace
+  labels                           = local.labels
+
+  api_graphql_helm_release_version = local.api_graphql_helm_chart_version
+  api_posts_helm_release_version   = local.api_posts_helm_chart_version
+  website_helm_release_version     = local.website_helm_chart_version
+  whoami_helm_release_version      = local.whoami_helm_chart_version
 }
 
 module "spinnaker" {
@@ -131,15 +145,4 @@ module "certmanager" {
   labels      = local.labels
 
   certmanager_helm_release_version = local.certmanager_helm_release_version
-}
-
-module "apps" {
-  source                           = "../../modules/apps"
-  domain_name                      = local.domain_name
-  name_prefix                      = local.name_prefix
-  labels                           = local.labels
-  api_graphql_helm_release_version = local.api_graphql_helm_chart_version
-  api_posts_helm_release_version   = local.api_posts_helm_chart_version
-  website_helm_release_version     = local.website_helm_chart_version
-  whoami_helm_release_version      = local.whoami_helm_chart_version
 }

@@ -26,7 +26,7 @@ locals {
   domain_name = "dniel.se"
   name_prefix = "cloud"
 
-  load_balancer_alias_dns_name       = "ab3f52ad9ddb841a789ff9d7dfb9426c-1236427231.eu-north-1.elb.amazonaws.com."
+  load_balancer_alias_dns_name       = "a09192435b42840629929b1da721a2d3-153266060.eu-north-1.elb.amazonaws.com"
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
 
   traefik_websecure_port         = 32443
@@ -123,4 +123,5 @@ module "apps" {
   api_posts_helm_release_version   = local.api_posts_helm_chart_version
   website_helm_release_version     = local.website_helm_chart_version
   whoami_helm_release_version      = local.whoami_helm_chart_version
+  namespace   = module.base.namespace
 }

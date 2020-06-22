@@ -10,18 +10,11 @@ data "helm_repository" "dniel" {
   url  = "https://dniel.github.com/charts"
 }
 
-resource "kubernetes_namespace" "forwardauth" {
-  metadata {
-    name   = "${var.name_prefix}-${local.app_name}"
-    labels = local.labels
-  }
-}
-
 resource "helm_release" "forwardauth" {
   name       = local.app_name
   repository = data.helm_repository.dniel.id
   chart      = local.app_name
-  namespace  = kubernetes_namespace.forwardauth.id
+  namespace  = var.namespace.id
   version    = var.forwardauth_helm_release_version
   set {
     name  = "ingressroute.annotations.kubernetes\\.io/ingress\\.class"

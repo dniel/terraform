@@ -14,8 +14,8 @@ spec:
   - kind: Rule
     match: Host(`traefik.${domain_name}`)
     middlewares:
-    - name: ${name_prefix}-forwardauth-forwardauth-authorize@kubernetescrd
-      namespace: ${name_prefix}-forwardauth
+    - name: ${name_prefix}-forwardauth-authorize@kubernetescrd
+      namespace: ${name_prefix}
     services:
     - kind: TraefikService
       name: api@internal

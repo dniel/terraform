@@ -8,6 +8,10 @@ variable "name_prefix" {
   description = "prefix to put on resources to be able to deploy multiple parallel versions of the env."
 }
 
+variable "namespace" {
+  description = "Namespace to install apps in."
+}
+
 variable "unifi_helm_release_version" {
   type        = string
   description = "Version of Helm Chart to deploy"

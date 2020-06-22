@@ -2,11 +2,23 @@
 #
 #
 ##################################
+resource "kubernetes_namespace" "base-namespace" {
+  metadata {
+    name   = var.name_prefix
+    labels = var.labels
+  }
+}
+
+##################################
+#
+#
+##################################
 module "traefik" {
   source      = "../traefik"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
+  namespace   = kubernetes_namespace.base-namespace
 
   traefik_helm_release_version = var.traefik_helm_release_version
   traefik_websecure_port       = var.traefik_websecure_port
@@ -22,6 +34,7 @@ module "forwardauth" {
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
+  namespace   = kubernetes_namespace.base-namespace
 
   forwardauth_audience             = var.forwardauth_audience
   forwardauth_clientid             = var.forwardauth_clientid
@@ -75,8 +88,40 @@ module "certificates" {
     # used by traefik to serve all websites with a wildcard certificate.
     traefik-default = {
       secretName = var.traefik_default_tls_secretName
-      namespace  = module.traefik.namespace
+      namespace  = kubernetes_namespace.base-namespace.id
       dnsName    = "*.${var.domain_name}"
     }
   }
+}
+
+##################################
+#
+#
+##################################
+module "monitoring" {
+  source      = "../monitoring"
+  domain_name = var.domain_name
+  name_prefix = var.name_prefix
+  labels      = var.labels
+
+/*
+  http_monitor = {
+    traefik = {
+      address  = module.traefik.dns_name
+      username = "blabla"
+      password = "blabla"
+    }
+  }
+
+  port_monitor = {
+    loadbalancer = {
+      address =
+      port    = 443
+    }
+    wan = {
+      address =
+      port    = 443
+    }
+  }
+*/
 }

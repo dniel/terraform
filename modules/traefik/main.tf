@@ -3,7 +3,7 @@ locals {
   labels = merge(var.labels, {
     "app" = local.app_name
   })
-  forwardauth_middleware_namespace = "${var.name_prefix}-forwardauth"
+  forwardauth_middleware_namespace = var.name_prefix
   forwardauth_middleware_name      = "${local.forwardauth_middleware_namespace}-forwardauth-authorize@kubernetescrd"
 }
 
@@ -17,20 +17,13 @@ data "helm_repository" "traefik" {
   url  = "https://containous.github.io/traefik-helm-chart"
 }
 
-resource "kubernetes_namespace" "traefik" {
-  metadata {
-    name   = "${var.name_prefix}-${local.app_name}"
-    labels = local.labels
-  }
-}
-
 resource "helm_release" "traefik" {
   name       = local.app_name
   repository = data.helm_repository.dniel.id
   chart      = local.app_name
 
   #  version   = var.traefik_helm_release_version
-  namespace = kubernetes_namespace.traefik.id
+  namespace = var.namespace.id
 
   skip_crds = true
   set {
@@ -102,7 +95,7 @@ resource "helm_release" "traefik" {
 resource "kubernetes_config_map" "traefik" {
   metadata {
     name      = local.app_name
-    namespace = kubernetes_namespace.traefik.id
+    namespace = var.namespace.id
     labels    = local.labels
   }
 
@@ -126,5 +119,5 @@ resource "k8s_manifest" "traefik-dashboard-ingressroute" {
     domain_name = var.domain_name,
     name_prefix = var.name_prefix
   })
-  namespace = kubernetes_namespace.traefik.id
+  namespace = var.namespace.id
 }
