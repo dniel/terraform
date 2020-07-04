@@ -36,3 +36,8 @@ variable "whoami_helm_release_version" {
   type        = string
   description = "Version of Helm Chart to deploy"
 }
+
+variable "spa_demo_helm_release_version" {
+  type        = string
+  description = "Version of Helm Chart to deploy"
+}

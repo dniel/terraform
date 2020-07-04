@@ -17,3 +17,8 @@ output "api_graphql_dns_name" {
   value       = "api-graphql.${var.domain_name}"
   description = "The hostname where the webapp is accessible."
 }
+
+output "spa_demo_dns_name" {
+  value       = "spa-demo.${var.domain_name}"
+  description = "The hostname where the webapp is accessible."
+}

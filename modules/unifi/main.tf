@@ -1,4 +1,5 @@
 locals {
+  dns_name = "unifi.${var.domain_name}"
   labels = merge(var.labels, {
     "app" = "unifi"
   })
@@ -32,7 +33,7 @@ resource "kubernetes_ingress" "unifi_gui_ingress" {
 
   spec {
     rule {
-      host = "ubnt.${var.domain_name}"
+      host = local.dns_name
       http {
         path {
           backend {
@@ -59,7 +60,7 @@ resource "kubernetes_ingress" "unifi_inform_ingress" {
 
   spec {
     rule {
-      host = "ubnt.${var.domain_name}"
+      host = local.dns_name
       http {
         path {
           path = "/inform"

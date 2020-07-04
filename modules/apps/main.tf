@@ -156,3 +156,40 @@ resource "helm_release" "website" {
     value = local.forwardauth_middleware_namespace
   }
 }
+
+resource "helm_release" "spa-demo" {
+  name       = "spa-demo"
+  repository = data.helm_repository.dniel.id
+  chart      = "spa-demo"
+  namespace  = var.namespace.id
+  version    = var.spa_demo_helm_release_version
+
+  dynamic "set" {
+    for_each = var.labels
+    content {
+      name  = "ingressroute.labels.${set.key}"
+      value = set.value
+    }
+  }
+
+  set {
+    name  = "ingressroute.annotations.kubernetes\\.io/ingress\\.class"
+    value = "traefik-${var.name_prefix}"
+  }
+  set {
+    name  = "ingressroute.enabled"
+    value = "true"
+  }
+  set {
+    name  = "ingressroute.hostname"
+    value = "spa-demo.${var.domain_name}"
+  }
+  set {
+    name  = "ingressroute.middlewares[0].name"
+    value = local.forwardauth_middleware_name
+  }
+  set {
+    name  = "ingressroute.middlewares[0].namespace"
+    value = local.forwardauth_middleware_namespace
+  }  
+}
