@@ -133,9 +133,10 @@ module "apps" {
   domain_name                      = local.domain_name
   name_prefix                      = local.name_prefix
   labels                           = local.labels
+  namespace                        = module.base.namespace
   api_graphql_helm_release_version = local.api_graphql_helm_chart_version
   api_posts_helm_release_version   = local.api_posts_helm_chart_version
   website_helm_release_version     = local.website_helm_chart_version
   whoami_helm_release_version      = local.whoami_helm_chart_version
-  namespace   = module.base.namespace
+  spa_demo_helm_release_version    = local.spa_demo_helm_chart_version
 }

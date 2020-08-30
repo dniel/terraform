@@ -60,6 +60,10 @@ locals {
 # - dns
 # - certificates
 #
+# TODO
+# - alerting
+# - monitoring
+#
 #################################################################
 module "base" {
   source      = "../../modules/base"
