@@ -15,6 +15,7 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role2" {
     "kind" = "ClusterRole"
     "metadata" = {
       "name" = "vsphere-cloud-provider-2"
+      "labels" = local.labels
     }
     "rules" = [
       {
@@ -46,6 +47,7 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding2" {
     "metadata" = {
       "name" = "vsphere-cloud-provider-2"
       "namespace" = "kube-system"
+      "labels" = local.labels
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
