@@ -5,6 +5,10 @@
 provider "kubernetes" {
   config_context = "juju-context"
 }
+provider "kubernetes-alpha" {
+  config_context = "juju-context"
+  config_path = "~/.kube/config"
+}
 provider "helm" {
   kubernetes {
     config_context = "juju-context"
@@ -17,7 +21,6 @@ provider "aws" {
   version = "~> 2.0"
   region  = "eu-central-1"
 }
-
 
 locals {
   domain_name = "dniel.in"
