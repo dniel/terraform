@@ -4,16 +4,69 @@ locals {
   })
 }
 
-#############################################################
-# TODO enable next time recreating the cluster
-#
-############################################################
-#resource "k8s_manifest" "vsphere-rbac-manifest" {
-#  content = templatefile("${path.module}/templates/rbac.yaml", local.labels)
-#}
+############################################################################
+# TODO
+# rename names, remove 2 from name when recreating vsphere cluster.
+############################################################################
+resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role2" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion" = "rbac.authorization.k8s.io/v1"
+    "kind" = "ClusterRole"
+    "metadata" = {
+      "name" = "vsphere-cloud-provider-2"
+    }
+    "rules" = [
+      {
+        "apiGroups" = [
+          "",
+        ]
+        "resources" = [
+          "nodes",
+        ]
+        "verbs" = [
+          "get",
+          "list",
+          "watch",
+        ]
+      },
+    ]
+  }
+}
+
+############################################################################
+# TODO
+# rename names, remove 2 from name when recreating vsphere cluster.
+############################################################################
+resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding2" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion" = "rbac.authorization.k8s.io/v1"
+    "kind" = "ClusterRoleBinding"
+    "metadata" = {
+      "name" = "vsphere-cloud-provider-2"
+      "namespace" = "kube-system"
+    }
+    "roleRef" = {
+      "apiGroup" = "rbac.authorization.k8s.io"
+      "kind" = "ClusterRole"
+      "name" = "vsphere-cloud-provider-2"
+    }
+    "subjects" = [
+      {
+        "kind" = "ServiceAccount"
+        "name" = "vsphere-cloud-provider"
+        "namespace" = "kube-system"
+      },
+    ]
+  }
+}
 
 resource "kubernetes_storage_class" "thin-disk" {
-  #  depends_on = [k8s_manifest.vsphere-rbac-manifest]
+  depends_on = [
+    kubernetes_manifest.vsphere_cloudprovider_cluster_role2,
+    kubernetes_manifest.vsphere_cloudprovider_cluster_role_binding2,
+  ]
   metadata {
     name = "thin-disk"
     annotations = {
