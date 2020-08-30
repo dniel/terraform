@@ -113,11 +113,44 @@ resource "kubernetes_config_map" "traefik" {
   }
 }
 
-resource "k8s_manifest" "traefik-dashboard-ingressroute" {
-  content = templatefile("${path.module}/templates/traefik-dashboard.tpl", {
-    app_name    = local.app_name,
-    domain_name = var.domain_name,
-    name_prefix = var.name_prefix
-  })
-  namespace = var.namespace.id
+resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind" = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
+      },
+      "namespace" = var.namespace.id
+      "labels" = local.labels
+      "name" = "traefik-dashboard"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "websecure",
+      ]
+      "routes" = [
+        {
+          "kind" = "Rule"
+          "match" = "Host(`traefik.${var.domain_name}`)"
+          "middlewares" = [
+            {
+              "name" = "${var.name_prefix}-forwardauth-authorize@kubernetescrd"
+              "namespace" = "${var.name_prefix}"
+            },
+          ]
+          "services" = [
+            {
+              "kind" = "TraefikService"
+              "name" = "api@internal"
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
 }
