@@ -11,6 +11,7 @@ data "helm_repository" "stable" {
 }
 
 resource "helm_release" "unifi" {
+  provider = "helm"
   name       = "unifi"
   repository = data.helm_repository.stable.id
   chart      = "unifi"

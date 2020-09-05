@@ -5,16 +5,17 @@
 provider "kubernetes" {
   config_context = "eks-dniel-prod"
 }
+provider "kubernetes-alpha" {
+  config_context = "juju-context"
+  config_path = "~/.kube/config"
+}
 provider "helm" {
   kubernetes {
     config_context = "eks-dniel-prod"
   }
 }
-provider "k8s" {
-  config_context = "eks-dniel-prod"
-}
 provider "aws" {
-  version = "~> 2.0"
+  version = "~> 3.0"
   region  = "eu-central-1"
 }
 
@@ -49,7 +50,7 @@ locals {
   api_graphql_helm_chart_version   = "0.5"
   api_posts_helm_chart_version     = "0.5"
   certmanager_helm_release_version = "0.14.1"
-  spa_demo_helm_chart_version      = "0.1"
+  spa_demo_helm_chart_version      = "0.2"
 
   labels = {
     env = local.name_prefix
@@ -63,8 +64,6 @@ locals {
 # - forwardauth
 # - dns
 #
-# TODO
-# - cert-manager for certificate management
 #################################################################
 module "base" {
   source      = "../../modules/base"
@@ -92,13 +91,12 @@ module "base" {
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    //module.unifi.dns_name,
     module.apps.api_graphql_dns_name,
     module.apps.api_posts_dns_name,
     module.apps.whoami_dns_name,
     module.apps.www_dns_name,
-    module.apps.spa_demo_dns_name
-
+    module.apps.spa_demo_dns_name,
+    module.unifi.dns_name
   ]
 
   certificates_aws_access_key = local.certificates_aws_access_key
@@ -109,7 +107,7 @@ module "base" {
 # Specific features installed in Cloud environment
 #
 #################################################################
-/*module "unifi" {
+module "unifi" {
   source      = "../../modules/unifi"
   domain_name = local.domain_name
   name_prefix = local.name_prefix
@@ -117,7 +115,7 @@ module "base" {
   namespace   = module.base.namespace
 
   unifi_helm_release_version = local.unifi_helm_chart_version
-}*/
+}
 
 module "certmanager" {
   source      = "../../modules/certmanager"

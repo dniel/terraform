@@ -112,9 +112,10 @@ resource "kubernetes_config_map" "traefik" {
     })
   }
 }
-
+/*
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   provider = kubernetes-alpha
+
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
     "kind" = "IngressRoute"
@@ -154,3 +155,4 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
     }
   }
 }
+*/

@@ -14,15 +14,19 @@ provider "helm" {
     config_context = "juju-context"
   }
 }
-provider "k8s" {
-  config_context = "juju-context"
-}
 provider "aws" {
   version = "~> 2.0"
   region  = "eu-central-1"
 }
 
 locals {
+  providers = {
+    aws = aws,
+    helm = helm,
+    kubernetes = kubernetes,
+    kubernetes-alpha = kubernetes-alpha
+  }
+
   domain_name = "dniel.in"
   name_prefix = "home"
 
@@ -69,6 +73,7 @@ locals {
 #
 #################################################################
 module "base" {
+  providers = local.providers
   source      = "../../modules/base"
   domain_name = local.domain_name
   name_prefix = local.name_prefix
@@ -110,6 +115,7 @@ module "base" {
 #
 #################################################################
 module "apps" {
+  providers = local.providers
   source                           = "../../modules/apps"
   domain_name                      = local.domain_name
   name_prefix                      = local.name_prefix
@@ -124,6 +130,7 @@ module "apps" {
 }
 
 module "spinnaker" {
+  providers = local.providers
   source      = "../../modules/spinnaker"
   domain_name = local.domain_name
   name_prefix = local.name_prefix
@@ -131,6 +138,7 @@ module "spinnaker" {
 }
 
 module "vsphere" {
+  providers = local.providers
   source      = "../../modules/vsphere"
   domain_name = local.domain_name
   name_prefix = local.name_prefix
@@ -138,6 +146,7 @@ module "vsphere" {
 }
 
 module "certmanager" {
+  providers = local.providers
   source      = "../../modules/certmanager"
   domain_name = local.domain_name
   name_prefix = local.name_prefix

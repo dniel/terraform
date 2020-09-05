@@ -70,8 +70,10 @@ module "dns" {
 }
 
 ##################################
-#
-#
+# TODO
+# Create dynamic list of certificates as input parameter
+# to module to extract the logic of which certificates to
+# create from this module.
 ##################################
 module "certificates" {
   source      = "../certificates"
@@ -86,11 +88,11 @@ module "certificates" {
   certificates = {
     # wildcard certificate for environament, like *.example.com
     # used by traefik to serve all websites with a wildcard certificate.
-    traefik-default = {
-      secretName = var.traefik_default_tls_secretName
-      namespace  = kubernetes_namespace.base-namespace.id
-      dnsName    = "*.${var.domain_name}"
-    }
+#    traefik-default = {
+#      secretName = var.traefik_default_tls_secretName
+#      namespace  = kubernetes_namespace.base-namespace.id
+#      dnsName    = "*.${var.domain_name}"
+#    }
   }
 }
 
