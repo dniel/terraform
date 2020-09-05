@@ -27,7 +27,7 @@ resource "kubernetes_ingress" "unifi_gui_ingress" {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth@file"
+#      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth@file"
     }
     labels = local.labels
   }
