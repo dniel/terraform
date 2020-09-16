@@ -38,6 +38,7 @@ resource "kubernetes_manifest" "cluster_issuer" {
     "kind" = "ClusterIssuer"
     "metadata" = {
       "name" = "letsencrypt-${var.name_prefix}-issuer"
+      "namespace" = "cert-manager"
     }
     "spec" = {
       "acme" = {

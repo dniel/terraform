@@ -7,6 +7,12 @@ locals {
   forwardauth_middleware_name      = "${local.forwardauth_middleware_namespace}-forwardauth-authorize@kubernetescrd"
 }
 
+data "kubernetes_namespace" "env_namespace" {
+  metadata {
+    name = var.name_prefix
+  }
+}
+
 data "helm_repository" "dniel" {
   name = "dniel"
   url  = "https://dniel.github.com/charts"
@@ -112,8 +118,43 @@ resource "kubernetes_config_map" "traefik" {
     })
   }
 }
-/*
+
+resource "kubernetes_cluster_role" "traefik_rbac_cluster_role" {
+  metadata {
+    name = "traefik"
+  }
+  rule {
+    api_groups = [""]
+    resources  = ["pods", "services","endpoints","secrets"]
+    verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = ["extensions"]
+    resources  = ["ingresses"]
+    verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = ["extensions"]
+    resources  = ["ingresses/status"]
+    verbs      = ["update"]
+  }
+  rule {
+    api_groups = ["traefik.containo.us"]
+    resources  = [
+      "ingressroutes",
+      "ingressroutetcps",
+      "ingressrouteudps",
+      "middlewares",
+      "tlsoptions",
+      "tlsstores",
+      "traefikservices"]
+    verbs      = ["get","list","watch"]
+  }
+}
+
+
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
+  depends_on = [helm_release.traefik]
   provider = kubernetes-alpha
 
   manifest = {
@@ -149,10 +190,9 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
           ]
         },
       ]
-      "tls" = {
-        "certResolver" = "default"
-      }
+ #     "tls" = {
+ #       "certResolver" = "default"
+ #     }
     }
   }
 }
-*/

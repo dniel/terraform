@@ -1,4 +1,4 @@
 output "namespace" {
-  value       = kubernetes_namespace.base-namespace
+  value       = data.kubernetes_namespace.env_namespace
   description = "The kubernetes namespace for the environment."
 }

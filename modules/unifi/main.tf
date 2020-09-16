@@ -11,7 +11,6 @@ data "helm_repository" "stable" {
 }
 
 resource "helm_release" "unifi" {
-  provider = "helm"
   name       = "unifi"
   repository = data.helm_repository.stable.id
   chart      = "unifi"
@@ -53,8 +52,8 @@ resource "kubernetes_ingress" "unifi_inform_ingress" {
     namespace  = var.namespace.id
     annotations = {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
-      "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
-      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
+      "traefik.ingress.kubernetes.io/router.entrypoints"      = "web"
+#      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
     }
     labels = local.labels
   }

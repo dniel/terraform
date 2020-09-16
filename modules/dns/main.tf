@@ -43,7 +43,7 @@ resource "aws_route53_record" "alias_record" {
   type    = "A"
 
   alias {
-    name                   = "lb.${var.domain_name}"
+    name                   = aws_route53_record.load_balancer_record[0].name
     zone_id                = aws_route53_zone.hosted_zone.id
     evaluate_target_health = false
   }

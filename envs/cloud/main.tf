@@ -7,7 +7,7 @@ provider "kubernetes" {
 }
 provider "kubernetes-alpha" {
   config_context = "juju-context"
-  config_path = "~/.kube/config"
+  config_path    = "~/.kube/config"
 }
 provider "helm" {
   kubernetes {

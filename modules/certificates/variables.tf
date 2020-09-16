@@ -13,6 +13,10 @@ variable "labels" {
   description = "Labels to add to resources created"
 }
 
+variable "namespace" {
+  description = "Namespace to install apps in."
+}
+
 variable "hosted_zone_id" {
   type        = string
   description = "hosted_zone_id where certmananger should create DNS challenge response."

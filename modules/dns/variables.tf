@@ -13,6 +13,10 @@ variable "labels" {
   description = "Labels to add to resources created"
 }
 
+variable "namespace" {
+  description = "Namespace to install apps in."
+}
+
 variable "load_balancer_public_ip" {
   default     = ""
   type        = string
@@ -28,7 +32,7 @@ variable "load_balancer_alias_dns_name" {
 variable "load_balancer_alias_hosted_zone_id" {
   default     = ""
   type        = string
-  description = "Hosted Zone of the external load balancer infront of Kubernetes Workers."
+  description = "Hosted Zone of the external load balancer in-front of Kubernetes Workers."
 }
 
 variable "dns_names" {

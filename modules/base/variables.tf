@@ -52,7 +52,7 @@ variable "traefik_service_type" {
   description = "Type of service, LoadBalancer or NodePort."
 }
 variable "labels" {
-  type        = "map"
+  type        = map(string)
   description = "Labels to add to resources created"
 }
 

@@ -2,7 +2,7 @@
 #
 #
 ##################################
-resource "kubernetes_namespace" "base-namespace" {
+data "kubernetes_namespace" "env_namespace" {
   metadata {
     name   = var.name_prefix
     labels = var.labels
@@ -18,7 +18,7 @@ module "traefik" {
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
-  namespace   = kubernetes_namespace.base-namespace
+  namespace   = data.kubernetes_namespace.env_namespace
 
   traefik_helm_release_version = var.traefik_helm_release_version
   traefik_websecure_port       = var.traefik_websecure_port
@@ -34,7 +34,7 @@ module "forwardauth" {
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
-  namespace   = kubernetes_namespace.base-namespace
+  namespace   = data.kubernetes_namespace.env_namespace
 
   forwardauth_audience             = var.forwardauth_audience
   forwardauth_clientid             = var.forwardauth_clientid
@@ -53,11 +53,12 @@ module "dns" {
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
+  namespace   = data.kubernetes_namespace.env_namespace
 
   dns_names = concat(var.dns_names,
     [
       module.traefik.dns_name,
-      module.forwardauth.dns_name
+#      module.forwardauth.dns_name
     ]
   )
 
@@ -80,6 +81,7 @@ module "certificates" {
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
+  namespace   = data.kubernetes_namespace.env_namespace
 
   aws_access_key = var.certificates_aws_access_key
   aws_secret_key = var.certificates_aws_secret_key
@@ -88,14 +90,15 @@ module "certificates" {
   certificates = {
     # wildcard certificate for environament, like *.example.com
     # used by traefik to serve all websites with a wildcard certificate.
-#    traefik-default = {
-#      secretName = var.traefik_default_tls_secretName
-#      namespace  = kubernetes_namespace.base-namespace.id
-#      dnsName    = "*.${var.domain_name}"
-#    }
+    traefik-default = {
+      secretName = var.traefik_default_tls_secretName
+      namespace  = data.kubernetes_namespace.env_namespace.id
+      dnsName    = "*.${var.domain_name}"
+    }
   }
 }
 
+/*
 ##################################
 #
 #
@@ -106,7 +109,6 @@ module "monitoring" {
   name_prefix = var.name_prefix
   labels      = var.labels
 
-/*
   http_monitor = {
     traefik = {
       address  = module.traefik.dns_name
@@ -125,5 +127,5 @@ module "monitoring" {
       port    = 443
     }
   }
-*/
 }
+*/
