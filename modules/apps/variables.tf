@@ -9,7 +9,7 @@ variable "name_prefix" {
 }
 
 variable "labels" {
-  type        = "map"
+  type        = map(string)
   description = "Labels to add to resources created"
 }
 

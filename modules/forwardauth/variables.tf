@@ -43,6 +43,6 @@ variable "forwardauth_helm_release_version" {
 }
 
 variable "labels" {
-  type        = "map"
+  type        = map(string)
   description = "Labels to add to resources created"
 }

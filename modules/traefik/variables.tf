@@ -30,7 +30,7 @@ variable "traefik_service_type" {
 }
 
 variable "labels" {
-  type        = "map"
+  type        = map(string)
   description = "Labels to add to resources created"
 }
 

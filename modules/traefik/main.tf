@@ -13,11 +13,6 @@ data "kubernetes_namespace" "env_namespace" {
   }
 }
 
-data "helm_repository" "dniel" {
-  name = "dniel"
-  url  = "https://dniel.github.com/charts"
-}
-
 data "helm_repository" "traefik" {
   name = local.app_name
   url  = "https://containous.github.io/traefik-helm-chart"
@@ -122,6 +117,7 @@ resource "kubernetes_config_map" "traefik" {
     })
   }
 }
+
 
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   depends_on = [helm_release.traefik]
