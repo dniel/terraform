@@ -33,7 +33,7 @@ locals {
   traefik_websecure_port         = 32443
   traefik_service_type           = "LoadBalancer"
   traefik_default_tls_secretName = "traefik-default-tls"
-  traefik_helm_chart_version     = "6.2.0"
+  traefik_helm_chart_version     = "9.1.1"
 
   forwardauth_helm_chart_version = "2.0.8"
   forwardauth_tenant             = "dniel.eu.auth0.com"

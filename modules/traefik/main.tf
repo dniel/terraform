@@ -28,7 +28,7 @@ resource "helm_release" "traefik" {
   repository = data.helm_repository.traefik.id
   chart      = local.app_name
 
-  #  version   = var.traefik_helm_release_version
+  version   = var.traefik_helm_release_version
   namespace = var.namespace.id
 
   skip_crds = true
