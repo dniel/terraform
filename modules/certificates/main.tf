@@ -6,10 +6,11 @@ locals {
 }
 
 resource "kubernetes_manifest" "certificate" {
+  depends_on = [kubernetes_manifest.acme_issuer]
   for_each = var.certificates
   provider = kubernetes-alpha
   manifest = {
-    "apiVersion" = "cert-manager.io/v1alpha3"
+    "apiVersion" = "cert-manager.io/v1"
     "kind" = "Certificate"
     "metadata" = {
       "labels" = local.labels
@@ -22,8 +23,8 @@ resource "kubernetes_manifest" "certificate" {
         each.value.dnsName
       ]
       "issuerRef" = {
-        "kind" = "ClusterIssuer"
-        "name" = "letsencrypt-${var.name_prefix}-issuer"
+        "kind" = "Issuer"
+        "name" = "acme-${var.name_prefix}-issuer"
       }
       "renewBefore" = "360h"
       "secretName" = each.value.secretName
@@ -31,14 +32,15 @@ resource "kubernetes_manifest" "certificate" {
   }
 }
 
-resource "kubernetes_manifest" "cluster_issuer" {
+resource "kubernetes_manifest" "acme_issuer" {
+  depends_on = [kubernetes_secret.route53-credentials]
   provider = kubernetes-alpha
   manifest = {
-    "apiVersion" = "cert-manager.io/v1alpha3"
-    "kind" = "ClusterIssuer"
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "Issuer"
     "metadata" = {
-      "name" = "letsencrypt-${var.name_prefix}-issuer"
-      "namespace" = "cert-manager"
+      "name" = "acme-${var.name_prefix}-issuer"
+      "namespace" = var.namespace.id
     }
     "spec" = {
       "acme" = {
@@ -74,7 +76,7 @@ resource "kubernetes_manifest" "cluster_issuer" {
 resource "kubernetes_secret" "route53-credentials" {
   metadata {
     name      = "${var.name_prefix}-route53-creds"
-    namespace = "cert-manager"
+    namespace = var.namespace.id
   }
   data = {
     AWS_SECRET_KEY = var.aws_secret_key

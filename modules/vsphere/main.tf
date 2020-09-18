@@ -8,7 +8,7 @@ locals {
 # TODO
 # rename names, remove 2 from name when recreating vsphere cluster.
 ############################################################################
-resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role2" {
+resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role" {
   provider = kubernetes-alpha
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
@@ -39,7 +39,7 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role2" {
 # TODO
 # rename names, remove 2 from name when recreating vsphere cluster.
 ############################################################################
-resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding2" {
+resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding" {
   provider = kubernetes-alpha
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
@@ -66,8 +66,8 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding2" {
 
 resource "kubernetes_storage_class" "thin-disk" {
   depends_on = [
-    kubernetes_manifest.vsphere_cloudprovider_cluster_role2,
-    kubernetes_manifest.vsphere_cloudprovider_cluster_role_binding2,
+    kubernetes_manifest.vsphere_cloudprovider_cluster_role,
+    kubernetes_manifest.vsphere_cloudprovider_cluster_role_binding,
   ]
   metadata {
     name = "thin-disk"

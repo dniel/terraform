@@ -58,7 +58,7 @@ module "dns" {
   dns_names = concat(var.dns_names,
     [
       module.traefik.dns_name,
-#      module.forwardauth.dns_name
+      module.forwardauth.dns_name
     ]
   )
 
@@ -76,6 +76,7 @@ module "dns" {
 # to module to extract the logic of which certificates to
 # create from this module.
 ##################################
+
 module "certificates" {
   source      = "../certificates"
   domain_name = var.domain_name

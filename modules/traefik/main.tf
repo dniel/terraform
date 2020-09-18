@@ -25,7 +25,7 @@ data "helm_repository" "traefik" {
 
 resource "helm_release" "traefik" {
   name       = local.app_name
-  repository = data.helm_repository.dniel.id
+  repository = data.helm_repository.traefik.id
   chart      = local.app_name
 
   #  version   = var.traefik_helm_release_version
@@ -34,7 +34,11 @@ resource "helm_release" "traefik" {
   skip_crds = true
   set {
     name  = "rbac.create"
-    value = "false"
+    value = "true"
+  }
+  set {
+    name  = "rbac.namespaced"
+    value = "true"
   }
   set {
     name  = "serversTransport.insecureSkipVerify"
@@ -119,40 +123,6 @@ resource "kubernetes_config_map" "traefik" {
   }
 }
 
-resource "kubernetes_cluster_role" "traefik_rbac_cluster_role" {
-  metadata {
-    name = "traefik"
-  }
-  rule {
-    api_groups = [""]
-    resources  = ["pods", "services","endpoints","secrets"]
-    verbs      = ["get", "list", "watch"]
-  }
-  rule {
-    api_groups = ["extensions"]
-    resources  = ["ingresses"]
-    verbs      = ["get", "list", "watch"]
-  }
-  rule {
-    api_groups = ["extensions"]
-    resources  = ["ingresses/status"]
-    verbs      = ["update"]
-  }
-  rule {
-    api_groups = ["traefik.containo.us"]
-    resources  = [
-      "ingressroutes",
-      "ingressroutetcps",
-      "ingressrouteudps",
-      "middlewares",
-      "tlsoptions",
-      "tlsstores",
-      "traefikservices"]
-    verbs      = ["get","list","watch"]
-  }
-}
-
-
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   depends_on = [helm_release.traefik]
   provider = kubernetes-alpha
@@ -190,9 +160,9 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
           ]
         },
       ]
- #     "tls" = {
- #       "certResolver" = "default"
- #     }
+      "tls" = {
+        "certResolver" = "default"
+      }
     }
   }
 }

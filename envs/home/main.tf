@@ -40,7 +40,7 @@ locals {
   load_balancer_public_ip            = "10.0.50.165"
   dns_primary_hosted_zone_id         = "Z25Z86AZE76SY4"
 
-  traefik_websecure_port         = 32443
+  traefik_websecure_port         = 31443
   traefik_service_type           = "NodePort"
   traefik_default_tls_secretName = "traefik-default-tls"
   traefik_helm_chart_version     = "6.2.0"
@@ -68,7 +68,7 @@ locals {
 }
 
 #################################################################
-# Basic features installed in all environments.
+# Common features installed in all environments.
 # For example
 # - traefik
 # - forwardauth
@@ -106,7 +106,6 @@ module "base" {
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    module.spinnaker.dns_name,
     module.apps.api_graphql_dns_name,
     module.apps.api_posts_dns_name,
     module.apps.whoami_dns_name,
@@ -134,27 +133,4 @@ module "apps" {
   website_helm_release_version     = local.website_helm_chart_version
   whoami_helm_release_version      = local.whoami_helm_chart_version
   spa_demo_helm_release_version    = local.spa_demo_helm_chart_version
-}
-
-module "spinnaker" {
-  source      = "../../modules/spinnaker"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-}
-
-module "vsphere" {
-  source      = "../../modules/vsphere"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-}
-
-module "certmanager" {
-  source      = "../../modules/certmanager"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-
-  certmanager_helm_release_version = local.certmanager_helm_release_version
 }
