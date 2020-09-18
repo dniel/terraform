@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: index.docker.io/dniel/forwardauth
-#  tag: latest
+  tag: 2.0-rc1
   pullPolicy: Always
 
 # set logLevel to DEBUG, TEST, or PRODUCTION to control the verbosity of logs
@@ -64,31 +64,12 @@ applicationYaml:
 
   apps:
   - name: traefik.${domain_name}
-    required-permissions:
-    - read:traefik
   - name: whoami.${domain_name}
-    required-permissions:
-    - read:whoami
   - name: www.${domain_name}
-    required-permissions:
-    - read:www
-    restricted-methods:
-    - POST
-    - PUT
-    - PATCH
-    - DELETE
   - name: spin.${domain_name}
-    required-permissions:
-    - read:spinnaker
   - name: ubnt.${domain_name}
-    required-permissions:
-    - read:unifi
   - name: api-graphql.${domain_name}
-    required-permissions:
-    - read:graphql
   - name: api-posts.${domain_name}
-    required-permissions:
-    - read:posts
 
 resources:
   limits:

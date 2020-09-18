@@ -17,26 +17,6 @@ variable "forwardauth_tenant" {
   description = "Auth0 tenant domain name."
 }
 
-variable "forwardauth_clientid" {
-  type        = string
-  description = "Client id used by forwardauth to authenticate and authorize requests."
-}
-
-variable "forwardauth_clientsecret" {
-  type        = string
-  description = "Client Secret used by forwardauth to authenticate and authorize requests."
-}
-
-variable "forwardauth_audience" {
-  type        = string
-  description = "Audience used by forwardauth to authenticate and authorize requests."
-}
-
-variable "forwardauth_token_cookie_domain" {
-  type        = string
-  description = "Cookie domain used by forwardauth to authenticate and authorize requests."
-}
-
 variable "forwardauth_helm_release_version" {
   type        = string
   description = "Version of Helm Chart to deploy"

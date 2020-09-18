@@ -21,12 +21,12 @@ resource "helm_release" "unifi" {
 resource "kubernetes_ingress" "unifi_gui_ingress" {
   metadata {
     name      = "unifi-gui"
-    namespace  = var.namespace.id
+    namespace = var.namespace.id
     annotations = {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-#      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth@file"
+      #      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth@file"
     }
     labels = local.labels
   }
@@ -49,11 +49,11 @@ resource "kubernetes_ingress" "unifi_gui_ingress" {
 resource "kubernetes_ingress" "unifi_inform_ingress" {
   metadata {
     name      = "unifi-inform"
-    namespace  = var.namespace.id
+    namespace = var.namespace.id
     annotations = {
-      "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
-      "traefik.ingress.kubernetes.io/router.entrypoints"      = "web"
-#      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
+      "kubernetes.io/ingress.class"                      = "traefik-${var.name_prefix}"
+      "traefik.ingress.kubernetes.io/router.entrypoints" = "web"
+      #      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
     }
     labels = local.labels
   }

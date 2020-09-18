@@ -36,10 +36,6 @@ module "forwardauth" {
   labels      = var.labels
   namespace   = data.kubernetes_namespace.env_namespace
 
-  forwardauth_audience             = var.forwardauth_audience
-  forwardauth_clientid             = var.forwardauth_clientid
-  forwardauth_clientsecret         = var.forwardauth_clientsecret
-  forwardauth_token_cookie_domain  = var.forwardauth_token_cookie_domain
   forwardauth_helm_release_version = var.forwardauth_helm_release_version
   forwardauth_tenant               = var.forwardauth_tenant
 }
@@ -76,7 +72,6 @@ module "dns" {
 # to module to extract the logic of which certificates to
 # create from this module.
 ##################################
-
 module "certificates" {
   source      = "../certificates"
   domain_name = var.domain_name

@@ -10,6 +10,32 @@ data "helm_repository" "dniel" {
   url  = "https://dniel.github.com/charts"
 }
 
+resource "auth0_client" "traefik_client" {
+  name        = title("Traefik ${var.name_prefix}")
+  description = title("Traefik for ${var.name_prefix}")
+  app_type    = "regular_web"
+  callbacks = [
+    "https://auth.${var.domain_name}/signin",
+    "https://*.${var.domain_name}/oauth2/signin"
+  ]
+  allowed_logout_urls = [
+    "https://auth.${var.domain_name}/logout",
+    "https://*.${var.domain_name}/oauth2/logout"
+  ]
+  oidc_conformant = true
+
+  jwt_configuration {
+    alg = "RS256"
+  }
+}
+
+resource "auth0_resource_server" "env_meta_server" {
+  name             = title("Traefik ${var.name_prefix}")
+  identifier       = "https://${var.domain_name}"
+  enforce_policies = true
+  token_dialect    = "access_token_authz"
+}
+
 resource "helm_release" "forwardauth" {
   name       = local.app_name
   repository = data.helm_repository.dniel.id
@@ -22,19 +48,19 @@ resource "helm_release" "forwardauth" {
   }
   set {
     name  = "default.clientid"
-    value = var.forwardauth_clientid
+    value = auth0_client.traefik_client.client_id
   }
   set {
     name  = "default.clientsecret"
-    value = var.forwardauth_clientsecret
+    value = auth0_client.traefik_client.client_secret
   }
   set {
     name  = "default.audience"
-    value = var.forwardauth_audience
+    value = auth0_resource_server.env_meta_server.identifier
   }
   set {
     name  = "default.tokenCookieDomain"
-    value = var.forwardauth_token_cookie_domain
+    value = var.domain_name
   }
   set {
     name  = "ingressroute.enabled"

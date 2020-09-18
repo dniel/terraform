@@ -25,7 +25,7 @@ variable "port_monitors" {
   default = {}
   type = map(object({
     address = string
-    port = number
+    port    = number
   }))
   description = "TCP Port Monitors to create"
 }

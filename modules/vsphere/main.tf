@@ -12,9 +12,9 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role" {
   provider = kubernetes-alpha
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRole"
+    "kind"       = "ClusterRole"
     "metadata" = {
-      "name" = "vsphere-cloud-provider-2"
+      "name"   = "vsphere-cloud-provider-2"
       "labels" = local.labels
     }
     "rules" = [
@@ -43,21 +43,21 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding" {
   provider = kubernetes-alpha
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRoleBinding"
+    "kind"       = "ClusterRoleBinding"
     "metadata" = {
-      "name" = "vsphere-cloud-provider-2"
+      "name"      = "vsphere-cloud-provider-2"
       "namespace" = "kube-system"
-      "labels" = local.labels
+      "labels"    = local.labels
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "ClusterRole"
-      "name" = "vsphere-cloud-provider-2"
+      "kind"     = "ClusterRole"
+      "name"     = "vsphere-cloud-provider-2"
     }
     "subjects" = [
       {
-        "kind" = "ServiceAccount"
-        "name" = "vsphere-cloud-provider"
+        "kind"      = "ServiceAccount"
+        "name"      = "vsphere-cloud-provider"
         "namespace" = "kube-system"
       },
     ]

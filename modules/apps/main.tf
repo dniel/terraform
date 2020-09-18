@@ -191,5 +191,5 @@ resource "helm_release" "spa-demo" {
   set {
     name  = "ingressroute.middlewares[0].namespace"
     value = local.forwardauth_middleware_namespace
-  }  
+  }
 }

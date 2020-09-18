@@ -7,14 +7,14 @@ locals {
 
 resource "kubernetes_manifest" "certificate" {
   depends_on = [kubernetes_manifest.acme_issuer]
-  for_each = var.certificates
-  provider = kubernetes-alpha
+  for_each   = var.certificates
+  provider   = kubernetes-alpha
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
+    "kind"       = "Certificate"
     "metadata" = {
-      "labels" = local.labels
-      "name" = each.key
+      "labels"    = local.labels
+      "name"      = each.key
       "namespace" = each.value.namespace
     }
     "spec" = {
@@ -27,19 +27,19 @@ resource "kubernetes_manifest" "certificate" {
         "name" = "acme-${var.name_prefix}-issuer"
       }
       "renewBefore" = "360h"
-      "secretName" = each.value.secretName
+      "secretName"  = each.value.secretName
     }
   }
 }
 
 resource "kubernetes_manifest" "acme_issuer" {
   depends_on = [kubernetes_secret.route53-credentials]
-  provider = kubernetes-alpha
+  provider   = kubernetes-alpha
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Issuer"
+    "kind"       = "Issuer"
     "metadata" = {
-      "name" = "acme-${var.name_prefix}-issuer"
+      "name"      = "acme-${var.name_prefix}-issuer"
       "namespace" = var.namespace.id
     }
     "spec" = {
@@ -53,12 +53,12 @@ resource "kubernetes_manifest" "acme_issuer" {
           {
             "dns01" = {
               "route53" = {
-                "accessKeyID" = var.aws_access_key
+                "accessKeyID"  = var.aws_access_key
                 "hostedZoneID" = var.hosted_zone_id
-                "region" = "eu-central-1"
-                "role" = ""
+                "region"       = "eu-central-1"
+                "role"         = ""
                 "secretAccessKeySecretRef" = {
-                  "key" = "AWS_SECRET_KEY"
+                  "key"  = "AWS_SECRET_KEY"
                   "name" = "${var.name_prefix}-route53-creds"
                 }
               }

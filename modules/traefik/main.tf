@@ -121,18 +121,18 @@ resource "kubernetes_config_map" "traefik" {
 
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   depends_on = [helm_release.traefik]
-  provider = kubernetes-alpha
+  provider   = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
-    "kind" = "IngressRoute"
+    "kind"       = "IngressRoute"
     "metadata" = {
       "annotations" = {
         "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
       },
       "namespace" = var.namespace.id
-      "labels" = local.labels
-      "name" = "traefik-dashboard"
+      "labels"    = local.labels
+      "name"      = "traefik-dashboard"
     }
     "spec" = {
       "entryPoints" = [
@@ -140,11 +140,11 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
       ]
       "routes" = [
         {
-          "kind" = "Rule"
+          "kind"  = "Rule"
           "match" = "Host(`traefik.${var.domain_name}`)"
           "middlewares" = [
             {
-              "name" = "${var.name_prefix}-forwardauth-authorize@kubernetescrd"
+              "name"      = "${var.name_prefix}-forwardauth-authorize@kubernetescrd"
               "namespace" = "${var.name_prefix}"
             },
           ]
