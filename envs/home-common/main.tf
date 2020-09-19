@@ -2,11 +2,25 @@
 #
 #
 #########################################
+terraform {
+  required_version = ">0.13.0"
+  #  backend "s3" {
+  #    key            = "home/main.tfstate"
+  #    bucket         = "xxx"
+  #    dynamodb_table = "xxx"
+  #    acl            = "bucket-owner-full-control"
+  #    encrypt        = "true"
+  #    kms_key_id     = "xxx"
+  #    region         = "eu-west-1"
+  #  }
+}
+
 provider "auth0" {
   domain        = var.auth0_domain
   client_id     = var.auth0_client_id
   client_secret = var.auth0_client_secret
 }
+
 provider "kubernetes" {
   config_context = "juju-context"
 }
@@ -20,18 +34,19 @@ provider "helm" {
   }
 }
 provider "aws" {
-  region = "eu-central-1"
+  version = "~> 2.0"
+  region  = "eu-central-1"
 }
 
 locals {
-  name_prefix = "home"
+  name_prefix = "common"
   domain_name = "${local.name_prefix}.dniel.in"
 
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
   load_balancer_public_ip            = "10.0.50.165"
   dns_primary_hosted_zone_id         = "Z25Z86AZE76SY4"
 
-  traefik_websecure_port         = 31443
+  traefik_websecure_port         = 32443
   traefik_service_type           = "NodePort"
   traefik_default_tls_secretName = "traefik-default-tls"
   traefik_helm_chart_version     = "9.1.1"
@@ -48,7 +63,7 @@ locals {
   api_graphql_helm_chart_version   = "0.5"
   api_posts_helm_chart_version     = "0.5"
   spa_demo_helm_chart_version      = "0.2"
-  certmanager_helm_release_version = "0.14.1"
+  certmanager_helm_release_version = "1.0.1"
 
   labels = {
     env = local.name_prefix
@@ -56,7 +71,7 @@ locals {
 }
 
 #################################################################
-# Common features installed in all environments.
+# Basic features installed in all environments.
 # For example
 # - traefik
 # - forwardauth
@@ -90,31 +105,32 @@ module "base" {
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    module.apps.api_graphql_dns_name,
-    module.apps.api_posts_dns_name,
-    module.apps.whoami_dns_name,
-    module.apps.www_dns_name,
-    module.apps.spa_demo_dns_name
+    module.spinnaker.dns_name,
   ]
 
   certificates_aws_access_key = local.certificates_aws_access_key
   certificates_aws_secret_key = local.certificates_aws_secret_key
 }
 
-#################################################################
-# Specific features installed in Internal environment
-#
-#################################################################
-module "apps" {
-  source      = "../../modules/apps"
+module "spinnaker" {
+  source      = "../../modules/spinnaker"
   domain_name = local.domain_name
   name_prefix = local.name_prefix
-  namespace   = module.base.namespace
+  labels      = local.labels
+}
+
+module "vsphere" {
+  source      = "../../modules/vsphere"
+  domain_name = local.domain_name
+  name_prefix = local.name_prefix
+  labels      = local.labels
+}
+
+module "certmanager" {
+  source      = "../../modules/certmanager"
+  domain_name = local.domain_name
+  name_prefix = local.name_prefix
   labels      = local.labels
 
-  api_graphql_helm_release_version = local.api_graphql_helm_chart_version
-  api_posts_helm_release_version   = local.api_posts_helm_chart_version
-  website_helm_release_version     = local.website_helm_chart_version
-  whoami_helm_release_version      = local.whoami_helm_chart_version
-  spa_demo_helm_release_version    = local.spa_demo_helm_chart_version
+  certmanager_helm_release_version = local.certmanager_helm_release_version
 }
