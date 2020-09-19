@@ -66,6 +66,7 @@ locals {
 # TODO
 # - alerting
 # - monitoring
+# - logging
 #
 #################################################################
 module "base" {
