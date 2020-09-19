@@ -14,7 +14,7 @@ data "kubernetes_namespace" "env_namespace" {
 #
 ##################################
 module "traefik" {
-  source      = "../traefik"
+  source      = "./traefik"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
@@ -30,7 +30,7 @@ module "traefik" {
 #
 ##################################
 module "forwardauth" {
-  source      = "../forwardauth"
+  source      = "./forwardauth"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
@@ -45,7 +45,7 @@ module "forwardauth" {
 #
 ##################################
 module "dns" {
-  source      = "../dns"
+  source      = "./dns"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
@@ -73,7 +73,7 @@ module "dns" {
 # create from this module.
 ##################################
 module "certificates" {
-  source      = "../certificates"
+  source      = "./certificates"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels
@@ -100,7 +100,7 @@ module "certificates" {
 #
 ##################################
 module "monitoring" {
-  source      = "../monitoring"
+  source      = "./monitoring"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = var.labels

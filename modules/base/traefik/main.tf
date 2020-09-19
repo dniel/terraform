@@ -13,14 +13,9 @@ data "kubernetes_namespace" "env_namespace" {
   }
 }
 
-data "helm_repository" "traefik" {
-  name = local.app_name
-  url  = "https://containous.github.io/traefik-helm-chart"
-}
-
 resource "helm_release" "traefik" {
   name       = local.app_name
-  repository = data.helm_repository.traefik.id
+  repository = "https://containous.github.io/traefik-helm-chart"
   chart      = local.app_name
 
   version   = var.traefik_helm_release_version
