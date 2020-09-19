@@ -2,7 +2,7 @@
 This repo contains my Terraform scripts that deployes all Kubernetes manifests to my k8s clusters.
 Providers used to deploy manifests to Kubernetes.
 - [Official Kubernetes provider for k8s resources.](https://www.terraform.io/docs/providers/kubernetes/index.html)
-- [Alpha Kubernetes provider for k8s resources.](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
+- [Alpha Kubernetes provider for generic k8s manifests.](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
 - [Auth0 provider to create clients and resource servers.](https://www.terraform.io/docs/providers/auth0/index.html)
 - [Community Helm Provider for deploying Helm charts.](https://www.terraform.io/docs/providers/helm/index.html)
 - [Official AWS provider to handle Route53 registration of applications.](https://www.terraform.io/docs/providers/aws/index.html)
