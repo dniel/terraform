@@ -5,11 +5,6 @@ locals {
   })
 }
 
-data "helm_repository" "jetstack" {
-  name = "jetstack"
-  url  = "https://charts.jetstack.io"
-}
-
 resource "kubernetes_namespace" "cert-manager" {
   metadata {
     name = local.app_name
@@ -21,7 +16,7 @@ resource "kubernetes_namespace" "cert-manager" {
 
 resource "helm_release" "cert-manager" {
   name       = local.app_name
-  repository = data.helm_repository.jetstack.id
+  repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
   namespace  = kubernetes_namespace.cert-manager.id
   version    = var.certmanager_helm_release_version

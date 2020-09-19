@@ -2,8 +2,9 @@
 This repo contains my Terraform scripts that deployes all Kubernetes manifests to my k8s clusters.
 Providers used to deploy manifests to Kubernetes.
 - [Official Kubernetes provider for k8s resources.](https://www.terraform.io/docs/providers/kubernetes/index.html)
+- [Alpha Kubernetes provider for k8s resources.](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
+- [Auth0 provider to create clients and resource servers.](https://www.terraform.io/docs/providers/auth0/index.html)
 - [Community Helm Provider for deploying Helm charts.](https://www.terraform.io/docs/providers/helm/index.html)
-- [Unofficial kubernetes provider for raw manifests.](https://github.com/banzaicloud/terraform-provider-k8s)
 - [Official AWS provider to handle Route53 registration of applications.](https://www.terraform.io/docs/providers/aws/index.html)
 
 ## Kubernetes deployment
@@ -21,8 +22,7 @@ I run several deployments at the same time, both on-prem in parallel and in Amaz
 Under the directory `envs` there is one directory for each deployment.
 - cloud is deployed to Amazon.
 - home is my primary deployment on-prem.
-- home-demo is a stack also deployed on-prem, just to make sure its possible to deploy
-  multiple stacks in parallel on the same K8s cluster to run multiple versions of the same stack.
+- home-common is a shared services stack.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
 Secrets are stored in encrypted files in the repo and contains a couple of variables 
