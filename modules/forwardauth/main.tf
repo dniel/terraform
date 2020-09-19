@@ -5,11 +5,6 @@ locals {
   })
 }
 
-data "helm_repository" "dniel" {
-  name = "dniel"
-  url  = "https://dniel.github.com/charts"
-}
-
 resource "auth0_client" "traefik_client" {
   name        = title("Traefik ${var.name_prefix}")
   description = title("Traefik for ${var.name_prefix}")
@@ -38,7 +33,7 @@ resource "auth0_resource_server" "env_meta_server" {
 
 resource "helm_release" "forwardauth" {
   name       = local.app_name
-  repository = data.helm_repository.dniel.id
+  repository = "https://dniel.github.com/charts"
   chart      = local.app_name
   namespace  = var.namespace.id
   version    = var.forwardauth_helm_release_version

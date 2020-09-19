@@ -2,19 +2,11 @@
 #
 #
 #########################################
-terraform {
-  required_version = ">0.13.0"
-  #  backend "s3" {
-  #    key            = "home/main.tfstate"
-  #    bucket         = "xxx"
-  #    dynamodb_table = "xxx"
-  #    acl            = "bucket-owner-full-control"
-  #    encrypt        = "true"
-  #    kms_key_id     = "xxx"
-  #    region         = "eu-west-1"
-  #  }
+provider "auth0" {
+  domain        = var.auth0_domain
+  client_id     = var.auth0_client_id
+  client_secret = var.auth0_client_secret
 }
-
 provider "kubernetes" {
   config_context = "juju-context"
 }
@@ -28,7 +20,6 @@ provider "helm" {
   }
 }
 provider "aws" {
-  version = "~> 2.0"
   region  = "eu-central-1"
 }
 
@@ -46,10 +37,7 @@ locals {
   traefik_helm_chart_version     = "9.1.1"
 
   forwardauth_helm_chart_version = "2.0.8"
-  forwardauth_tenant             = "dniel.eu.auth0.com"
-  forwardauth_clientid           = var.forwardauth_clientid
-  forwardauth_clientsecret       = var.forwardauth_clientsecret
-  forwardauth_audience           = "https://${local.domain_name}"
+  forwardauth_tenant             = var.auth0_domain
 
   certificates_aws_access_key = var.certificates_aws_access_key
   certificates_aws_secret_key = var.certificates_aws_secret_key
@@ -87,10 +75,6 @@ module "base" {
   labels      = local.labels
 
   # parameters for forwardauth
-  forwardauth_clientid             = local.forwardauth_clientid
-  forwardauth_clientsecret         = local.forwardauth_clientsecret
-  forwardauth_audience             = local.forwardauth_audience
-  forwardauth_token_cookie_domain  = local.domain_name
   forwardauth_helm_release_version = local.forwardauth_helm_chart_version
   forwardauth_tenant               = local.forwardauth_tenant
 
