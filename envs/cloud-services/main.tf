@@ -98,6 +98,7 @@ module "base" {
   traefik_service_type           = local.traefik_service_type
   traefik_default_tls_secretName = local.traefik_default_tls_secretName
 
+  # parameters for dns
   # name of the ELB load balancer dns record infront of kubernetes.
   load_balancer_alias_dns_name       = local.load_balancer_alias_dns_name
   load_balancer_alias_hosted_zone_id = local.load_balancer_alias_hosted_zone_id
@@ -107,6 +108,7 @@ module "base" {
   dns_names = [
   ]
 
+  # parameters for certificates
   certificates_aws_access_key = local.certificates_aws_access_key
   certificates_aws_secret_key = local.certificates_aws_secret_key
 }
