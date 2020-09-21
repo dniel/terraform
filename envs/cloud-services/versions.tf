@@ -12,6 +12,9 @@ terraform {
     kubernetes-alpha = {
       source = "hashicorp/kubernetes-alpha"
     }
+    auth0 = {
+      source = "terraform-providers/auth0"
+    }
   }
   required_version = ">= 0.13"
 }

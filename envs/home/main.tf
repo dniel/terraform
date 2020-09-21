@@ -27,7 +27,6 @@ locals {
   name_prefix = "home"
   domain_name = "${local.name_prefix}.dniel.in"
 
-  load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
   load_balancer_public_ip            = "10.0.50.165"
   dns_primary_hosted_zone_id         = "Z25Z86AZE76SY4"
 

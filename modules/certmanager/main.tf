@@ -20,4 +20,9 @@ resource "helm_release" "cert-manager" {
   chart      = "cert-manager"
   namespace  = kubernetes_namespace.cert-manager.id
   version    = var.certmanager_helm_release_version
+
+  set {
+    name = "extraArgs"
+    value = "{--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53}"
+  }
 }

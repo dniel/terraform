@@ -44,6 +44,7 @@ module "forwardauth" {
 #
 #
 ##################################
+
 module "dns" {
   source      = "./dns"
   domain_name = var.domain_name

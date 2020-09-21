@@ -2,11 +2,30 @@
 #
 #
 #########################################
+terraform {
+  required_version = ">0.13.0"
+  #  backend "s3" {
+  #    key            = "home/main.tfstate"
+  #    bucket         = "xxx"
+  #    dynamodb_table = "xxx"
+  #    acl            = "bucket-owner-full-control"
+  #    encrypt        = "true"
+  #    kms_key_id     = "xxx"
+  #    region         = "eu-west-1"
+  #  }
+}
+
+provider "auth0" {
+  domain        = var.auth0_domain
+  client_id     = var.auth0_client_id
+  client_secret = var.auth0_client_secret
+}
+
 provider "kubernetes" {
   config_context = "eks-dniel-prod"
 }
 provider "kubernetes-alpha" {
-  config_context = "juju-context"
+  config_context = "eks-dniel-prod"
   config_path    = "~/.kube/config"
 }
 provider "helm" {
@@ -15,20 +34,16 @@ provider "helm" {
   }
 }
 provider "aws" {
-  version = "~> 3.0"
   region  = "eu-central-1"
 }
 
-#########################################
-#
-#
-#########################################
 locals {
-  domain_name = "dniel.se"
-  name_prefix = "cloud"
+  name_prefix = "services"
+  domain_name = "${local.name_prefix}.dniel.se"
 
-  load_balancer_alias_dns_name       = "afad300d4df2a4e02ac9135de6903f8b-535493825.eu-north-1.elb.amazonaws.com"
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
+  load_balancer_alias_dns_name       = "a0b2a6a77c7b2469fb7e10ea86091cfc-75237301.eu-north-1.elb.amazonaws.com"
+  dns_primary_hosted_zone_id         = "ZAIGXBQLLBZ7R"
 
   traefik_websecure_port         = 32443
   traefik_service_type           = "LoadBalancer"
@@ -36,10 +51,7 @@ locals {
   traefik_helm_chart_version     = "9.1.1"
 
   forwardauth_helm_chart_version = "2.0.8"
-  forwardauth_tenant             = "dniel.eu.auth0.com"
-  forwardauth_clientid           = var.forwardauth_clientid
-  forwardauth_clientsecret       = var.forwardauth_clientsecret
-  forwardauth_audience           = "https://${local.domain_name}"
+  forwardauth_tenant             = var.auth0_domain
 
   certificates_aws_access_key = var.certificates_aws_access_key
   certificates_aws_secret_key = var.certificates_aws_secret_key
@@ -49,8 +61,8 @@ locals {
   website_helm_chart_version       = "0.4"
   api_graphql_helm_chart_version   = "0.5"
   api_posts_helm_chart_version     = "0.5"
-  certmanager_helm_release_version = "0.14.1"
   spa_demo_helm_chart_version      = "0.2"
+  certmanager_helm_release_version = "1.0.1"
 
   labels = {
     env = local.name_prefix
@@ -63,6 +75,11 @@ locals {
 # - traefik
 # - forwardauth
 # - dns
+# - certificates
+#
+# TODO
+# - alerting
+# - monitoring
 #
 #################################################################
 module "base" {
@@ -72,10 +89,6 @@ module "base" {
   labels      = local.labels
 
   # parameters for forwardauth
-  forwardauth_clientid             = local.forwardauth_clientid
-  forwardauth_clientsecret         = local.forwardauth_clientsecret
-  forwardauth_audience             = local.forwardauth_audience
-  forwardauth_token_cookie_domain  = local.domain_name
   forwardauth_helm_release_version = local.forwardauth_helm_chart_version
   forwardauth_tenant               = local.forwardauth_tenant
 
@@ -88,33 +101,14 @@ module "base" {
   # name of the ELB load balancer dns record infront of kubernetes.
   load_balancer_alias_dns_name       = local.load_balancer_alias_dns_name
   load_balancer_alias_hosted_zone_id = local.load_balancer_alias_hosted_zone_id
+  primary_hosted_zone_id  = local.dns_primary_hosted_zone_id
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    module.apps.api_graphql_dns_name,
-    module.apps.api_posts_dns_name,
-    module.apps.whoami_dns_name,
-    module.apps.www_dns_name,
-    module.apps.spa_demo_dns_name,
-    module.unifi.dns_name
   ]
 
   certificates_aws_access_key = local.certificates_aws_access_key
   certificates_aws_secret_key = local.certificates_aws_secret_key
-}
-
-#################################################################
-# Specific features installed in Cloud environment
-#
-#################################################################
-module "unifi" {
-  source      = "../../modules/unifi"
-  domain_name = local.domain_name
-  name_prefix = local.name_prefix
-  labels      = local.labels
-  namespace   = module.base.namespace
-
-  unifi_helm_release_version = local.unifi_helm_chart_version
 }
 
 module "certmanager" {
@@ -124,17 +118,4 @@ module "certmanager" {
   labels      = local.labels
 
   certmanager_helm_release_version = local.certmanager_helm_release_version
-}
-
-module "apps" {
-  source                           = "../../modules/apps"
-  domain_name                      = local.domain_name
-  name_prefix                      = local.name_prefix
-  labels                           = local.labels
-  namespace                        = module.base.namespace
-  api_graphql_helm_release_version = local.api_graphql_helm_chart_version
-  api_posts_helm_release_version   = local.api_posts_helm_chart_version
-  website_helm_release_version     = local.website_helm_chart_version
-  whoami_helm_release_version      = local.whoami_helm_chart_version
-  spa_demo_helm_release_version    = local.spa_demo_helm_chart_version
 }
