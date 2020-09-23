@@ -79,3 +79,32 @@ resource "helm_release" "forwardauth" {
     })
   ]
 }
+
+
+resource "kubernetes_manifest" "middleware_forwardauth" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion": "traefik.containo.us/v1alpha1"
+    "kind": "Middleware"
+    "metadata": {
+      "labels": local.labels
+      "namespace": var.namespace.id
+      "name": "forwardauth-authorize"
+    }
+    "spec": {
+      "forwardAuth": {
+        "address": "http://forwardauth/authorize"
+        "trustForwardHeader": true
+        "authResponseHeaders": [
+          "authorization",
+          "x-forwardauth-nickname",
+          "x-forwardauth-family-name",
+          "x-forwardauth-given-name",
+          "x-forwardauth-name",
+          "x-forwardauth-sub",
+          "x-forwardauth-email"
+        ]
+      }
+    }
+  }
+}

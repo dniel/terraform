@@ -113,7 +113,27 @@ resource "kubernetes_config_map" "traefik" {
   }
 }
 
+resource "kubernetes_manifest" "middleware_strip_api_prefix" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion": "traefik.containo.us/v1alpha1"
+    "kind": "Middleware"
+    "metadata": {
+      "labels": local.labels
+      "namespace": var.namespace.id
+      "name": "strip-api-prefix"
+    }
+    "spec": {
+      "stripPrefix": {
+        "prefixes": [
+          "/api",
+        ]
+      }
+    }
+  }
+}
 
+# create ingress route with middleware for Traefik Dashboard
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   depends_on = [helm_release.traefik]
   provider   = kubernetes-alpha
@@ -139,7 +159,7 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
           "match" = "Host(`traefik.${var.domain_name}`)"
           "middlewares" = [
             {
-              "name"      = "${var.name_prefix}-forwardauth-authorize@kubernetescrd"
+              "name"      = "forwardauth-authorize@kubernetescrd"
               "namespace" = "${var.name_prefix}"
             },
           ]

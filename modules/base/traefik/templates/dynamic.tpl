@@ -1,22 +1,3 @@
-http:
-  middlewares:
-    api-stripprefix:
-      stripPrefix:
-        prefixes:
-          - "/api"
-    forwardauth:
-      forwardAuth:
-        address: http://forwardauth/authorize
-        trustForwardHeader: true
-        authResponseHeaders:
-          - authorization
-          - x-forwardauth-nickname
-          - x-forwardauth-family-name
-          - x-forwardauth-given-name
-          - x-forwardauth-name
-          - x-forwardauth-sub
-          - x-forwardauth-email
-
 tls:
   stores:
     default:
