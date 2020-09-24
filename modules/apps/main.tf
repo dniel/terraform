@@ -1,6 +1,6 @@
 locals {
   forwardauth_middleware_namespace = var.name_prefix
-  forwardauth_middleware_name      = "${local.forwardauth_middleware_namespace}-forwardauth-authorize@kubernetescrd"
+  forwardauth_middleware_name      = "${local.forwardauth_middleware_namespace}-forwardauth-authorize"
 }
 
 resource "helm_release" "whoami" {

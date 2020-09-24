@@ -69,6 +69,14 @@ resource "helm_release" "forwardauth" {
     name  = "middleware.enabled"
     value = "true"
   }
+  set {
+    name  = "mode.host"
+    value = "true"
+  }
+  set {
+    name  = "mode.path"
+    value = "true"
+  }
 
   values = [
     templatefile("${path.module}/forwardauth-values.tpl", {

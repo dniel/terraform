@@ -4,7 +4,7 @@ locals {
     "app" = local.app_name
   })
   forwardauth_middleware_namespace = var.name_prefix
-  forwardauth_middleware_name      = "${local.forwardauth_middleware_namespace}-forwardauth-authorize@kubernetescrd"
+  forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
 data "kubernetes_namespace" "env_namespace" {
@@ -79,14 +79,6 @@ resource "helm_release" "traefik" {
     value = "false"
   }
   set {
-    name  = "ingressroute.middlewares[0].name"
-    value = local.forwardauth_middleware_name
-  }
-  set {
-    name  = "ingressroute.middlewares[0].namespace"
-    value = local.forwardauth_middleware_namespace
-  }
-  set {
     name  = "additionalArguments"
     value = "{--log.level=DEBUG,--providers.kubernetesingress,--providers.file.filename=/config/dynamic.yml,--configFile=/config/static.yml}"
   }
@@ -159,8 +151,8 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
           "match" = "Host(`traefik.${var.domain_name}`)"
           "middlewares" = [
             {
-              "name"      = "forwardauth-authorize@kubernetescrd"
-              "namespace" = "${var.name_prefix}"
+              "name"      = local.forwardauth_middleware_name
+              "namespace" = local.forwardauth_middleware_namespace
             },
           ]
           "services" = [
