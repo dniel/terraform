@@ -44,7 +44,7 @@ resource "helm_release" "traefik" {
   }
   set {
     name  = "ports.web.expose"
-    value = "false"
+    value = "true"
   }
   set {
     name  = "ports.websecure.nodePort"
@@ -79,8 +79,16 @@ resource "helm_release" "traefik" {
     value = "false"
   }
   set {
-    name  = "additionalArguments"
-    value = "{--log.level=DEBUG,--providers.kubernetesingress,--providers.file.filename=/config/dynamic.yml,--configFile=/config/static.yml}"
+    name  = "additionalArguments[0]"
+    value = "--providers.kubernetesingress.ingressclass=traefik-${var.name_prefix}"
+  }
+  set {
+    name  = "additionalArguments[1]"
+    value = "--providers.kubernetesCRD.ingressclass=traefik-${var.name_prefix}"
+  }
+  set {
+    name  = "additionalArguments[2]"
+    value = "--providers.file.filename=/config/dynamic.yml"
   }
 }
 
@@ -93,11 +101,6 @@ resource "kubernetes_config_map" "traefik" {
 
   data = {
     "dynamic.yml" = templatefile("${path.module}/templates/dynamic.tpl", {
-      app_name    = local.app_name,
-      domain_name = var.domain_name,
-      name_prefix = var.name_prefix
-    })
-    "static.yml" = templatefile("${path.module}/templates/static.tpl", {
       app_name    = local.app_name,
       domain_name = var.domain_name,
       name_prefix = var.name_prefix
