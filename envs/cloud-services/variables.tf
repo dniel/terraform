@@ -12,6 +12,6 @@ variable "auth0_client_secret" {}
 
 # If set register the Traefik instance at pilot.traefik.io
 variable "traefik_pilot_token" {
-  type= string
+  type    = string
   default = ""
 }

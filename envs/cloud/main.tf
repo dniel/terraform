@@ -94,11 +94,11 @@ module "base" {
 
   # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-#    module.apps.api_graphql_dns_name,
-#    module.apps.api_posts_dns_name,
-#    module.apps.whoami_dns_name,
-#    module.apps.www_dns_name,
-#    module.apps.spa_demo_dns_name
+    #    module.apps.api_graphql_dns_name,
+    #    module.apps.api_posts_dns_name,
+    #    module.apps.whoami_dns_name,
+    #    module.apps.www_dns_name,
+    #    module.apps.spa_demo_dns_name
   ]
 
   certificates_aws_access_key = local.certificates_aws_access_key
