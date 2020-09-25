@@ -24,7 +24,7 @@ resource "helm_release" "traefik" {
   skip_crds = true
   set {
     name  = "pilot.enabled"
-    value = "${length(var.traefik_pilot_token) > 0}"
+    value = length(var.traefik_pilot_token) > 0
   }
   set {
     name  = "pilot.token"

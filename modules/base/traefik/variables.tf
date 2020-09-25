@@ -36,6 +36,6 @@ variable "labels" {
 
 variable "traefik_pilot_token" {
   default     = ""
-  type        = "string"
+  type        = string
   description = "Token to use to connect to Traefik Pilot"
 }
