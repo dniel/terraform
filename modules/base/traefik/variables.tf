@@ -34,3 +34,8 @@ variable "labels" {
   description = "Labels to add to resources created"
 }
 
+variable "traefik_pilot_token" {
+  default     = ""
+  type        = "string"
+  description = "Token to use to connect to Traefik Pilot"
+}

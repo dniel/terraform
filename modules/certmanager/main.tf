@@ -22,7 +22,7 @@ resource "helm_release" "cert-manager" {
   version    = var.certmanager_helm_release_version
 
   set {
-    name = "extraArgs"
+    name  = "extraArgs"
     value = "{--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53}"
   }
 }

@@ -80,3 +80,9 @@ variable "traefik_default_tls_secretName" {
   type        = string
   description = "(Optional) The name of the secret for the Traefik default certificate."
 }
+
+variable "traefik_pilot_token" {
+  default     = ""
+  type        = "string"
+  description = "Token to use to connect to Traefik Pilot"
+}

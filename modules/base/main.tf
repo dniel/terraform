@@ -23,6 +23,7 @@ module "traefik" {
   traefik_helm_release_version = var.traefik_helm_release_version
   traefik_websecure_port       = var.traefik_websecure_port
   traefik_service_type         = var.traefik_service_type
+  traefik_pilot_token          = var.traefik_pilot_token
 }
 
 ##################################

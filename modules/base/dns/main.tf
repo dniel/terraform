@@ -36,7 +36,8 @@ resource "aws_route53_record" "load_balancer_record_alias" {
 # Create Alias A records for all domain names provided
 # in the input list of domain names.
 resource "aws_route53_record" "alias_record" {
-  for_each = toset(var.dns_names)
+  depends_on = [aws_route53_record.load_balancer_record_alias]
+  for_each   = toset(var.dns_names)
 
   zone_id = aws_route53_zone.hosted_zone.zone_id
   name    = each.key
@@ -58,11 +59,12 @@ data aws_route53_zone "primary_hosted_zone" {
 # Add NS records to primary hosted zone for lookup
 # if primary hosted zone id was provided as parameter.
 resource "aws_route53_record" "nested-domain-ns" {
-  count   = length(var.primary_hosted_zone_id) > 0 ? 1 : 0
-  zone_id = data.aws_route53_zone.primary_hosted_zone[0].id
-  name    = var.domain_name
-  type    = "NS"
-  ttl     = "30"
+  depends_on = [data.aws_route53_zone.primary_hosted_zone]
+  count      = length(var.primary_hosted_zone_id) > 0 ? 1 : 0
+  zone_id    = data.aws_route53_zone.primary_hosted_zone[0].id
+  name       = var.domain_name
+  type       = "NS"
+  ttl        = "30"
 
   records = [
     aws_route53_zone.hosted_zone.name_servers.0,

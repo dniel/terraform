@@ -12,22 +12,21 @@ locals {
   })
 }
 
-resource "kubernetes_namespace" "spinnaker" {
+data "kubernetes_namespace" "spinnaker" {
   metadata {
-    name   = local.app_name
-    labels = local.labels
+    name = "spinnaker"
   }
 }
 
 resource "kubernetes_ingress" "spinnaker_deck_ingress" {
   metadata {
     name      = "spin-deck"
-    namespace = kubernetes_namespace.spinnaker.id
+    namespace = data.kubernetes_namespace.spinnaker.id
     annotations = {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = "${var.name_prefix}-forwardauth-authorize@kubernetescrd"
+      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth-authorize"
     }
     labels = local.labels
   }
@@ -51,7 +50,7 @@ resource "kubernetes_ingress" "spinnaker_deck_ingress" {
 resource "kubernetes_ingress" "spinnaker_gate_ingress" {
   metadata {
     name      = "spin-gate"
-    namespace = kubernetes_namespace.spinnaker.id
+    namespace = data.kubernetes_namespace.spinnaker.id
     annotations = {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"

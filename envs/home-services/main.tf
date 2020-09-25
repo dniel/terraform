@@ -2,19 +2,6 @@
 #
 #
 #########################################
-terraform {
-  required_version = ">0.13.0"
-  #  backend "s3" {
-  #    key            = "home/main.tfstate"
-  #    bucket         = "xxx"
-  #    dynamodb_table = "xxx"
-  #    acl            = "bucket-owner-full-control"
-  #    encrypt        = "true"
-  #    kms_key_id     = "xxx"
-  #    region         = "eu-west-1"
-  #  }
-}
-
 provider "auth0" {
   domain        = var.auth0_domain
   client_id     = var.auth0_client_id
@@ -34,12 +21,11 @@ provider "helm" {
   }
 }
 provider "aws" {
-  version = "~> 2.0"
-  region  = "eu-central-1"
+  region = "eu-central-1"
 }
 
 locals {
-  name_prefix = "common"
+  name_prefix = "services"
   domain_name = "${local.name_prefix}.dniel.in"
 
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
@@ -49,7 +35,7 @@ locals {
   traefik_websecure_port         = 32443
   traefik_service_type           = "NodePort"
   traefik_default_tls_secretName = "traefik-default-tls"
-  traefik_helm_chart_version     = "9.1.1"
+  traefik_helm_chart_version     = "9.3.0"
 
   forwardauth_helm_chart_version = "2.0.8"
   forwardauth_tenant             = var.auth0_domain

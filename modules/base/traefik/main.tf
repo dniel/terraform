@@ -15,13 +15,21 @@ data "kubernetes_namespace" "env_namespace" {
 
 resource "helm_release" "traefik" {
   name       = local.app_name
-  repository = "https://containous.github.io/traefik-helm-chart"
+  repository = "https://helm.traefik.io/traefik"
   chart      = local.app_name
 
   version   = var.traefik_helm_release_version
   namespace = var.namespace.id
 
   skip_crds = true
+  set {
+    name  = "pilot.enabled"
+    value = "${length(var.traefik_pilot_token) > 0}"
+  }
+  set {
+    name  = "pilot.token"
+    value = var.traefik_pilot_token
+  }
   set {
     name  = "rbac.create"
     value = "true"
@@ -90,6 +98,14 @@ resource "helm_release" "traefik" {
     name  = "additionalArguments[2]"
     value = "--providers.file.filename=/config/dynamic.yml"
   }
+  set {
+    name  = "additionalArguments[3]"
+    value = "--providers.kubernetesingress.namespaces=${var.name_prefix}"
+  }
+  set {
+    name  = "additionalArguments[4]"
+    value = "--providers.kubernetesCRD.namespaces=${var.name_prefix}"
+  }
 }
 
 resource "kubernetes_config_map" "traefik" {
@@ -111,16 +127,16 @@ resource "kubernetes_config_map" "traefik" {
 resource "kubernetes_manifest" "middleware_strip_api_prefix" {
   provider = kubernetes-alpha
   manifest = {
-    "apiVersion": "traefik.containo.us/v1alpha1"
-    "kind": "Middleware"
-    "metadata": {
-      "labels": local.labels
-      "namespace": var.namespace.id
-      "name": "strip-api-prefix"
+    "apiVersion" : "traefik.containo.us/v1alpha1"
+    "kind" : "Middleware"
+    "metadata" : {
+      "labels" : local.labels
+      "namespace" : var.namespace.id
+      "name" : "strip-api-prefix"
     }
-    "spec": {
-      "stripPrefix": {
-        "prefixes": [
+    "spec" : {
+      "stripPrefix" : {
+        "prefixes" : [
           "/api",
         ]
       }

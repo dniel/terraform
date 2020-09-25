@@ -27,13 +27,13 @@ locals {
   name_prefix = "home"
   domain_name = "${local.name_prefix}.dniel.in"
 
-  load_balancer_public_ip            = "10.0.50.165"
-  dns_primary_hosted_zone_id         = "Z25Z86AZE76SY4"
+  load_balancer_public_ip    = "10.0.50.165"
+  dns_primary_hosted_zone_id = "Z25Z86AZE76SY4"
 
   traefik_websecure_port         = 31443
   traefik_service_type           = "NodePort"
   traefik_default_tls_secretName = "traefik-default-tls"
-  traefik_helm_chart_version     = "9.1.1"
+  traefik_helm_chart_version     = "9.3.0"
 
   forwardauth_helm_chart_version = "2.0.8"
   forwardauth_tenant             = var.auth0_domain
