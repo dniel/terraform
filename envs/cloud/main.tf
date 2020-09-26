@@ -33,19 +33,17 @@ module "template" {
   traefik_service_type           = var.traefik_service_type
   traefik_default_tls_secretName = var.traefik_default_tls_secretName
   traefik_pilot_token            = var.traefik_pilot_token
+  auth0_domain                   = var.auth0_domain
 
-  # parameters for dns
-  # name of the ELB load balancer dns record infront of kubernetes.
   load_balancer_alias_dns_name       = var.load_balancer_alias_dns_name
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
   primary_hosted_zone_id             = var.primary_hosted_zone_id
 
   certificates_aws_access_key    = var.certificates_aws_access_key
   certificates_aws_secret_key    = var.certificates_aws_secret_key
-  api_graphql_helm_chart_version = var.api_graphql_helm_chart_version
-  api_posts_helm_chart_version   = var.api_posts_helm_chart_version
-  auth0_domain                   = var.auth0_domain
 
+  api_graphql_helm_chart_version   = var.api_graphql_helm_chart_version
+  api_posts_helm_chart_version     = var.api_posts_helm_chart_version
   certmanager_helm_release_version = var.certmanager_helm_release_version
   forwardauth_helm_chart_version   = var.forwardauth_helm_chart_version
   spa_demo_helm_chart_version      = var.spa_demo_helm_chart_version
