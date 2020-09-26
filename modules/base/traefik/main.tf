@@ -7,12 +7,9 @@ locals {
   forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
-data "kubernetes_namespace" "env_namespace" {
-  metadata {
-    name = var.name_prefix
-  }
-}
-
+#############################################
+#
+#
 resource "helm_release" "traefik" {
   name       = local.app_name
   repository = "https://helm.traefik.io/traefik"
@@ -126,6 +123,20 @@ resource "helm_release" "traefik" {
   }
 }
 
+#############################################
+#
+#
+data "kubernetes_service" "traefik" {
+  depends_on = [helm_release.traefik]
+  metadata {
+    name = "traefik"
+    namespace = var.namespace.id
+  }
+}
+
+#############################################
+#
+#
 resource "kubernetes_manifest" "middleware_strip_api_prefix" {
   provider = kubernetes-alpha
   manifest = {
