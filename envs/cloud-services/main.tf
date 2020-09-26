@@ -39,8 +39,8 @@ module "template" {
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
   primary_hosted_zone_id             = var.primary_hosted_zone_id
 
-  certificates_aws_access_key    = var.certificates_aws_access_key
-  certificates_aws_secret_key    = var.certificates_aws_secret_key
+  certificates_aws_access_key = var.certificates_aws_access_key
+  certificates_aws_secret_key = var.certificates_aws_secret_key
 
   api_graphql_helm_chart_version   = var.api_graphql_helm_chart_version
   api_posts_helm_chart_version     = var.api_posts_helm_chart_version
