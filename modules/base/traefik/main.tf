@@ -10,7 +10,23 @@ locals {
 #############################################
 #
 #
+resource "kubernetes_secret" "route53-credentials" {
+  metadata {
+    name      = "acme-route53-creds"
+    namespace = var.name_prefix
+  }
+  data = {
+    AWS_SECRET_KEY = var.aws_access_key,
+    AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key,
+  }
+  type = "Opaque"
+}
+
+#############################################
+#
+#
 resource "helm_release" "traefik" {
+  depends_on = [kubernetes_secret.route53-credentials]
   name       = local.app_name
   repository = "https://helm.traefik.io/traefik"
   chart      = local.app_name
@@ -110,8 +126,12 @@ resource "helm_release" "traefik" {
     value = "AWS_SECRET_ACCESS_KEY"
   }
   set {
-    name = "env[1].value"
-    value = var.aws_secret_access_key
+    name = "env[1].valueFrom.secretKeyRef.name"
+    value = kubernetes_secret.route53-credentials.metadata[0].name
+  }
+  set {
+    name = "env[1].valueFrom.secretKeyRef.key"
+    value = "AWS_SECRET_ACCESS_KEY"
   }
   set {
     name = "env[2].name"
@@ -121,19 +141,6 @@ resource "helm_release" "traefik" {
     name = "env[2].value"
     value = var.aws_hosted_zone_id
   }
-}
-
-resource "kubernetes_secret" "route53-credentials" {
-  metadata {
-    name      = "acme-route53-creds"
-    namespace = var.name_prefix
-  }
-  data = {
-    AWS_SECRET_KEY = var.aws_access_key,
-    AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key,
-    AWS_HOSTED_ZONE_ID = var.aws_hosted_zone_id
-  }
-  type = "Opaque"
 }
 
 #############################################
