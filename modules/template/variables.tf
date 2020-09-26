@@ -1,12 +1,7 @@
 variable "certificates_aws_access_key" {}
 variable "certificates_aws_secret_key" {}
 variable "auth0_domain" {}
-variable "auth0_client_id" {}
-variable "auth0_client_secret" {}
 variable "traefik_pilot_token" {}
-variable "kube_context" {}
-variable "kube_config" {}
-variable "aws_region" {}
 variable "base_domain_name" {}
 variable "name_prefix" {}
 variable "load_balancer_alias_hosted_zone_id" {}

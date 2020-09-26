@@ -36,6 +36,7 @@ locals {
   traefik_service_type           = "NodePort"
   traefik_default_tls_secretName = "traefik-default-tls"
   traefik_helm_chart_version     = "9.3.0"
+  traefik_pilot_token            = var.traefik_pilot_token
 
   forwardauth_helm_chart_version = "2.0.8"
   forwardauth_tenant             = var.auth0_domain
@@ -84,6 +85,7 @@ module "base" {
   traefik_websecure_port         = local.traefik_websecure_port
   traefik_service_type           = local.traefik_service_type
   traefik_default_tls_secretName = local.traefik_default_tls_secretName
+  traefik_pilot_token            = local.traefik_pilot_token
 
   # parameter for public ip where appliactions will be accessed.
   load_balancer_public_ip = local.load_balancer_public_ip
