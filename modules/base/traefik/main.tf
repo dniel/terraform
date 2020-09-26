@@ -115,7 +115,7 @@ resource "helm_release" "traefik" {
   # set environment variables to generate certificates for using Lets Encrypt.
   set {
     name = "env[0].name"
-    value = "AWS_ACCESS_KEY_ID"
+    value = "AWS_ACCESS_KEY"
   }
   set {
     name = "env[0].valueFrom.secretKeyRef.name"

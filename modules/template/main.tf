@@ -36,8 +36,9 @@ module "base" {
   traefik_default_tls_secretName = var.traefik_default_tls_secretName
   traefik_pilot_token            = var.traefik_pilot_token
 
-  # parameters for dns
+  # parameters for dns and loadbalancer infront of cluster.
   # name of the ELB load balancer dns record infront of kubernetes.
+  load_balancer_public_ip            = var.load_balancer_public_ip
   load_balancer_alias_dns_name       = var.load_balancer_alias_dns_name
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
   primary_hosted_zone_id             = var.primary_hosted_zone_id

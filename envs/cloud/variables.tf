@@ -9,6 +9,7 @@ variable "kube_config" {}
 variable "aws_region" {}
 variable "base_domain_name" {}
 variable "name_prefix" {}
+variable "load_balancer_public_ip" {}
 variable "load_balancer_alias_hosted_zone_id" {}
 variable "load_balancer_alias_dns_name" {}
 variable "primary_hosted_zone_id" {}
