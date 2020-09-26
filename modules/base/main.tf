@@ -24,6 +24,10 @@ module "traefik" {
   traefik_websecure_port       = var.traefik_websecure_port
   traefik_service_type         = var.traefik_service_type
   traefik_pilot_token          = var.traefik_pilot_token
+
+  aws_access_key = var.certificates_aws_access_key
+  aws_secret_access_key = var.certificates_aws_secret_key
+  aws_hosted_zone_id = module.dns.hosted_zone_id
 }
 
 ##################################
@@ -73,6 +77,7 @@ module "dns" {
 # to module to extract the logic of which certificates to
 # create from this module.
 ##################################
+/*
 module "certificates" {
   source      = "./certificates"
   domain_name = var.domain_name
@@ -94,7 +99,7 @@ module "certificates" {
     }
   }
 }
-
+*/
 /*
 ##################################
 #

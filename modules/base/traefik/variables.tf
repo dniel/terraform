@@ -39,3 +39,13 @@ variable "traefik_pilot_token" {
   type        = string
   description = "Token to use to connect to Traefik Pilot"
 }
+
+variable "aws_access_key" {
+  type        = string
+}
+variable "aws_secret_access_key" {
+  type        = string
+}
+variable "aws_hosted_zone_id" {
+  type        = string
+}

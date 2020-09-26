@@ -59,30 +59,6 @@ resource "helm_release" "traefik" {
     value = var.traefik_websecure_port
   }
   set {
-    name  = "volumes[0].name"
-    value = "traefik-default-tls"
-  }
-  set {
-    name  = "volumes[0].mountPath"
-    value = "/ssl"
-  }
-  set {
-    name  = "volumes[0].type"
-    value = "secret"
-  }
-  set {
-    name  = "volumes[1].name"
-    value = "traefik"
-  }
-  set {
-    name  = "volumes[1].mountPath"
-    value = "/config"
-  }
-  set {
-    name  = "volumes[1].type"
-    value = "configMap"
-  }
-  set {
     name  = "ingressRoute.dashboard.enabled"
     value = "false"
   }
@@ -96,31 +72,57 @@ resource "helm_release" "traefik" {
   }
   set {
     name  = "additionalArguments[2]"
-    value = "--providers.file.filename=/config/dynamic.yml"
-  }
-  set {
-    name  = "additionalArguments[3]"
     value = "--providers.kubernetesingress.namespaces=${var.name_prefix}"
   }
   set {
-    name  = "additionalArguments[4]"
+    name  = "additionalArguments[3]"
     value = "--providers.kubernetesCRD.namespaces=${var.name_prefix}"
   }
-}
-
-resource "kubernetes_config_map" "traefik" {
-  metadata {
-    name      = local.app_name
-    namespace = var.namespace.id
-    labels    = local.labels
+  set {
+    name  = "additionalArguments[4]"
+    value = "--certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+  }
+  set {
+    name  = "additionalArguments[5]"
+    value = "--certificatesresolvers.default.acme.dnsChallenge.provider=route53"
+  }
+  set {
+    name  = "additionalArguments[6]"
+    value = "--certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=0"
+  }
+  set {
+    name  = "additionalArguments[7]"
+    value = "--certificatesresolvers.default.acme.email=daniel@engfeldt.net"
+  }
+  set {
+    name  = "additionalArguments[8]"
+    value = "--certificatesresolvers.default.acme.storage=/data/acme.json"
   }
 
-  data = {
-    "dynamic.yml" = templatefile("${path.module}/templates/dynamic.tpl", {
-      app_name    = local.app_name,
-      domain_name = var.domain_name,
-      name_prefix = var.name_prefix
-    })
+  # set environment variables to generate certificates for using Lets Encrypt.
+  set {
+    name = "env[0].name"
+    value = "AWS_ACCESS_KEY_ID"
+  }
+  set {
+    name = "env[0].value"
+    value = var.aws_access_key
+  }
+  set {
+    name = "env[1].name"
+    value = "AWS_SECRET_ACCESS_KEY"
+  }
+  set {
+    name = "env[1].value"
+    value = var.aws_secret_access_key
+  }
+  set {
+    name = "env[2].name"
+    value = "AWS_HOSTED_ZONE_ID"
+  }
+  set {
+    name = "env[2].value"
+    value = var.aws_hosted_zone_id
   }
 }
 
