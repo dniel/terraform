@@ -16,7 +16,7 @@ resource "kubernetes_secret" "route53-credentials" {
     namespace = var.name_prefix
   }
   data = {
-    AWS_SECRET_KEY = var.aws_access_key,
+    AWS_ACCESS_KEY = var.aws_access_key,
     AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key,
   }
   type = "Opaque"
