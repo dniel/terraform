@@ -123,6 +123,19 @@ resource "helm_release" "traefik" {
   }
 }
 
+resource "kubernetes_secret" "route53-credentials" {
+  metadata {
+    name      = "acme-route53-creds"
+    namespace = var.name_prefix
+  }
+  data = {
+    AWS_SECRET_KEY = var.aws_access_key,
+    AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key,
+    AWS_HOSTED_ZONE_ID = var.aws_hosted_zone_id
+  }
+  type = "Opaque"
+}
+
 #############################################
 #
 #
