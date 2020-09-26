@@ -118,8 +118,12 @@ resource "helm_release" "traefik" {
     value = "AWS_ACCESS_KEY_ID"
   }
   set {
-    name = "env[0].value"
-    value = var.aws_access_key
+    name = "env[0].valueFrom.secretKeyRef.name"
+    value = kubernetes_secret.route53-credentials.metadata[0].name
+  }
+  set {
+    name = "env[0].valueFrom.secretKeyRef.key"
+    value = "AWS_ACCESS_KEY"
   }
   set {
     name = "env[1].name"
