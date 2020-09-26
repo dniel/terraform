@@ -63,8 +63,13 @@ module "dns" {
     ]
   )
 
+  # if the load balancer has a static ip address infront of the cluster.
   load_balancer_public_ip            = var.load_balancer_public_ip
-  load_balancer_alias_dns_name       = var.load_balancer_alias_dns_name
+
+  # if service is of type load balancer, use the load balancer dns name as alias for dns.
+  load_balancer_alias_dns_name       = (lower(var.traefik_service_type) == "loadbalancer" ?
+    module.traefik.traefik_load_balancer_ingress_hostname[0].hostname : "")
+
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
 
   # the primary hosted zone if the new zone if a nested zone.
