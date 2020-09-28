@@ -76,35 +76,6 @@ module "dns" {
   primary_hosted_zone_id = var.primary_hosted_zone_id
 }
 
-##################################
-# TODO
-# Create dynamic list of certificates as input parameter
-# to module to extract the logic of which certificates to
-# create from this module.
-##################################
-/*
-module "certificates" {
-  source      = "./certificates"
-  domain_name = var.domain_name
-  name_prefix = var.name_prefix
-  labels      = var.labels
-  namespace   = data.kubernetes_namespace.env_namespace
-
-  aws_access_key = var.certificates_aws_access_key
-  aws_secret_key = var.certificates_aws_secret_key
-  hosted_zone_id = module.dns.hosted_zone_id
-
-  certificates = {
-    # wildcard certificate for environament, like *.example.com
-    # used by traefik to serve all websites with a wildcard certificate.
-    traefik-default = {
-      secretName = var.traefik_default_tls_secretName
-      namespace  = data.kubernetes_namespace.env_namespace.id
-      dnsName    = "*.${var.domain_name}"
-    }
-  }
-}
-*/
 /*
 ##################################
 #
