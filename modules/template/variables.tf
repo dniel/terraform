@@ -20,3 +20,21 @@ variable "api_graphql_helm_chart_version" {}
 variable "api_posts_helm_chart_version" {}
 variable "spa_demo_helm_chart_version" {}
 variable "certmanager_helm_release_version" {}
+
+variable "feature_monitoring" {
+  type = bool
+  default = false
+  description = "Enable/Disable installation of Prometheus and Grafana"
+}
+
+variable "feature_spinnaker" {
+  type = bool
+  default = false
+  description = "Enable/Disable installation of Spinnaker"
+}
+
+variable "feature_vsphere" {
+  type = bool
+  default = false
+  description = "Enable/Disable vsphere specific components."
+}

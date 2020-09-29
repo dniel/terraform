@@ -52,18 +52,8 @@ module "template" {
   unifi_helm_chart_version         = var.unifi_helm_chart_version
   website_helm_chart_version       = var.website_helm_chart_version
   whoami_helm_chart_version        = var.whoami_helm_chart_version
-}
 
-module "spinnaker" {
-  source      = "../../modules/spinnaker"
-  domain_name = "services.dniel.in"
-  name_prefix = var.name_prefix
-  labels      = {}
-}
-
-module "vsphere" {
-  source      = "../../modules/vsphere"
-  domain_name = "services.dniel.in"
-  name_prefix = var.name_prefix
-  labels      = {}
+  feature_monitoring               = true
+  feature_spinnaker                = true
+  feature_vsphere                  = true
 }

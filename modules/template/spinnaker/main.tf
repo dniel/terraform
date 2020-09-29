@@ -10,11 +10,26 @@ locals {
   labels = merge(var.labels, {
     "app" = local.app_name
   })
+  forwardauth_middleware_namespace = var.name_prefix
+  forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
 data "kubernetes_namespace" "spinnaker" {
   metadata {
     name = "spinnaker"
+  }
+}
+
+# Create Alias A records for Spinnaker
+resource "aws_route53_record" "spin_alias_record" {
+  zone_id = var.hosted_zone_id
+  name    = "spin"
+  type    = "A"
+
+  alias {
+    name                   = "lb.${var.domain_name}"
+    zone_id                = var.hosted_zone_id
+    evaluate_target_health = false
   }
 }
 
@@ -26,7 +41,7 @@ resource "kubernetes_ingress" "spinnaker_deck_ingress" {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = "forwardauth-authorize"
+      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
     }
     labels = local.labels
   }
@@ -55,7 +70,7 @@ resource "kubernetes_ingress" "spinnaker_gate_ingress" {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = "${var.name_prefix}-forwardauth-authorize@kubernetescrd,api-stripprefix@file"
+      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
     }
     labels = local.labels
   }

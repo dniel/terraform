@@ -56,6 +56,46 @@ module "base" {
   certificates_aws_secret_key = var.certificates_aws_secret_key
 }
 
+##################################
+#
+#
+##################################
+module "monitoring" {
+  count = var.feature_monitoring ? 1 : 0
+  source      = "./monitoring"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+
+  hosted_zone_id = module.base.hosted_zone_id
+}
+
+##################################
+#
+#
+##################################
+module "spinnaker" {
+  count = var.feature_spinnaker ? 1 : 0
+  source      = "./spinnaker"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+
+  hosted_zone_id = module.base.hosted_zone_id
+}
+
+##################################
+#
+#
+##################################
+module "vsphere" {
+  count = var.feature_vsphere ? 1 : 0
+  source      = "./vsphere"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+}
+
 #################################################################
 # Specific features installed in Internal environment
 #

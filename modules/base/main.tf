@@ -76,15 +76,3 @@ module "dns" {
   primary_hosted_zone_id = var.primary_hosted_zone_id
 }
 
-##################################
-#
-#
-##################################
-module "monitoring" {
-  source      = "./monitoring"
-  domain_name = var.domain_name
-  name_prefix = var.name_prefix
-  labels      = var.labels
-
-  hosted_zone_id = module.dns.hosted_zone_id
-}
