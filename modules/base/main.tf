@@ -76,7 +76,6 @@ module "dns" {
   primary_hosted_zone_id = var.primary_hosted_zone_id
 }
 
-/*
 ##################################
 #
 #
@@ -87,23 +86,5 @@ module "monitoring" {
   name_prefix = var.name_prefix
   labels      = var.labels
 
-  http_monitor = {
-    traefik = {
-      address  = module.traefik.dns_name
-      username = "blabla"
-      password = "blabla"
-    }
-  }
-
-  port_monitor = {
-    loadbalancer = {
-      address =
-      port    = 443
-    }
-    wan = {
-      address =
-      port    = 443
-    }
-  }
+  hosted_zone_id = module.dns.hosted_zone_id
 }
-*/

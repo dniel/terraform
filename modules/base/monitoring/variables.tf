@@ -13,19 +13,7 @@ variable "labels" {
   description = "Labels to add to resources created"
 }
 
-variable "http_monitors" {
-  default = {}
-  type = map(object({
-    address = string
-  }))
-  description = "Http Monitors to create"
-}
-
-variable "port_monitors" {
-  default = {}
-  type = map(object({
-    address = string
-    port    = number
-  }))
-  description = "TCP Port Monitors to create"
+variable "hosted_zone_id" {
+  type        = string
+  description = "Id of the hosted zone to add NS records."
 }
