@@ -5,96 +5,84 @@ locals {
   }
 }
 
-#################################################################
-# Common features installed in all environments.
-# For example
-# - traefik
-# - forwardauth
-# - dns
-# - certificates
+
+##################################
 #
-# TODO
-# - alerting
-# - monitoring
-# - logging
 #
-#################################################################
-module "base" {
-  source      = "../base"
+##################################
+data "kubernetes_namespace" "env_namespace" {
+  metadata {
+    name   = var.name_prefix
+    labels = local.labels
+  }
+}
+
+##################################
+#
+#
+##################################
+module "traefik" {
+  source = "./traefik"
   domain_name = local.domain_name
   name_prefix = var.name_prefix
-  labels      = local.labels
+  labels = local.labels
+  namespace   = data.kubernetes_namespace.env_namespace
 
-  # parameters for forwardauth
+  traefik_helm_release_version = var.traefik_helm_chart_version
+  traefik_websecure_port = var.traefik_websecure_port
+  traefik_service_type = var.traefik_service_type
+  traefik_pilot_token = var.traefik_pilot_token
+
+  aws_access_key = var.certificates_aws_access_key
+  aws_secret_access_key = var.certificates_aws_secret_key
+  aws_hosted_zone_id = module.dns.hosted_zone_id
+}
+
+##################################
+#
+#
+##################################
+module "forwardauth" {
+  source      = "./forwardauth"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels = local.labels
+  namespace   = data.kubernetes_namespace.env_namespace
+
   forwardauth_helm_release_version = var.forwardauth_helm_chart_version
   forwardauth_tenant               = var.auth0_domain
+}
 
-  # parameters for traefik
-  traefik_helm_release_version   = var.traefik_helm_chart_version
-  traefik_websecure_port         = var.traefik_websecure_port
-  traefik_service_type           = var.traefik_service_type
-  traefik_default_tls_secretName = var.traefik_default_tls_secretName
-  traefik_pilot_token            = var.traefik_pilot_token
+##################################
+#
+#
+##################################
+module "dns" {
+  source      = "./dns"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels = local.labels
+  namespace   = data.kubernetes_namespace.env_namespace
 
-  # parameters for dns and loadbalancer infront of cluster.
-  # name of the ELB load balancer dns record infront of kubernetes.
-  load_balancer_public_ip            = var.load_balancer_public_ip
-  load_balancer_alias_dns_name       = var.load_balancer_alias_dns_name
-  load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
-  primary_hosted_zone_id             = var.primary_hosted_zone_id
-
-  # DNS names to be registered and pointed to the public load balancer ip.
   dns_names = [
-    #    module.apps.api_graphql_dns_name,
-    #    module.apps.api_posts_dns_name,
-    #    module.apps.whoami_dns_name,
-    #    module.apps.www_dns_name,
-    #    module.apps.spa_demo_dns_name
+    module.traefik.dns_name,
+    module.forwardauth.dns_name
   ]
 
-  certificates_aws_access_key = var.certificates_aws_access_key
-  certificates_aws_secret_key = var.certificates_aws_secret_key
+  # if the load balancer has a static ip address infront of the cluster.
+  load_balancer_public_ip            = var.load_balancer_public_ip
+
+  # if service is of type load balancer, use the load balancer dns name as alias for dns.
+  load_balancer_alias_dns_name       = (lower(var.traefik_service_type) == "loadbalancer" ?
+  module.traefik.traefik_load_balancer_ingress_hostname[0].hostname : "")
+
+  load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
+
+  # the primary hosted zone if the new zone if a nested zone.
+  primary_hosted_zone_id = var.primary_hosted_zone_id
 }
 
-##################################
-#
-#
-##################################
-module "monitoring" {
-  count = var.feature_monitoring ? 1 : 0
-  source      = "./monitoring"
-  domain_name = local.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
 
-  hosted_zone_id = module.base.hosted_zone_id
-}
-
-##################################
-#
-#
-##################################
-module "spinnaker" {
-  count = var.feature_spinnaker ? 1 : 0
-  source      = "./spinnaker"
-  domain_name = local.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-
-  hosted_zone_id = module.base.hosted_zone_id
-}
-
-##################################
-#
-#
-##################################
-module "vsphere" {
-  count = var.feature_vsphere ? 1 : 0
-  source      = "./vsphere"
-  domain_name = local.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-}
 
 #################################################################
 # Specific features installed in Internal environment

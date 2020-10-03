@@ -20,19 +20,19 @@ variable "namespace" {
 variable "load_balancer_public_ip" {
   default     = ""
   type        = string
-  description = "Ip address of the external load balancer infront of Kubernetes Workers."
+  description = "Ip address of the external load balancer in front of Kubernetes Workers."
 }
 
 variable "load_balancer_alias_dns_name" {
   default     = ""
   type        = string
-  description = "DNS Name of the external load balancer infront of Kubernetes Workers."
+  description = "DNS Name of the external load balancer in front of Kubernetes Workers."
 }
 
 variable "load_balancer_alias_hosted_zone_id" {
   default     = ""
   type        = string
-  description = "Hosted Zone of the external load balancer in-front of Kubernetes Workers."
+  description = "Hosted Zone of the external load balancer in front of Kubernetes Workers."
 }
 
 variable "dns_names" {

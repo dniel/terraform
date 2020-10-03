@@ -43,13 +43,6 @@ module "template" {
   certificates_aws_access_key = var.certificates_aws_access_key
   certificates_aws_secret_key = var.certificates_aws_secret_key
 
-  api_graphql_helm_chart_version   = var.api_graphql_helm_chart_version
-  api_posts_helm_chart_version     = var.api_posts_helm_chart_version
-  certmanager_helm_release_version = var.certmanager_helm_release_version
   forwardauth_helm_chart_version   = var.forwardauth_helm_chart_version
-  spa_demo_helm_chart_version      = var.spa_demo_helm_chart_version
   traefik_helm_chart_version       = var.traefik_helm_chart_version
-  unifi_helm_chart_version         = var.unifi_helm_chart_version
-  website_helm_chart_version       = var.website_helm_chart_version
-  whoami_helm_chart_version        = var.whoami_helm_chart_version
 }
