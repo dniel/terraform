@@ -21,12 +21,25 @@ and should be deployed using `kubectl create -f init/` before running `terraform
 I run several deployments at the same time, both on-prem in parallel and in Amazon EKS.
 Under the directory `envs` there is one directory for each deployment.
 - cloud is deployed to Amazon.
+- cloud-services is a shared services stack in the cloud.
 - home is my primary deployment on-prem.
-- home-common is a shared services stack.
+- home-services is a shared services stack at home.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
 Secrets are stored in encrypted files in the repo and contains a couple of variables 
 that are needed to run the terraform scripts.
+
+## Templates
+Two different default templates to configure an environment with.
+
+### template
+Is a small and mostly empty base template. It contains common stuff like
+a default configuration of traefik and forwardauth and not much more.
+
+### template-services
+Is a more specialized template that contains some applications that are
+meant to be installed just once for each cluster and contains common tools
+like prometheus, grafana.
 
 ## Modules
 Under modules I have put all my re-usable code, the environments should not contain much code itself
