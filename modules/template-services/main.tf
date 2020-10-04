@@ -50,6 +50,20 @@ module "spinnaker" {
 #
 #
 ##################################
+module "unifi" {
+  source      = "./unifi"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+
+  unifi_helm_release_version = "1.0.0"
+  hosted_zone_id = var.hosted_zone_id
+}
+
+##################################
+#
+#
+##################################
 module "vsphere" {
   count = var.feature_vsphere ? 1 : 0
   source      = "./vsphere"

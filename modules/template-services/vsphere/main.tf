@@ -80,6 +80,7 @@ resource "kubernetes_storage_class" "thin-disk" {
   reclaim_policy      = "Delete"
   parameters = {
     "diskformat" = "thin"
+    "datastore"  = "syno2"
   }
   mount_options = []
 }

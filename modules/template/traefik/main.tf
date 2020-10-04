@@ -52,8 +52,8 @@ resource "helm_release" "traefik" {
     value = "true"
   }
   set {
-    name  = "serversTransport.insecureSkipVerify"
-    value = "true"
+    name = "log.level"
+    value = "DEBUG"
   }
   set {
     name  = "service.type"
@@ -110,6 +110,10 @@ resource "helm_release" "traefik" {
   set {
     name  = "additionalArguments[8]"
     value = "--certificatesresolvers.default.acme.storage=/data/acme.json"
+  }
+  set {
+    name  = "additionalArguments[9]"
+    value = "--serverstransport.insecureskipverify=true"
   }
 
   # set environment variables to generate certificates for using Lets Encrypt.
