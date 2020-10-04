@@ -20,6 +20,18 @@ data "kubernetes_namespace" "spinnaker" {
   }
 }
 
+#####################################################################
+# Deploy Aromy Spinnaker Operator in Spinnaker namespace.
+####################################################################
+resource "helm_release" "helm_release_spinnaker_operator" {
+  name       = "spinnaker"
+  repository = "https://armory.jfrog.io/artifactory/charts/"
+  chart      = "armory-spinnaker-operator"
+
+  #version   = "1.2.0-snapshot.fix.ubi.f9afe37"
+  namespace = data.kubernetes_namespace.spinnaker.id
+}
+
 # Create Alias A records for Spinnaker
 resource "aws_route53_record" "spin_alias_record" {
   zone_id = var.hosted_zone_id

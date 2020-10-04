@@ -1,6 +1,8 @@
+######################################################
 # create ingress route with middleware for Traefik Dashboard
 # should use Official Helm Chart if possible to install.
 # See https://github.com/elastic/cloud-on-k8s/issues/938
+######################################################
 locals {
   labels = merge(var.labels, {
   })
@@ -8,7 +10,10 @@ locals {
   forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
+######################################################
 # Create Alias A records for grafana
+#
+######################################################
 resource "aws_route53_record" "grafana_alias_record" {
   zone_id = var.hosted_zone_id
   name    = "grafana"
@@ -21,7 +26,10 @@ resource "aws_route53_record" "grafana_alias_record" {
   }
 }
 
+######################################################
 # Create Alias A records for prometheus
+#
+######################################################
 resource "aws_route53_record" "prometheus_alias_record" {
   zone_id = var.hosted_zone_id
   name    = "prometheus"
@@ -37,6 +45,7 @@ resource "aws_route53_record" "prometheus_alias_record" {
 ######################################################
 # Install kube-prometheus-stack.
 #
+######################################################
 resource "helm_release" "kube_prometheus_stack" {
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
@@ -49,6 +58,7 @@ resource "helm_release" "kube_prometheus_stack" {
 ######################################################
 # expose Grafana.
 #
+######################################################
 resource "kubernetes_manifest" "ingressroute_grafana" {
   provider   = kubernetes-alpha
 
@@ -95,6 +105,7 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
 ######################################################
 # expose Prometheus.
 #
+######################################################
 resource "kubernetes_manifest" "ingressroute_prometheus" {
   provider   = kubernetes-alpha
 
