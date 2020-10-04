@@ -1,6 +1,6 @@
 variable "domain_name" {
   type        = string
-  description = "Base domain used for environmant, ex. dniel.in"
+  description = "Base domain used for environment, ex. dniel.in"
 }
 
 variable "name_prefix" {
