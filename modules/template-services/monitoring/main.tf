@@ -1,8 +1,6 @@
 ######################################################
 # create ingress route with middleware for Traefik Dashboard
-# should use Official Helm Chart if possible to install.
-# See https://github.com/elastic/cloud-on-k8s/issues/938
-######################################################
+
 locals {
   labels = merge(var.labels, {
   })
