@@ -115,6 +115,10 @@ resource "helm_release" "traefik" {
     name  = "additionalArguments[9]"
     value = "--serverstransport.insecureskipverify=true"
   }
+  set {
+    name = "additionalArguments[10]"
+    value = "--metrics.prometheus=true"
+  }
 
   # set environment variables to generate certificates for using Lets Encrypt.
   set {
