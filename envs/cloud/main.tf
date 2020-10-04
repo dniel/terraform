@@ -43,6 +43,6 @@ module "template" {
   certificates_aws_access_key = var.certificates_aws_access_key
   certificates_aws_secret_key = var.certificates_aws_secret_key
 
-  forwardauth_helm_chart_version   = var.forwardauth_helm_chart_version
-  traefik_helm_chart_version       = var.traefik_helm_chart_version
+  forwardauth_helm_chart_version = var.forwardauth_helm_chart_version
+  traefik_helm_chart_version     = var.traefik_helm_chart_version
 }
