@@ -13,6 +13,11 @@ variable "unifi_helm_release_version" {
   description = "Version of Helm Chart to deploy"
 }
 
+variable "unifi_image_tag" {
+  type = string
+  description = "Thre Docker container tag to deploy."
+}
+
 variable "labels" {
   type        = map(string)
   description = "Labels to add to resources created"

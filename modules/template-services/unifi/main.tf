@@ -14,7 +14,7 @@ resource "helm_release" "helm_release_unifi" {
 
   set{
     name = "image.tag"
-    value = "stable-5"
+    value = var.unifi_image_tag
   }
 }
 
@@ -23,8 +23,6 @@ resource "helm_release" "helm_release_unifi_poller" {
   repository = "https://k8s-at-home.com/charts"
   chart      = "unifi-poller"
   namespace  = var.name_prefix
-
-//  version    = var.unifi_helm_release_version
 
   set{
     name = "config.unifi.defaults.url"

@@ -1,6 +1,6 @@
-variable "certificates_aws_access_key" {}
-variable "certificates_aws_secret_key" {}
-variable "auth0_domain" {}
+variable "traefik_aws_access_key" {}
+variable "traefik_aws_secret_key" {}
+variable "forwardauth_auth0_domain" {}
 variable "traefik_pilot_token" {}
 variable "base_domain_name" {}
 variable "name_prefix" {}

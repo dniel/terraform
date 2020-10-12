@@ -33,8 +33,8 @@ module "traefik" {
   traefik_service_type = var.traefik_service_type
   traefik_pilot_token = var.traefik_pilot_token
 
-  aws_access_key = var.certificates_aws_access_key
-  aws_secret_access_key = var.certificates_aws_secret_key
+  aws_access_key = var.traefik_aws_access_key
+  aws_secret_access_key = var.traefik_aws_secret_key
   aws_hosted_zone_id = module.dns.hosted_zone_id
 }
 
@@ -50,7 +50,7 @@ module "forwardauth" {
   namespace   = data.kubernetes_namespace.env_namespace
 
   forwardauth_helm_release_version = var.forwardauth_helm_chart_version
-  forwardauth_tenant               = var.auth0_domain
+  forwardauth_tenant               = var.forwardauth_auth0_domain
 }
 
 ##################################

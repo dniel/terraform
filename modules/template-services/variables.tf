@@ -19,3 +19,14 @@ variable "feature_vsphere" {
   default = false
   description = "Enable/Disable vsphere specific components."
 }
+
+variable "unifi_helm_release_version" {
+  type        = string
+  description = "Version of Helm Chart to deploy"
+}
+
+variable "unifi_image_tag" {
+  type = string
+  description = "Thre Docker container tag to deploy."
+}
+
