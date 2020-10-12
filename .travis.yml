@@ -29,13 +29,11 @@ jobs:
         - cd ./envs/cloud
         - terraform init $tf_init_cli_options
         - terraform validate $tf_validation_cli_options
-        - terraform plan $tf_plan_cli_options
     - stage: terraform apply
       # Only run terraform apply stage if outside of a pull request
       if: type IN (push) and branch = master
       script:
         - echo "Executing Terraform Apply on merged code"
         - cd ./envs/cloud
-        - terraform init $tf_init_cli_options ./envs/cloud
+        - terraform init $tf_init_cli_options
         - terraform validate $tf_validation_cli_options
-        - terraform plan $tf_plan_cli_options
