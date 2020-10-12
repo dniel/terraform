@@ -81,25 +81,3 @@ module "dns" {
   # the primary hosted zone if the new zone if a nested zone.
   primary_hosted_zone_id = var.primary_hosted_zone_id
 }
-
-
-
-#################################################################
-# Specific features installed in Internal environment
-#
-#################################################################
-/*
-module "apps" {
-  source      = "../apps"
-  domain_name = local.domain_name
-  name_prefix = var.name_prefix
-  namespace   = module.base.namespace
-  labels      = var.labels
-
-  api_graphql_helm_release_version = var.api_graphql_helm_chart_version
-  api_posts_helm_release_version   = var.api_posts_helm_chart_version
-  website_helm_release_version     = var.website_helm_chart_version
-  whoami_helm_release_version      = var.whoami_helm_chart_version
-  spa_demo_helm_release_version    = var.spa_demo_helm_chart_version
-}
-*/
