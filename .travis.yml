@@ -31,5 +31,5 @@ jobs:
       # Only create docker container if on master branch.
       if: type IN (push) and branch = master
       script:
-        - echo "Build Docker Container
+        - echo "Build Docker Container"
         - docker build -t dniel/terraform .
