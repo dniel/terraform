@@ -3,7 +3,7 @@ language: bash
 
 # Export variables
 env:
-  - tf_version=0.13.4 tf_init_cli_options="-input=false -backend=false" tf_validation_cli_options=""
+  - tf_version=0.13.4 tf_init_cli_options="-input=false -backend=false" tf_validation_cli_options="" $tf_plan_cli_options=""
 
 # Only build pushes to master branch
 branches:
@@ -21,12 +21,13 @@ before_install:
 #
 jobs:
   include:
-    - stage: terraform validate
+    - stage: terraform plan
       script:
         - echo "Executing Terraform Plan on pull request code"
         - cd ./envs/cloud
         - terraform init $tf_init_cli_options
         - terraform validate $tf_validation_cli_options
+        - terraform plan $tf_plan_cli_options
     - stage: build docker
       # Only create docker container if on master branch.
       if: type IN (push) and branch = master
