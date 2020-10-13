@@ -1,5 +1,3 @@
-variable "certificates_aws_access_key" {}
-variable "certificates_aws_secret_key" {}
 variable "auth0_domain" {}
 variable "auth0_client_id" {}
 variable "auth0_client_secret" {}
@@ -17,4 +15,6 @@ variable "traefik_websecure_port" {}
 variable "traefik_service_type" {}
 variable "traefik_default_tls_secretName" {}
 variable "traefik_helm_chart_version" {}
+variable "traefik_aws_access_key" {}
+variable "traefik_aws_secret_key" {}
 variable "forwardauth_helm_chart_version" {}

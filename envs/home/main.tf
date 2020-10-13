@@ -44,8 +44,8 @@ module "template" {
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
   primary_hosted_zone_id             = var.primary_hosted_zone_id
 
-  traefik_aws_access_key = var.certificates_aws_access_key
-  traefik_aws_secret_key = var.certificates_aws_secret_key
+  traefik_aws_access_key = var.traefik_aws_access_key
+  traefik_aws_secret_key = var.traefik_aws_secret_key
 
   forwardauth_helm_chart_version = var.forwardauth_helm_chart_version
   traefik_helm_chart_version     = var.traefik_helm_chart_version

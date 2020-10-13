@@ -17,4 +17,12 @@ terraform {
     }
   }
   required_version = ">= 0.13"
+
+  backend "s3" {
+    bucket     = "198596758466-terraform-state"
+    key        = "cloud/terraform.tfstate"
+    region     = "eu-north-1"
+    encrypt    = "true"
+    kms_key_id = "arn:aws:kms:eu-north-1:198596758466:alias/terraform-state"
+  }
 }
