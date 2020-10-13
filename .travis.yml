@@ -32,4 +32,4 @@ jobs:
       if: type IN (push) and branch = master
       script:
         - echo "Build Docker Container
-        - docker build dniel/terraform .
+        - docker build -t dniel/terraform .
