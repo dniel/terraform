@@ -25,9 +25,8 @@ jobs:
       script:
         - echo "Executing Terraform Plan on pull request code"
         - cd ./envs/cloud
-        - terraform providers
         - terraform init $tf_init_cli_options
-        - terraform validate $tf_validation_cli_options
+        - terraform providers
         - terraform plan $tf_plan_cli_options
     - stage: build docker
       # Only create docker container if on master branch.
