@@ -50,7 +50,7 @@ jobs:
     - name: Terraform Plan
       id: plan
       working-directory: ./envs/cloud
-      run: terraform plan -no-color
+      run: terraform apply -no-color -auto-approve
 
 #    - name: Terraform Plan
 #      id: plan
