@@ -19,7 +19,7 @@ locals {
   base_domain_name                   = "dniel.se"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
-  load_balancer_alias_dns_name       = "a08c7d30d447f40609580aa65396ce33-1286803645.eu-north-1.elb.amazonaws.com"
+  load_balancer_alias_dns_name       = ""
   primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
   traefik_pilot_token                = ""
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]

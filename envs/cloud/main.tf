@@ -19,7 +19,7 @@ locals {
   base_domain_name                   = "dniel.se"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
-  load_balancer_alias_dns_name       = "a80e90d0b72554b4cafc71562b8dcc29-781300914.eu-north-1.elb.amazonaws.com"
+  load_balancer_alias_dns_name       = ""
   primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
   traefik_pilot_token                = ""
   traefik_websecure_port             = 31443
