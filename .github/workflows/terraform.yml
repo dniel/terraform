@@ -50,7 +50,9 @@ jobs:
     - name: Terraform Plan
       id: plan
       working-directory: ./envs/cloud
-      run: terraform apply -no-color -auto-approve
+      run: |
+        ln -s $KUBECONFIG /home/runner/.kube/config
+        terraform apply -no-color -auto-approve
 
 #    - name: Terraform Plan
 #      id: plan
