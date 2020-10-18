@@ -21,10 +21,6 @@ jobs:
       uses: prepor/action-aws-iam-authenticator@master
     - name: Set kubernetes context
       uses: azure/k8s-set-context@v1
-    - name: Install aws-iam-authenticator
-      uses: prepor/action-aws-iam-authenticator@master
-    - name: Set kubernetes context
-    - uses: azure/k8s-set-context@v1
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
