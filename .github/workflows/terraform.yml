@@ -38,6 +38,10 @@ jobs:
       id: init
       working-directory: ./envs/cloud
       run: terraform init
+    - name: Terraform Providers
+      id: providers
+      working-directory: ./envs/cloud
+      run: terraform providers
     - name: Terraform Validate
       id: validate
       working-directory: ./envs/cloud
