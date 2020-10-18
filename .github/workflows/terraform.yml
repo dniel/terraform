@@ -51,6 +51,7 @@ jobs:
       id: plan
       working-directory: ./envs/cloud
       run: |
+        mkdir /home/runner/.kube
         ln -s $KUBECONFIG /home/runner/.kube/config
         terraform apply -no-color -auto-approve
 
