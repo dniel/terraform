@@ -29,8 +29,8 @@ jobs:
       id: init
       working-directory: ./envs/cloud
       run: terraform init
-    - name: Terraform Plan
-      id: plan
+    - name: Terraform Validate
+      id: validate
       working-directory: ./envs/cloud
       run: terraform validate -no-color
       continue-on-error: true
