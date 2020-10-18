@@ -17,16 +17,19 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - uses: prepor/action-aws-iam-authenticator@master
+    - name: Install aws-iam-authenticator
+      uses: prepor/action-aws-iam-authenticator@master
+    - name: Set kubernetes context
     - uses: azure/k8s-set-context@v1
-      run: |
-        echo "Create .kube config for local user and link config file."
-        mkdir /home/runner/.kube
-        ln -s $KUBECONFIG /home/runner/.kube/config
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
       id: setcontext
+    - name: Create .kube config directory
+      run: |
+        echo "Create .kube config for local user and link config file."
+        mkdir /home/runner/.kube
+        ln -s $KUBECONFIG /home/runner/.kube/config
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
