@@ -24,9 +24,11 @@ jobs:
 #        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init
       id: init
+      working-directory: ./envs/cloud
       run: terraform init
     - name: Terraform Plan
       id: plan
+      working-directory: ./envs/cloud
       run: terraform validate -no-color
       continue-on-error: true
 
