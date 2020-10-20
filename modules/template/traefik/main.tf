@@ -85,38 +85,30 @@ resource "helm_release" "traefik" {
   }
   set {
     name  = "additionalArguments[2]"
-    value = "--providers.kubernetesingress.namespaces=${var.name_prefix}"
-  }
-  set {
-    name  = "additionalArguments[3]"
-    value = "--providers.kubernetesCRD.namespaces=${var.name_prefix}"
-  }
-  set {
-    name  = "additionalArguments[4]"
     value = "--certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
   }
   set {
-    name  = "additionalArguments[5]"
+    name  = "additionalArguments[3]"
     value = "--certificatesresolvers.default.acme.dnsChallenge.provider=route53"
   }
   set {
-    name  = "additionalArguments[6]"
+    name  = "additionalArguments[4]"
     value = "--certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=0"
   }
   set {
-    name  = "additionalArguments[7]"
+    name  = "additionalArguments[5]"
     value = "--certificatesresolvers.default.acme.email=daniel@engfeldt.net"
   }
   set {
-    name  = "additionalArguments[8]"
+    name  = "additionalArguments[6]"
     value = "--certificatesresolvers.default.acme.storage=/data/acme.json"
   }
   set {
-    name  = "additionalArguments[9]"
+    name  = "additionalArguments[7]"
     value = "--serverstransport.insecureskipverify=true"
   }
   set {
-    name = "additionalArguments[10]"
+    name = "additionalArguments[8]"
     value = "--metrics.prometheus=true"
   }
 
