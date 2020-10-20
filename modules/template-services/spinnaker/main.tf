@@ -53,7 +53,7 @@ resource "kubernetes_ingress" "spinnaker_deck_ingress" {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
+#      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
     }
     labels = local.labels
   }
@@ -82,7 +82,7 @@ resource "kubernetes_ingress" "spinnaker_gate_ingress" {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
       "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
       "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
+#      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
     }
     labels = local.labels
   }
