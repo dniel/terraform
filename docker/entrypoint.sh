@@ -25,6 +25,7 @@ Kubeconf(){
 Apply() {
   echo "Apply Terraform.."
   cd envs/$1 || exit
+  ls -la
   terraform init -input=false
   terraform apply -auto-approve
 }
