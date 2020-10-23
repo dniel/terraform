@@ -1,4 +1,5 @@
 FROM alpine:3.9
+MAINTAINER Daniel Engfeldt <daniel@engfeldt.net>
 
 ENV KUBE_LATEST_VERSION v1.19.0
 ENV KUBE_RUNNING_VERSION v1.19.0
@@ -48,7 +49,15 @@ RUN set -x && \
     cp /usr/bin/envsubst /usr/local/bin/envsubst && \
     apk del build_deps
 
+# add terraform files
 WORKDIR /work
 ADD . /work
+ADD docker/entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/bin/bash"]
+# add terraform user and make script executable
+RUN adduser -D -u 10000 terraform
+RUN chown terraform /entrypoint.sh && chmod u+x /entrypoint.sh
+USER terraform
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["help"]
