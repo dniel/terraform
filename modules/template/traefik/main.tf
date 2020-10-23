@@ -158,29 +158,6 @@ data "kubernetes_service" "traefik" {
   }
 }
 
-#############################################
-#
-#
-resource "kubernetes_manifest" "middleware_strip_api_prefix" {
-  provider = kubernetes-alpha
-  manifest = {
-    "apiVersion" : "traefik.containo.us/v1alpha1"
-    "kind" : "Middleware"
-    "metadata" : {
-      "labels" : local.labels
-      "namespace" : var.namespace.id
-      "name" : "strip-api-prefix"
-    }
-    "spec" : {
-      "stripPrefix" : {
-        "prefixes" : [
-          "/api",
-        ]
-      }
-    }
-  }
-}
-
 # create ingress route with middleware for Traefik Dashboard
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
   depends_on = [helm_release.traefik]

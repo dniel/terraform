@@ -45,59 +45,111 @@ resource "aws_route53_record" "spin_alias_record" {
   }
 }
 
-resource "kubernetes_ingress" "spinnaker_deck_ingress" {
-  metadata {
-    name      = "spin-deck"
-    namespace = data.kubernetes_namespace.spinnaker.id
-    annotations = {
-      "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
-      "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
-      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-#      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
+resource "kubernetes_manifest" "middleware_strip_api_prefix" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion" : "traefik.containo.us/v1alpha1"
+    "kind" : "Middleware"
+    "metadata" : {
+      "labels" : local.labels
+      "namespace" : "spinnaker"
+      "name" : "strip-api-prefix"
     }
-    labels = local.labels
-  }
-
-  spec {
-    rule {
-      host = "spin.${var.domain_name}"
-      http {
-        path {
-          backend {
-            service_name = "spin-deck"
-            service_port = 9000
-          }
-        }
+    "spec" : {
+      "stripPrefix" : {
+        "prefixes" : [
+          "/api"
+        ]
       }
     }
   }
 }
 
+######################################################
+# expose spinnaker api
+#
+######################################################
+resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
+  provider   = kubernetes-alpha
 
-resource "kubernetes_ingress" "spinnaker_gate_ingress" {
-  metadata {
-    name      = "spin-gate"
-    namespace = data.kubernetes_namespace.spinnaker.id
-    annotations = {
-      "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
-      "traefik.ingress.kubernetes.io/router.entrypoints"      = "websecure"
-      "traefik.ingress.kubernetes.io/router.tls.certresolver" = "default"
-#      "traefik.ingress.kubernetes.io/router.middlewares"      = local.forwardauth_middleware_name
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
+      },
+      "namespace" = "spinnaker"
+      "labels"    = local.labels
+      "name"      = "spin-gate"
     }
-    labels = local.labels
+    "spec" = {
+      "entryPoints" = [
+        "websecure",
+      ]
+      "routes" = [
+        {
+          "kind"  = "Rule"
+          "match" = "Host(`spin.${var.domain_name}`) && PathPrefix(`/api`)"
+          "middlewares" = [
+            {
+              "name"      = "strip-api-prefix"
+              "namespace" = "spinnaker"
+            },
+          ]
+          "services" = [
+            {
+              "name" = "spin-gate"
+              "port" = 8084
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
   }
+}
 
-  spec {
-    rule {
-      host = "spin.${var.domain_name}"
-      http {
-        path {
-          backend {
-            service_name = "spin-gate"
-            service_port = 8084
-          }
-          path = "/api"
-        }
+######################################################
+# expose spinnaker ui
+#
+######################################################
+resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
+      },
+      "namespace" = "spinnaker"
+      "labels"    = local.labels
+      "name"      = "spin-deck"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "websecure",
+      ]
+      "routes" = [
+        {
+          "kind"  = "Rule"
+          "match" = "Host(`spin.${var.domain_name}`)"
+          "middlewares" = [
+          ]
+          "services" = [
+            {
+              "name" = "spin-deck"
+              "port" = 9000
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
       }
     }
   }
