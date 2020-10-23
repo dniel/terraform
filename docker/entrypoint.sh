@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+kubeconfig='kubeconfig'
+environment=$1
+
 ################################################################################
 # Help                                                                         #
 ################################################################################
@@ -16,7 +19,7 @@ Help() {
 # Retrieve Kubeconfig from AWS Secretsmanager
 ################################################################################
 Kubeconf(){
-  echo "Get kubeconf.."
+  echo "Get kubeconf from secretsmanager secret '$1'.."
   mkdir ~/.kube;
   aws secretsmanager get-secret-value --secret-id kubeconfig | jq --raw-output '.SecretString' > ~/.kube/config;
   ls -la ~/.kube/config
@@ -26,16 +29,16 @@ Kubeconf(){
 # Apply                                                                         #
 ################################################################################
 Apply() {
-  echo "Apply Terraform $1.."
+  echo "Apply Terraform on environment '$1'.."
   cd envs/$1 || exit
   ls -la
   terraform init -input=false
   terraform apply -auto-approve
 }
 
-if [ "$1" != "" ]; then
-  Kubeconf
-  Apply $1
+if [ "$environment" != "" ]; then
+  Kubeconf $kubeconfig
+  Apply $environment
 else
   Help
 fi
