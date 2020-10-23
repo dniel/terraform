@@ -1,6 +1,7 @@
 FROM alpine:3.9
 MAINTAINER Daniel Engfeldt <daniel@engfeldt.net>
 
+ENV AWS_DEFAULT_REGION=eu-north-1
 ENV KUBE_LATEST_VERSION v1.19.0
 ENV KUBE_RUNNING_VERSION v1.19.0
 ENV HELM_VERSION v2.13.1
@@ -55,9 +56,9 @@ ADD . /work
 ADD docker/entrypoint.sh /entrypoint.sh
 
 # add terraform user and make script executable
-RUN adduser -D -u 10000 terraform
-RUN chown terraform /entrypoint.sh && chmod u+x /entrypoint.sh
-USER terraform
+#RUN adduser -D -u 10000 terraform
+#RUN chown terraform /entrypoint.sh && chmod u+x /entrypoint.sh
+#USER terraform
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["help"]
