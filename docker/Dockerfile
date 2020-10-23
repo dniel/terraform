@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.12
 MAINTAINER Daniel Engfeldt <daniel@engfeldt.net>
 
 ENV KUBE_LATEST_VERSION v1.19.0
