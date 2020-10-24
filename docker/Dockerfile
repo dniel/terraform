@@ -17,6 +17,7 @@ RUN apk --update --no-cache add \
   git \
   openssh-client \
   python3 \
+  cmd:pip3 \
   tar \
   wget
 
