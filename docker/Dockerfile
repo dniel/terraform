@@ -27,7 +27,7 @@ RUN pip3 install requests awscli==${AWSCLI}
 # TOFO, rewrite kubeconfig so that this is no longer necessary
 # aws-iam-authenticator has been included into aws cli by default since version XXX
 RUN curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTH_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTH_VERSION}_linux_amd64 -o /usr/local/bin/aws-iam-authenticator && \
-  && chmod +x /usr/local/bin/aws-iam-authenticator
+    chmod +x /usr/local/bin/aws-iam-authenticator
 
 # Install Terraform
 RUN cd /usr/local/bin && \
