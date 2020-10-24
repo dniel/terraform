@@ -36,6 +36,7 @@ Apply() {
   cd envs/$1 || exit
   ls -la
   terraform init -input=false
+  terraform apply -target module.template.module.traefik -auto-approve
   terraform apply -auto-approve
 }
 
