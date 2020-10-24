@@ -36,10 +36,6 @@ RUN curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_RUN
 RUN wget -q http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
 
-# Install latest kubectl
-RUN curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl_latest \
-  && chmod +x /usr/local/bin/kubectl_latest
-
 # Install envsubst
 ENV BUILD_DEPS="gettext"  \
     RUNTIME_DEPS="libintl"
