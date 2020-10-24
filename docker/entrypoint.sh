@@ -40,6 +40,14 @@ Apply() {
   terraform apply -auto-approve
 }
 
+Plan() {
+  echo "Plan Terraform on environment '$1'.."
+  cd envs/$1 || exit
+  ls -la
+  terraform init -input=false
+  terraform plan -detailed-exitcode
+}
+
 if [ "$environment" != "" ]; then
   Kubeconf $kubeconfig
   Apply $environment
