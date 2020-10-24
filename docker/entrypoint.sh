@@ -11,7 +11,7 @@ environment=$1
 ################################################################################
 Help() {
   # Display Help
-  echo "Run Terraform apply."
+  echo "Run Terraform"
   echo "  help          - display this message."
   echo "  <environment> - apply terraform for env."
   echo "Syntax: entrypoint.sh <environment>"
