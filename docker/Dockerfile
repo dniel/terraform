@@ -7,6 +7,7 @@ ENV KUBE_RUNNING_VERSION v1.19.0
 ENV HELM_VERSION v2.13.1
 ENV AWSCLI 1.18.160
 ENV TERRAFORM_VERSION 0.13.4
+ENV AWS_IAM_AUTH_VERSION=0.5.2
 
 RUN apk --update --no-cache add \
   bash \
@@ -21,6 +22,12 @@ RUN apk --update --no-cache add \
 
 RUN pip3 install --upgrade pip
 RUN pip3 install requests awscli==${AWSCLI}
+
+# isntall aws-iam-authenticator
+# TOFO, rewrite kubeconfig so that this is no longer necessary
+# aws-iam-authenticator has been included into aws cli by default since version XXX
+RUN curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTH_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTH_VERSION}_linux_amd64 -o /usr/local/bin/aws-iam-authenticator && \
+  && chmod +x /usr/local/bin/aws-iam-authenticator
 
 # Install Terraform
 RUN cd /usr/local/bin && \
