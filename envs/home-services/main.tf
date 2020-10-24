@@ -54,6 +54,12 @@ provider "aws" {
   region = local.aws_region
 }
 
+//provider "vsphere" {
+//  user           = "xx"
+//  password       = "xx"
+//  vsphere_server = "vcenter.dniel.in"
+//  allow_unverified_ssl = true
+//}
 
 #########################################
 #

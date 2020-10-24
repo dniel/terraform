@@ -85,3 +85,61 @@ resource "kubernetes_storage_class" "thin-disk" {
   mount_options = []
 }
 
+//
+//data "vsphere_datacenter" "dc" {
+//  name = "home-dc"
+//}
+//
+//data "vsphere_datastore" "datastore" {
+//  name          = "syno2"
+//  datacenter_id = data.vsphere_datacenter.dc.id
+//}
+//
+//data "vsphere_resource_pool" "pool" {
+//  name          = "Homelab/Resources"
+//  datacenter_id = data.vsphere_datacenter.dc.id
+//}
+//
+//data "vsphere_network" "network" {
+//  name          = "DMZ Network"
+//  datacenter_id = data.vsphere_datacenter.dc.id
+//}
+//
+//data "vsphere_content_library" "library" {
+//  name = "newisos"
+//}
+//
+//data "vsphere_content_library_item" "item" {
+//  name       = "photon-hw13_uefi-3.0-a383732"
+//  library_id = data.vsphere_content_library.library.id
+//  type = "ovf"
+//}
+//
+//data "vsphere_host" "host" {
+//  name          = "10.0.50.18"
+//  datacenter_id = data.vsphere_datacenter.dc.id
+//}
+//
+//resource "vsphere_virtual_machine" "vm" {
+//  name             = "terraform-test"
+//  resource_pool_id = data.vsphere_resource_pool.pool.id
+//  datastore_id     = data.vsphere_datastore.datastore.id
+//
+//  firmware = "efi"
+//  num_cpus = 2
+//  memory   = 1024
+//
+//  network_interface {
+//    network_id = data.vsphere_network.network.id
+//  }
+//
+//  disk {
+//    label = "disk0"
+//    size = 20
+//    thin_provisioned = true
+//  }
+//
+//  clone {
+//    template_uuid = data.vsphere_content_library_item.item.id
+//  }
+//}
