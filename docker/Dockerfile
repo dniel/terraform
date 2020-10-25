@@ -8,6 +8,7 @@ ENV HELM_VERSION v2.13.1
 ENV AWSCLI 1.18.160
 ENV TERRAFORM_VERSION 0.13.4
 ENV AWS_IAM_AUTH_VERSION=0.5.2
+ENV SPIN_CLI_VERSION=1.19.0
 
 RUN apk --update --no-cache add \
   bash \
@@ -43,6 +44,10 @@ RUN curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_RUN
 # Install helm
 RUN wget -q http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
+
+# Install Spinnaker CLI
+curl -L https://storage.googleapis.com/spinnaker-artifacts/spin/${SPIN_CLI_VERSION}/linux/amd64/spin -o /usr/local/bin/spin \
+  && chmod +x /usr/local/bin/spin
 
 # Install envsubst
 ENV BUILD_DEPS="gettext"  \
