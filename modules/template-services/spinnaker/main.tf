@@ -154,3 +154,53 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
     }
   }
 }
+
+
+#####################################################################
+# Add SNS and SQS queue for trigging spinnaker pipelines.
+#
+####################################################################
+resource "aws_sns_topic" "spinnaker_deployment_topic" {
+  name = "${var.name_prefix}-spinnaker-deployment"
+}
+
+resource "aws_sqs_queue" "spinnaker_deployment_queue" {
+  name                       = "${var.name_prefix}-spinnaker-deployment"
+  delay_seconds              = 0
+  receive_wait_time_seconds  = 20
+  visibility_timeout_seconds = 60
+  max_message_size           = 262144
+  message_retention_seconds  = 1209600
+  fifo_queue                 = false
+}
+
+resource "aws_sns_topic_subscription" "spinnaker_deployment_subscription" {
+  topic_arn = aws_sns_topic.spinnaker_deployment_topic.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.spinnaker_deployment_queue.arn
+}
+
+resource "aws_sqs_queue_policy" "results_updates_queue_policy" {
+  queue_url = aws_sqs_queue.spinnaker_deployment_queue.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "sqspolicy",
+  "Statement": [
+    {
+      "Sid": "First",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "sqs:SendMessage",
+      "Resource": "${aws_sqs_queue.spinnaker_deployment_queue.arn}",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "${aws_sns_topic.spinnaker_deployment_topic.arn}"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
