@@ -160,10 +160,29 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
 # Add SNS and SQS queue for trigging spinnaker pipelines.
 #
 ####################################################################
+# Bucket to upload trigger to.
+resource "aws_s3_bucket" "bucket" {
+  bucket        = "198596758466-spinnaker-deploy"
+}
+
+# Sns Topic
 resource "aws_sns_topic" "spinnaker_deployment_topic" {
   name = "${var.name_prefix}-spinnaker-deployment"
 }
 
+# Notificastion to SNS when ObjectCreated
+resource "aws_s3_bucket_notification" "s3_notification_to_sns_topic" {
+  bucket = aws_s3_bucket.bucket.id
+
+  topic {
+    topic_arn = aws_sns_topic.spinnaker_deployment_topic.arn
+    events = [
+      "s3:ObjectCreated:*",
+    ]
+  }
+}
+
+# SQS Queue
 resource "aws_sqs_queue" "spinnaker_deployment_queue" {
   name                       = "${var.name_prefix}-spinnaker-deployment"
   delay_seconds              = 0
@@ -174,15 +193,35 @@ resource "aws_sqs_queue" "spinnaker_deployment_queue" {
   fifo_queue                 = false
 }
 
+# Subscribe SQS queue to SNS topic.
 resource "aws_sns_topic_subscription" "spinnaker_deployment_subscription" {
   topic_arn = aws_sns_topic.spinnaker_deployment_topic.arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.spinnaker_deployment_queue.arn
 }
 
-resource "aws_sqs_queue_policy" "results_updates_queue_policy" {
-  queue_url = aws_sqs_queue.spinnaker_deployment_queue.id
+# Allow S3 to Publish event to SNS topic.
+resource "aws_sns_topic_policy" "allow_publish_events_from_s3" {
+  arn = aws_sns_topic.spinnaker_deployment_topic.arn
+  policy = <<POLICY
+  {
+      "Version":"2012-10-17",
+      "Statement":[{
+          "Effect": "Allow",
+          "Principal": {"Service":"s3.amazonaws.com"},
+          "Action": "SNS:Publish",
+          "Resource":  "${aws_sns_topic.spinnaker_deployment_topic.arn}",
+          "Condition":{
+              "ArnLike":{"aws:SourceArn":"${aws_s3_bucket.bucket.arn}"}
+          }
+      }]
+  }
+  POLICY
+}
 
+# Allow SNS topic to SendMessage to SQS queue
+resource "aws_sqs_queue_policy" "allow_sendmessage_from_sns_to_sqs" {
+  queue_url = aws_sqs_queue.spinnaker_deployment_queue.id
   policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -204,3 +243,8 @@ resource "aws_sqs_queue_policy" "results_updates_queue_policy" {
 }
 POLICY
 }
+
+#####################################################################
+# Add SNS and SQS queue for trigging spinnaker pipelines.
+#
+####################################################################
