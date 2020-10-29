@@ -256,7 +256,7 @@ POLICY
 ####################################################################
 # Bucket to upload artifacts to. (not for triggers)
 resource "aws_s3_bucket" "bucket_terraform_artifacts" {
-  bucket        = "198596758466-spinnaker-artifact-upload"
+  bucket        = "198596758466-spinnaker-artifact-uploads"
 }
 
 # Sns Topic
@@ -266,7 +266,7 @@ resource "aws_sns_topic" "spinnaker_pubsub_custom_topic" {
 
 # SQS Queue
 resource "aws_sqs_queue" "spinnaker_pubsub_custom_queue" {
-  name                       = "${var.name_prefix}-spinnaker-pubsub-custom"
+  name                       = "${var.name_prefix}-spinnaker-pubsub-custom-artifact"
   delay_seconds              = 0
   receive_wait_time_seconds  = 20
   visibility_timeout_seconds = 60
@@ -328,5 +328,6 @@ resource "kubernetes_config_map" "spinnaker_echo_custom_templates" {
   }
   data = {
     "pubsub_embedded_artifact.json" = file("${path.module}/templates/pubsub_embedded_artifact.json")
+    "pubsub_custom_object.json" = file("${path.module}/templates/pubsub_custom_object.json")
   }
 }
