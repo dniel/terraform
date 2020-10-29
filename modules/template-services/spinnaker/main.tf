@@ -194,7 +194,7 @@ resource "aws_sqs_queue" "spinnaker_deployment_queue" {
   receive_wait_time_seconds  = 20
   visibility_timeout_seconds = 60
   max_message_size           = 262144
-  message_retention_seconds  = 1209600
+  message_retention_seconds  = 120
   fifo_queue                 = false
 }
 
@@ -230,10 +230,10 @@ resource "aws_sqs_queue_policy" "allow_sendmessage_from_sns_to_sqs" {
   policy = <<POLICY
 {
   "Version": "2012-10-17",
-  "Id": "sqspolicy",
+  "Id": "allow-sns-send",
   "Statement": [
     {
-      "Sid": "First",
+      "Sid": "1",
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
@@ -271,7 +271,7 @@ resource "aws_sqs_queue" "spinnaker_pubsub_custom_queue" {
   receive_wait_time_seconds  = 20
   visibility_timeout_seconds = 60
   max_message_size           = 262144
-  message_retention_seconds  = 1209600
+  message_retention_seconds  = 120
   fifo_queue                 = false
 }
 
@@ -288,10 +288,10 @@ resource "aws_sqs_queue_policy" "allow_sendmessage_from_custom_sns_to_custom_sqs
   policy = <<POLICY
 {
   "Version": "2012-10-17",
-  "Id": "sqspolicy",
+  "Id": "allow-sns-send",
   "Statement": [
     {
-      "Sid": "First",
+      "Sid": "1",
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
