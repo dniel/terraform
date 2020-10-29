@@ -1,0 +1,7 @@
+[
+  {
+    "name": "{{ name }}",
+    "type": "custom/object",
+    "reference": "{{ location }}"
+  }
+]
