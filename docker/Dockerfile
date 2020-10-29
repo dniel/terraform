@@ -46,7 +46,7 @@ RUN wget -q http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-l
   && chmod +x /usr/local/bin/helm
 
 # Install Spinnaker CLI
-curl -L https://storage.googleapis.com/spinnaker-artifacts/spin/${SPIN_CLI_VERSION}/linux/amd64/spin -o /usr/local/bin/spin \
+RUN curl -L https://storage.googleapis.com/spinnaker-artifacts/spin/${SPIN_CLI_VERSION}/linux/amd64/spin -o /usr/local/bin/spin \
   && chmod +x /usr/local/bin/spin
 
 # Install envsubst
