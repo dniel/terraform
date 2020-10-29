@@ -158,7 +158,12 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
 
 #####################################################################
 # Add SNS and SQS queue for trigging spinnaker pipelines.
+# Configure PUBSUB with AWS both S3 artifact and Custom artifact.
 #
+# Like described on pages
+# - https://spinnaker.io/guides/user/pipeline/triggers/pubsub/
+# - https://spinnaker.io/setup/triggers/google/
+# - https://spinnaker.io/setup/triggers/amazon/
 ####################################################################
 # Bucket to upload trigger to.
 resource "aws_s3_bucket" "bucket" {
@@ -302,6 +307,10 @@ resource "aws_sqs_queue_policy" "allow_sendmessage_from_custom_sns_to_custom_sqs
 POLICY
 }
 
+#####################################################################
+# Configure custom templates for ECHO as custom volumes.
+# Like described https://spinnaker.io/reference/halyard/custom/#using-custom-volumes
+####################################################################
 resource "kubernetes_secret" "spinnaker_echo_custom_templates" {
   metadata {
     name = "echo-custom-templates"
@@ -317,7 +326,6 @@ resource "kubernetes_config_map" "spinnaker_echo_custom_templates" {
     name = "echo-custom-templates"
     namespace = "spinnaker"
   }
-
   data = {
     "pubsub_embedded_artifact.json" = file("${path.module}/templates/pubsub_embedded_artifact.json")
   }
