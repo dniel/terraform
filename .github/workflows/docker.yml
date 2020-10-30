@@ -50,7 +50,7 @@ jobs:
           MESSAGE: |
             {
               "location":"testing1",
-              "name": "testing2"
+              "name": "Terraform Home Custom"
             }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
         env:
