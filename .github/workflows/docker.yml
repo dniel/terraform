@@ -44,3 +44,15 @@ jobs:
             dniel/terraform:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Publish SNS Topic
+        id: publish_sns
+        uses: nothingalike/sns-publish-topic@v1.6
+        with:
+          MESSAGE: "{ \"location\":\"test1\", \"name\": \"test2\" }"
+          TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: SID
+        run: echo ${{ steps.publish_sns.outputs.MessageId }}
