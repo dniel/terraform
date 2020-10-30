@@ -7,6 +7,7 @@ Providers used to deploy manifests to Kubernetes.
 - [Community Helm Provider for deploying Helm charts.](https://www.terraform.io/docs/providers/helm/index.html)
 - [Official AWS provider to handle Route53 registration of applications.](https://www.terraform.io/docs/providers/aws/index.html)
 
+# 
 ## Kubernetes deployment
 The terraform scripts does NOT contain the provisioning of Kubernetes itself. I have two clusters 
 running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with 
