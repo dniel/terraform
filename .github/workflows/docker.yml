@@ -47,7 +47,11 @@ jobs:
       - name: Publish SNS Topic
         uses: nothingalike/sns-publish-topic@v1.6
         with:
-          MESSAGE: "test"
+          MESSAGE: |
+            {
+              "location":"testing1",
+              "name": "testing2"
+            }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
