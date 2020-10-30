@@ -45,7 +45,6 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       - name: Publish SNS Topic
-        id: publish_sns
         uses: nothingalike/sns-publish-topic@v1.6
         with:
           MESSAGE: "{ \"location\":\"test1\", \"name\": \"test2\" }"
