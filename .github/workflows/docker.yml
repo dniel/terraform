@@ -53,8 +53,8 @@ jobs:
         shell: bash
         run: |
           pwd
-          ls -la
           zip -r artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip envs modules
+          ls -la
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
