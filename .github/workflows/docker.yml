@@ -92,8 +92,9 @@ jobs:
         with:
           MESSAGE: |
             {
-              "location":"${{ steps.zip_and_upload.outputs.s3_filename }}",
+              "reference":"${{ steps.zip_and_upload.outputs.s3_filename }}",
               "name": "${{ steps.zip_and_upload.outputs.artifact_filename }}",
-              "version": "${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}"
+              "sha_short": "${{ steps.vars.outputs.sha_short }}",
+              "branch": "${{ steps.vars.outputs.branch }}"
             }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
