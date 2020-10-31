@@ -55,6 +55,7 @@ jobs:
           pwd
           zip -r artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip envs modules
           ls -la
+          aws s3 ls
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
