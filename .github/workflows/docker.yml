@@ -53,16 +53,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
 
         shell: bash
         run: |
-          pwd
           zip -r artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip envs modules
-          ls -la
-          aws s3 ls
+          aws s3 cp artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip s3://${{ secrets.AWS_BUCKET }}
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
