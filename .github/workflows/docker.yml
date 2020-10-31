@@ -57,8 +57,12 @@ jobs:
 
         shell: bash
         run: |
-          zip -r artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip envs modules
-          aws s3 cp artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip s3://${{ secrets.AWS_BUCKET }}
+          ARTIFACT_FILENAME=artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
+          S3_FILENAME=s3://${{ secrets.AWS_BUCKET }}/$ARTIFACT_FILENAME
+
+          zip -r $ARTIFACT_FILENAME envs modules
+          aws s3 cp $ARTIFACT_FILENAME $S3_FILENAME
+          echo "::set-output name=s3_reference:S3_FILENAME"
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
@@ -67,15 +71,6 @@ jobs:
 #          token: ${{ secrets.GITHUB_TOKEN}}
 #          description: 'Terraform'
 #          environment: all
-
-      - uses: shallwefootball/s3-upload-action@master
-        name: Upload S3
-        id: S3
-        with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
 
       - name: Publish SNS Topic
         uses: nothingalike/sns-publish-topic@v1.6
