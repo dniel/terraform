@@ -58,7 +58,7 @@ jobs:
 
         shell: bash
         run: |
-          ARTIFACT_FILENAME=artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
+          ARTIFACT_FILENAME=terraform-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
           S3_FILENAME=s3://${{ secrets.AWS_BUCKET }}/$ARTIFACT_FILENAME
 
           zip -r $ARTIFACT_FILENAME envs modules
@@ -81,6 +81,10 @@ jobs:
 
       - name: Publish SNS Topic
         uses: nothingalike/sns-publish-topic@v1.6
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           MESSAGE: |
             {
@@ -88,7 +92,3 @@ jobs:
               "name": "${{ steps.zip_and_upload.outputs.artifact_filename }}"
             }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
