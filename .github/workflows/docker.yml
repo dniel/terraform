@@ -50,6 +50,7 @@ jobs:
 #        run: echo ${{ steps.docker_build.outputs.digest }}
 
       - name: Zip Folder
+        id: zip_and_upload
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
@@ -63,6 +64,9 @@ jobs:
           zip -r $ARTIFACT_FILENAME envs modules
           aws s3 cp $ARTIFACT_FILENAME $S3_FILENAME
           echo "::set-output name=s3_reference:S3_FILENAME"
+
+      - name: Uploaded file
+        run: echo ${{ steps.zip_and_upload.outputs.s3_reference }}
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
