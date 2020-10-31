@@ -1,13 +1,15 @@
 ######################################################################
-# Script created from doc
-# https://github.com/marketplace/actions/build-and-push-docker-images
+# Workflow that zip, uploads artifact and notify SNS to start pipeline.
 #
+# See documentation for workflow commands:
+# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions
 ######################################################################
 name: 'Publish Docker Image'
 on:
   push:
     branches:
       - master
+
 
 jobs:
   docker:
@@ -22,6 +24,7 @@ jobs:
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Check outputs
+        if: ${{ $ACTIONS_STEP_DEBUG=="true" }}
         run: |
           echo ${{ steps.vars.outputs.sha_short }}
           echo ${{ steps.vars.outputs.branch }}
@@ -66,6 +69,7 @@ jobs:
           echo "::set-output name=artifact_filename::$ARTIFACT_FILENAME"
 
       - name: Uploaded file
+        if: ${{ $ACTIONS_STEP_DEBUG=="true" }}
         run: |
           echo ${{ steps.zip_and_upload.outputs.s3_filename }}
           echo ${{ steps.zip_and_upload.outputs.artifact_filename }}
