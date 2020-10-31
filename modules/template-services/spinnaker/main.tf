@@ -166,6 +166,8 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
 # - https://spinnaker.io/setup/triggers/amazon/
 ####################################################################
 # Bucket to upload trigger to.
+# TODO: need to define a s3 bucket policy
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "bucket" {
   bucket        = "198596758466-spinnaker-deploy"
 }
@@ -255,6 +257,8 @@ POLICY
 # and not S3 CreatedEvent trigger like the one above.
 ####################################################################
 # Bucket to upload artifacts to. (not for triggers)
+# TODO: need to define a s3 bucket policy
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "bucket_terraform_artifacts" {
   bucket        = "198596758466-spinnaker-artifact-uploads"
 }
