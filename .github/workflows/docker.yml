@@ -62,8 +62,8 @@ jobs:
 
           zip -r $ARTIFACT_FILENAME envs modules
           aws s3 cp $ARTIFACT_FILENAME $S3_FILENAME
-          echo "##[set-output name=s3_filename;]$(echo $S3_FILENAME)"
-          echo "##[set-output name=artifact_filename;]$(echo $ARTIFACT_FILENAME)"
+          echo "::set-output name=s3_filename::$S3_FILENAME"
+          echo "::set-output name=artifact_filename::$ARTIFACT_FILENAME"
 
       - name: Uploaded file
         run: |
