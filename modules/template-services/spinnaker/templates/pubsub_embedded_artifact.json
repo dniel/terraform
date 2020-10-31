@@ -1,7 +1,10 @@
 [
   {
-    "name": "{{ name }}",
+    "customKind": "true",
     "type": "custom/object",
-    "reference": "{{ location }}"
+    "reference": "{{ reference }}",
+    "name": "{{ name }}",
+    "sha_short": "{{ commit }}",
+    "branch": "{{ branch }}"
   }
 ]
