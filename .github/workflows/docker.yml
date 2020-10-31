@@ -44,13 +44,42 @@ jobs:
 #            dniel/terraform:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}
 #      - name: Image digest
 #        run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Zip Folder
+        run: "zip -r artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip envs modules"
+
+#      - uses: chrnorm/deployment-action@releases/v1
+#        name: Create GitHub deployment
+#        id: test
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN}}
+#          description: 'Terraform'
+#          environment: all
+
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload S3
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: "artifact-${{ steps.vars.outputs.sha_short }}.zip"
+
+#      - name: Update deployment status (success)
+#        if: success()
+#        uses: chrnorm/deployment-status@releases/v1
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          target_url: https://asomethingsomething.com
+#          state: 'success'
+#          deployment_id: ${{ steps.test.outputs.deployment_id }}
+
       - name: Publish SNS Topic
         uses: nothingalike/sns-publish-topic@v1.6
         with:
           MESSAGE: |
             {
-              "location":"testing1",
-              "name": "something else"
+              "location":"${{steps.S3.outputs.object_key}}",
+              "name": "artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip"
             }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
         env:
