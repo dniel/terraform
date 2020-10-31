@@ -3,6 +3,9 @@
 #
 # See documentation for workflow commands:
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions
+#
+# Should also create deployment
+# https://developer.github.com/v3/repos/deployments/
 ######################################################################
 name: 'Publish Docker Image'
 on:
