@@ -27,7 +27,6 @@ jobs:
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Check outputs
-        if: ${{ secrets.ACTIONS_STEP_DEBUG=="true" }}
         run: |
           echo ${{ steps.vars.outputs.sha_short }}
           echo ${{ steps.vars.outputs.branch }}
@@ -72,7 +71,6 @@ jobs:
           echo "::set-output name=artifact_filename::$ARTIFACT_FILENAME"
 
       - name: Uploaded file
-        if: ${{ secrets.ACTIONS_STEP_DEBUG=="true" }}
         run: |
           echo ${{ steps.zip_and_upload.outputs.s3_filename }}
           echo ${{ steps.zip_and_upload.outputs.artifact_filename }}
