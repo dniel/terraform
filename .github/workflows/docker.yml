@@ -63,10 +63,13 @@ jobs:
 
           zip -r $ARTIFACT_FILENAME envs modules
           aws s3 cp $ARTIFACT_FILENAME $S3_FILENAME
-          echo "##[set-output name=s3_reference;]$(echo $S3_FILENAME)"
+          echo "##[set-output name=s3_filename;]$(echo $S3_FILENAME)"
+          echo "##[set-output name=artifact_filename;]$(echo $ARTIFACT_FILENAME)"
 
       - name: Uploaded file
-        run: echo ${{ steps.zip_and_upload.outputs.s3_reference }}
+        run: |
+          echo ${{ steps.zip_and_upload.outputs.s3_filename }}
+          echo ${{ steps.zip_and_upload.outputs.artifact_filename }}
 
 #      - uses: chrnorm/deployment-action@releases/v1
 #        name: Create GitHub deployment
@@ -81,8 +84,8 @@ jobs:
         with:
           MESSAGE: |
             {
-              "location":"${{steps.S3.outputs.object_key}}",
-              "name": "artifact-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip"
+              "location":"${{ steps.zip_and_upload.outputs.s3_filename }}",
+              "name": "${{ steps.zip_and_upload.outputs.artifact_filename }}"
             }
           TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
         env:
