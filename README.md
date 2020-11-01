@@ -1,3 +1,5 @@
+![Publish Docker Image](https://github.com/dniel/terraform/workflows/Publish%20Docker%20Image/badge.svg)
+
 # Terraform
 This repo contains my Terraform scripts that deployes all Kubernetes manifests to my k8s clusters.
 Providers used to deploy manifests to Kubernetes.
