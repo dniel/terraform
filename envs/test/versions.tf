@@ -11,6 +11,7 @@ terraform {
     }
     kubernetes-alpha = {
       source = "hashicorp/kubernetes-alpha"
+      version = "0.2.0"
     }
     auth0 = {
       source = "terraform-providers/auth0"
@@ -20,7 +21,7 @@ terraform {
 
   backend "s3" {
     bucket     = "198596758466-terraform-state"
-    key        = "home/terraform.tfstate"
+    key        = "test/terraform.tfstate"
     region     = "eu-north-1"
     encrypt    = "true"
     kms_key_id = "arn:aws:kms:eu-north-1:198596758466:alias/terraform-state"

@@ -15,7 +15,7 @@ locals {
   kube_context                       = "juju-context"
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
-  name_prefix                        = "home"
+  name_prefix                        = "test"
   base_domain_name                   = "dniel.in"
   load_balancer_public_ip            = "10.0.50.165"
   load_balancer_alias_hosted_zone_id = ""
@@ -23,7 +23,7 @@ locals {
   primary_hosted_zone_id             = "Z25Z86AZE76SY4"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]
-  traefik_websecure_port             = 31443
+  traefik_websecure_port             = 30443
   traefik_service_type               = "NodePort"
   traefik_default_tls_secretName     = "traefik-default-tls"
   traefik_helm_chart_version         = "9.3.0"

@@ -9,25 +9,25 @@ data "aws_secretsmanager_secret_version" "auth0" {
 }
 
 locals {
-  auth0_domain                       = "dniel.eu.auth0.com"
   auth0_client_id                    = jsondecode(data.aws_secretsmanager_secret_version.auth0.secret_string)["client_id"]
   auth0_client_secret                = jsondecode(data.aws_secretsmanager_secret_version.auth0.secret_string)["client_secret"]
-  kube_context                       = "eks-dniel-prod"
+  auth0_domain                       = "dniel.eu.auth0.com"
+  kube_context                       = "juju-context"
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
-  name_prefix                        = "cloud"
-  base_domain_name                   = "dniel.se"
-  load_balancer_public_ip            = ""
-  load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
+  name_prefix                        = "dev"
+  base_domain_name                   = "dniel.in"
+  load_balancer_public_ip            = "10.0.50.165"
+  load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = ""
-  primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
-  traefik_pilot_token                = ""
-  traefik_websecure_port             = 31443
-  traefik_service_type               = "LoadBalancer"
-  traefik_default_tls_secretName     = "traefik-default-tls"
-  traefik_helm_chart_version         = "9.3.0"
+  primary_hosted_zone_id             = "Z25Z86AZE76SY4"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]
+  traefik_websecure_port             = 31443
+  traefik_service_type               = "NodePort"
+  traefik_default_tls_secretName     = "traefik-default-tls"
+  traefik_helm_chart_version         = "9.3.0"
+  traefik_pilot_token                = ""
   forwardauth_helm_chart_version     = "2.0.8"
 }
 
@@ -40,6 +40,7 @@ provider "auth0" {
   client_id     = local.auth0_client_id
   client_secret = local.auth0_client_secret
 }
+
 provider "kubernetes" {
   config_context = local.kube_context
 }
@@ -56,6 +57,10 @@ provider "aws" {
   region = local.aws_region
 }
 
+#########################################
+#
+#
+#########################################
 module "template" {
   source           = "../../modules/template"
   base_domain_name = local.base_domain_name
@@ -79,3 +84,4 @@ module "template" {
   forwardauth_helm_chart_version = local.forwardauth_helm_chart_version
   traefik_helm_chart_version     = local.traefik_helm_chart_version
 }
+
