@@ -1,21 +1,21 @@
 ######################################################################
 # Workflow that zip, uploads artifact and notify SNS to start pipeline.
 #
-# See documentation for workflow commands:
-# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions
-#
-# Should also create deployment
-# https://developer.github.com/v3/repos/deployments/
 ######################################################################
-name: 'Upload Terraform And Trigger'
+name: 'Whoami'
 on:
   push:
     branches:
       - master
+    paths:
+      - ./apps/whoami/**
 
+defaults:
+  run:
+    working-directory: ./apps/whoami
 
 jobs:
-  zip_upload_and_trigger:
+  docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,6 +31,29 @@ jobs:
           echo ${{ steps.vars.outputs.sha_short }}
           echo ${{ steps.vars.outputs.branch }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          file: docker/Dockerfile
+          push: true
+          tags: |
+            dniel/whoami:latest
+            dniel/whoami:${{ steps.vars.outputs.branch }}
+            dniel/whoami:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
       - name: Zip Folder
         id: zip_and_upload
         env:
@@ -40,10 +63,10 @@ jobs:
 
         shell: bash
         run: |
-          ARTIFACT_FILENAME=terraform-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
+          ARTIFACT_FILENAME=whoami-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
           S3_FILENAME=s3://${{ secrets.AWS_BUCKET }}/$ARTIFACT_FILENAME
 
-          zip -r $ARTIFACT_FILENAME envs modules
+          zip -r $ARTIFACT_FILENAME terraform
           aws s3 cp $ARTIFACT_FILENAME $S3_FILENAME
           echo "::set-output name=s3_filename::$S3_FILENAME"
           echo "::set-output name=artifact_filename::$ARTIFACT_FILENAME"
