@@ -5,17 +5,23 @@ locals {
   })
 }
 
-resource "helm_release" "helm_release_unifi" {
+module "unifi" {
+  source            = "../helm-app"
+  name_prefix       = var.name_prefix
+  domain_name       = var.domain_name
+
   name       = "unifi"
   repository = "https://k8s-at-home.com/charts"
   chart      = "unifi"
-  version    = var.unifi_helm_release_version
-  namespace  = var.name_prefix
+  chart_version    = "1.0.0"
 
-  set{
-    name = "image.tag"
-    value = var.unifi_image_tag
-  }
+  # Custom values for Chart.
+  values = [
+    {
+      name = "image.tag"
+      value = var.unifi_image_tag
+    }
+  ]
 }
 
 resource "helm_release" "helm_release_unifi_poller" {
@@ -39,19 +45,6 @@ resource "helm_release" "helm_release_unifi_poller" {
   set {
     name  = "prometheus.serviceMonitor.additionalLabels.monitor"
     value = "prometheus"
-  }
-}
-
-# Create Alias A records for Unifi
-resource "aws_route53_record" "unifi_alias_record" {
-  zone_id = var.hosted_zone_id
-  name    = "unifi"
-  type    = "A"
-
-  alias {
-    name                   = "lb.${var.domain_name}"
-    zone_id                = var.hosted_zone_id
-    evaluate_target_health = false
   }
 }
 

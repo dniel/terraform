@@ -46,21 +46,6 @@ module "spinnaker" {
   hosted_zone_id = var.hosted_zone_id
 }
 
-##################################
-#
-#
-##################################
-module "unifi" {
-  source      = "./unifi"
-  domain_name = local.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-
-  unifi_helm_release_version = var.unifi_helm_release_version
-  unifi_image_tag = var.unifi_image_tag
-
-  hosted_zone_id = var.hosted_zone_id
-}
 
 ##################################
 #
