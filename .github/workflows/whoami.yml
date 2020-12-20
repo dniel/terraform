@@ -5,8 +5,6 @@
 name: 'Whoami'
 on:
   push:
-    branches:
-      - master
     paths:
       - 'apps/whoami/**'
 
