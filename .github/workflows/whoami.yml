@@ -5,7 +5,10 @@
 name: 'Whoami'
 on:
   push:
+    branches:
+      - master
     paths:
+      - '.github/workflows/whoami.yml'
       - 'apps/whoami/**'
 
 defaults:
