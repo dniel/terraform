@@ -44,7 +44,7 @@ module "unifi" {
   source      = "../modules/template"
   name_prefix = local.name_prefix
   domain_name = "${local.name_prefix}.${local.domain_name}"
-  unifi_helm_release_version = "1.0.0"
-  unifi_image_tag            = "stable-5"
+  unifi_helm_release_version = "1.3.1"
+  unifi_image_tag            = "stable-6"
 }
 
