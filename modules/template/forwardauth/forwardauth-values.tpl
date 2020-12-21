@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: index.docker.io/dniel/forwardauth
-  tag: 2.0-rc1
+  tag: 2.0-rc1.spa.support
   pullPolicy: Always
 
 # set logLevel to DEBUG, TEST, or PRODUCTION to control the verbosity of logs
@@ -22,7 +22,9 @@ authorizeUrl: https://${tenant}/authorize
 # set the default application client-id and client-secret
 # as environmentvariables to container and inject values from
 # secrets instead of from application.yaml
-default: {}
+default:
+  login-uri: spademo.${domain_name}
+  logout-uri: spademo.${domain_name}/logout
 
 # Access ForwardAuth in two different configuration modes.
 mode:
