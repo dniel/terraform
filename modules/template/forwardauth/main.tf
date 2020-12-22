@@ -11,7 +11,7 @@ resource "auth0_client" "traefik_client" {
   app_type    = "regular_web"
   callbacks = [
     "https://auth.${var.domain_name}/signin",
-    "https://*.${var.domain_name}/oauth2/signin"
+    "https://*.${var.domain_name}/auth/signin"
   ]
   allowed_logout_urls = [
     "https://spademo.${var.domain_name}/logout",
