@@ -22,14 +22,13 @@ authorizeUrl: https://${tenant}/authorize
 # set the default application client-id and client-secret
 # as environmentvariables to container and inject values from
 # secrets instead of from application.yaml
-default:
-  login-uri: spademo.${domain_name}
-  logout-uri: spademo.${domain_name}/logout
+default: {
+}
 
 # Access ForwardAuth in two different configuration modes.
 mode:
   host: true
-  path: false
+  path: true
 
 service:
   type: ClusterIP
@@ -39,7 +38,7 @@ service:
 ingressroute:
   enabled: true
   hostname: auth.${domain_name}
-  path: /oauth2
+  path: /auth
   certResolver: default
 
 # Standard kubernetes Ingress configuration
@@ -59,6 +58,8 @@ applicationYaml:
     name: default
     scope: "profile openid email"
     redirect-uri: https://auth.${domain_name}/signin
+    login-uri: https://spademo.${domain_name}
+    logout-uri: https://spademo.${domain_name}/logout
     claims:
     - sub
     - name

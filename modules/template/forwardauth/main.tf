@@ -14,8 +14,7 @@ resource "auth0_client" "traefik_client" {
     "https://*.${var.domain_name}/oauth2/signin"
   ]
   allowed_logout_urls = [
-    "https://auth.${var.domain_name}/logout",
-    "https://*.${var.domain_name}/oauth2/logout"
+    "https://spademo.${var.domain_name}/logout",
   ]
   oidc_conformant = true
 
