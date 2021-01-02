@@ -7,10 +7,11 @@ module "whoami" {
   name_prefix       = var.name_prefix
   domain_name       = var.domain_name
 
+  repository = "https://dniel.github.com/charts"
+
   name       = "whoami"
   chart      = "whoami"
-  repository = "https://dniel.github.com/charts"
-  #version
+  chart_version = "0.6.0"
 
   # Custom values for Chart.
   values = [

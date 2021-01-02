@@ -13,6 +13,9 @@ variable "repository" {
 variable "chart" {
 }
 
+variable "chart_version" {
+}
+
 variable "values" {
   type        = list(object({ name = string, value = string }))
   default     = []

@@ -30,8 +30,8 @@ resource "helm_release" "release" {
   name       = var.name
   repository = var.repository
   chart      = var.chart
+  version    = var.chart_version
   namespace  = var.name_prefix
-  #  version    = var.whoami_helm_release_version
 
 
   dynamic "set" {
