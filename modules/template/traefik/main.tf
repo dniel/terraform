@@ -52,10 +52,6 @@ resource "helm_release" "traefik" {
     value = "true"
   }
   set {
-    name = "log.level"
-    value = "DEBUG"
-  }
-  set {
     name  = "service.type"
     value = var.traefik_service_type
   }
@@ -110,6 +106,10 @@ resource "helm_release" "traefik" {
   set {
     name = "additionalArguments[8]"
     value = "--metrics.prometheus=true"
+  }
+  set {
+    name = "additionalArguments[9]"
+    value = "--log.level=DEBUG"
   }
 
   # set environment variables to generate certificates for using Lets Encrypt.

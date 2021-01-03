@@ -23,7 +23,7 @@ locals {
   traefik_websecure_port             = 32443
   traefik_service_type               = "NodePort"
   traefik_default_tls_secretName     = "traefik-default-tls"
-  traefik_helm_chart_version         = "9.3.0"
+  traefik_helm_chart_version         = "9.12.3"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]
   traefik_pilot_token                = "685b7f76-2f1e-4f30-8b00-8e54e58ce6a8"
