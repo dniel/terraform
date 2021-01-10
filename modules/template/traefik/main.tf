@@ -147,16 +147,6 @@ resource "helm_release" "traefik" {
   }
 }
 
-#############################################
-#
-#
-data "kubernetes_service" "traefik" {
-  depends_on = [helm_release.traefik]
-  metadata {
-    name = "traefik"
-    namespace = var.namespace.id
-  }
-}
 
 # create ingress route with middleware for Traefik Dashboard
 resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
@@ -200,5 +190,16 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
         "certResolver" = "default"
       }
     }
+  }
+}
+
+#############################################
+#
+#
+data "kubernetes_service" "traefik" {
+  depends_on = [helm_release.traefik]
+  metadata {
+    name = "traefik"
+    namespace = var.namespace.id
   }
 }

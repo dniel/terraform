@@ -79,7 +79,7 @@ resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
       "annotations" = {
         "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
       },
-      "namespace" = "spinnaker"
+      "namespace" = "services"
       "labels"    = local.labels
       "name"      = "spin-gate"
     }
@@ -101,6 +101,7 @@ resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
             {
               "name" = "spin-gate"
               "port" = 8084
+              "namespace" = "spinnaker"
             },
           ]
         },
@@ -126,7 +127,7 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
       "annotations" = {
         "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
       },
-      "namespace" = "spinnaker"
+      "namespace" = "services"
       "labels"    = local.labels
       "name"      = "spin-deck"
     }
@@ -144,6 +145,7 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
             {
               "name" = "spin-deck"
               "port" = 9000
+              "namespace" = "spinnaker"
             },
           ]
         },
