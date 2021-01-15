@@ -3,7 +3,7 @@
 #
 #############################################
 module "whoami" {
-  source            = "../../../../modules/helm-app"
+  source            = "github.com/dniel/terraform?ref=master/modules/helm-app"
   name_prefix       = var.name_prefix
   domain_name       = var.domain_name
 
