@@ -41,7 +41,7 @@ provider "aws" {
 #
 #########################################
 module "whoami" {
-  source      = "../modules/template"
+  source      = "../template"
   name_prefix = local.name_prefix
 
   # whoami.prod.dniel.se

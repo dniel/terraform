@@ -41,7 +41,7 @@ provider "aws" {
 #
 #########################################
 module "unifi" {
-  source      = "../modules/template"
+  source      = "../template"
   name_prefix = local.name_prefix
   domain_name = "${local.name_prefix}.${local.domain_name}"
   unifi_helm_release_version = "1.3.1"

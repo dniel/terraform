@@ -3,7 +3,7 @@
 #
 #############################################
 module "whoami" {
-  source            = "../helm-app"
+  source            = "../../../../modules/helm-app"
   name_prefix       = var.name_prefix
   domain_name       = var.domain_name
 
