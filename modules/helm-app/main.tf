@@ -56,3 +56,7 @@ resource "helm_release" "release" {
 # TODO Add Alert rule
 
 # TODO Add Monitor rule
+
+# TODO Add uptimerobot
+
+# TODO Add Auth0 config
