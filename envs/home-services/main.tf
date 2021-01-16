@@ -27,7 +27,7 @@ locals {
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]
   traefik_pilot_token                = "685b7f76-2f1e-4f30-8b00-8e54e58ce6a8"
-  forwardauth_helm_chart_version     = "2.0.10"
+  forwardauth_helm_chart_version     = "2.0.11"
 }
 #########################################
 #
