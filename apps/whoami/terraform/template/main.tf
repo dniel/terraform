@@ -11,7 +11,7 @@ module "whoami" {
 
   name       = "whoami"
   chart      = "whoami"
-  chart_version = "0.8.0"
+  chart_version = "0.8.1"
 
   # Custom values for Chart.
   values = [
