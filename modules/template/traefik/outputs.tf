@@ -4,6 +4,6 @@ output "dns_name" {
 }
 
 output "traefik_load_balancer_ingress_hostname" {
-  value       = data.kubernetes_service.traefik.load_balancer_ingress
+  value       = data.kubernetes_service.traefik.status[0].load_balancer[0].ingress[0].hostname
   description = "Hostname which is set for load-balancer ingress points that are DNS based."
 }
