@@ -1,23 +1,16 @@
 ######################################################################
 # Workflow that zip, uploads artifact and notify SNS to start pipeline.
 #
-# See documentation for workflow commands:
-# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions
-#
-# Should also create deployment
-# https://developer.github.com/v3/repos/deployments/
 ######################################################################
-name: 'Terraform'
+name: 'Publish Docker Image'
 on:
   push:
     branches:
+      - main
       - master
-    paths:
-      - ./envs/**/*
-      - ./modules/**/*
 
 jobs:
-  zip_upload_and_trigger:
+  docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,10 +19,12 @@ jobs:
         id: vars
         shell: bash
         run: |
+          echo "::set-output name=application::terraform"
           echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Check outputs
         run: |
+          echo ${{ steps.vars.outputs.application }}
           echo ${{ steps.vars.outputs.sha_short }}
           echo ${{ steps.vars.outputs.branch }}
 
@@ -42,7 +37,7 @@ jobs:
 
         shell: bash
         run: |
-          ARTIFACT_FILENAME=terraform-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
+          ARTIFACT_FILENAME=${{ steps.vars.outputs.application }}-${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}.zip
           S3_FILENAME=s3://${{ secrets.AWS_BUCKET }}/$ARTIFACT_FILENAME
 
           zip -r $ARTIFACT_FILENAME envs modules
@@ -65,7 +60,7 @@ jobs:
           MESSAGE: |
             {
               "reference":"${{ steps.zip_and_upload.outputs.s3_filename }}",
-              "name": "${{ steps.zip_and_upload.outputs.artifact_filename }}",
+              "name": "${{ steps.vars.outputs.application }}",
               "sha_short": "${{ steps.vars.outputs.sha_short }}",
               "branch": "${{ steps.vars.outputs.branch }}"
             }
