@@ -61,7 +61,7 @@ module "dns" {
   source      = "./dns"
   domain_name = local.domain_name
   name_prefix = var.name_prefix
-  labels = local.labels
+  labels      = local.labels
   namespace   = data.kubernetes_namespace.env_namespace
 
   dns_names = [
