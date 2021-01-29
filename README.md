@@ -22,9 +22,15 @@ and should be deployed using `kubectl create -f init/` before running `terraform
 ## Environments
 I run several deployments at the same time, both on-prem in parallel and in Amazon EKS.
 Under the directory `envs` there is one directory for each deployment.
-- cloud is deployed to Amazon.
+
+The different development environments for software development.
+- prod is deployed to Amazon.
+- stage is deployed to Amazon.
+- test is deployed to on-prem.
+- dev is deployed to on-prem.
+
+In addition
 - cloud-services is a shared services stack in the cloud.
-- home is my primary deployment on-prem.
 - home-services is a shared services stack at home.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
