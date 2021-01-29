@@ -40,9 +40,9 @@ provider "auth0" {
   client_id     = local.auth0_client_id
   client_secret = local.auth0_client_secret
 }
-
 provider "kubernetes" {
   config_context = local.kube_context
+  config_path    = local.kube_config
 }
 provider "kubernetes-alpha" {
   config_context = local.kube_context
@@ -51,6 +51,7 @@ provider "kubernetes-alpha" {
 provider "helm" {
   kubernetes {
     config_context = local.kube_context
+    config_path    = local.kube_config
   }
 }
 provider "aws" {
