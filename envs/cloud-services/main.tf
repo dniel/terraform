@@ -28,7 +28,7 @@ locals {
   traefik_service_type               = "LoadBalancer"
   traefik_default_tls_secretName     = "traefik-default-tls"
   traefik_helm_chart_version         = "9.12.3"
-  forwardauth_helm_chart_version     = "2.0.10"
+  forwardauth_helm_chart_version     = "2.0.13"
 }
 
 provider "auth0" {
