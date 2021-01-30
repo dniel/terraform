@@ -20,32 +20,32 @@ resource "helm_release" "helm_release_spinnaker_operator" {
 # Install kube-prometheus-stack.
 #
 ######################################################
-//'resource "helm_release" "kube_prometheus_stack" {
+//resource "helm_release" "kube_prometheus_stack" {
 //  name       = "prometheus"
 //  repository = "https://prometheus-community.github.io/helm-charts"
 //  chart      = "kube-prometheus-stack"
 //
-//  #  version   = var.traefik_helm_release_version
-//  namespace = data.kubernetes_namespace.operators.id
+//  namespace = kubernetes_namespace.operators.id
 //}
-//
-//######################################################
-//# Install Elastic Cloud For Kubernetes Operator
-//#
-//######################################################
-//resource "helm_release" "elastic_operator" {
-//  name       = "elastic-operator"
-//  repository = "https://helm.elastic.co"
-//  chart      = "eck-operator"
-//
-//  namespace = data.kubernetes_namespace.operators.id
-//
-//  set {
-//    name = "webhook.enabled"
-//    value = "false"
-//  }
-//  set {
-//    name = "managedNamespaces"
-//    value = "{services}"
-//  }
-//}'
+
+
+######################################################
+# Install Elastic Cloud For Kubernetes Operator
+#
+######################################################
+resource "helm_release" "elastic_operator" {
+  name       = "elastic-operator"
+  repository = "https://helm.elastic.co"
+  chart      = "eck-operator"
+
+  namespace = kubernetes_namespace.operators.id
+
+  set {
+    name = "webhook.enabled"
+    value = "false"
+  }
+  set {
+    name = "managedNamespaces"
+    value = "{services}"
+  }
+}
