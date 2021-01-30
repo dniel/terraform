@@ -34,16 +34,16 @@ module "logging" {
 #
 #
 ##################################
-//module "monitoring" {
-//  depends_on = [module.operators]
-//  count = var.feature_monitoring ? 1 : 0
-//  source      = "./monitoring"
-//  domain_name = local.domain_name
-//  name_prefix = var.name_prefix
-//  labels      = local.labels
-//
-//  hosted_zone_id = var.hosted_zone_id
-//}
+module "monitoring" {
+  depends_on = [module.operators]
+  count = var.feature_monitoring ? 1 : 0
+  source      = "./monitoring"
+  domain_name = local.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+
+  hosted_zone_id = var.hosted_zone_id
+}
 
 ##################################
 #

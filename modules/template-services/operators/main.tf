@@ -69,28 +69,3 @@ resource "kubernetes_manifest" "elastic_operator" {
     }
   }
 }
-
-######################################################
-# Install kube-prometheus-stack.
-#
-######################################################
-resource "kubernetes_manifest" "kube_prometheus_stack" {
-  depends_on = [helm_release.helm_operator]
-  provider   = kubernetes-alpha
-
-  manifest = {
-    "apiVersion" = "helm.fluxcd.io/v1"
-    "kind"       = "HelmRelease"
-    "metadata" = {
-      "namespace" = kubernetes_namespace.operators.id
-      "name"      = "kube-prometheus-stack"
-    }
-    "spec" = {
-      "chart" = {
-        "repository" = "https://prometheus-community.github.io/helm-charts"
-        "name" = "kube-prometheus-stack"
-        "version" = "13.4.1"
-      }
-    }
-  }
-}

@@ -9,6 +9,34 @@ locals {
 }
 
 ######################################################
+# Install kube-prometheus-stack containing
+# - grafana
+# - prometheus
+# - alertmanager
+# - ++
+#
+######################################################
+resource "kubernetes_manifest" "kube_prometheus_stack" {
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "helm.fluxcd.io/v1"
+    "kind"       = "HelmRelease"
+    "metadata" = {
+      "namespace" = var.name_prefix
+      "name"      = "kube-prometheus-stack"
+    }
+    "spec" = {
+      "chart" = {
+        "repository" = "https://prometheus-community.github.io/helm-charts"
+        "name" = "kube-prometheus-stack"
+        "version" = "13.4.1"
+      }
+    }
+  }
+}
+
+######################################################
 # Create Alias A records for grafana
 #
 ######################################################
