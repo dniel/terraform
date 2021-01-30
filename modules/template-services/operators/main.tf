@@ -4,48 +4,93 @@ resource "kubernetes_namespace" "operators" {
   }
 }
 
+######################################################
+# Install Helm operator from Flux
+#
+######################################################
+resource "helm_release" "helm_operator" {
+  name       = "helm-operator"
+  repository = "https://charts.fluxcd.io"
+  chart      = "helm-operator"
+
+  namespace = kubernetes_namespace.operators.id
+
+  set {
+    name = "helm.versions"
+    value = "v3"
+  }
+}
+
 #####################################################################
 # Deploy Aromy Spinnaker Operator in Spinnaker namespace.
 ####################################################################
-resource "helm_release" "helm_release_spinnaker_operator" {
-  name       = "spinnaker"
-  repository = "https://armory.jfrog.io/artifactory/charts/"
-  chart      = "armory-spinnaker-operator"
+resource "kubernetes_manifest" "spinnaker_operator" {
+  depends_on = [helm_release.helm_operator]
+  provider   = kubernetes-alpha
 
-  namespace = kubernetes_namespace.operators.id
+  manifest = {
+    "apiVersion" = "helm.fluxcd.io/v1"
+    "kind"       = "HelmRelease"
+    "metadata" = {
+      "namespace" = kubernetes_namespace.operators.id
+      "name"      = "spinnaker"
+    }
+    "spec" = {
+      "chart" = {
+        "repository" = "https://armory.jfrog.io/artifactory/charts/"
+        "name" = "armory-spinnaker-operator"
+        "version" = "1.2.3"
+      }
+    }
+  }
 }
-
-
-######################################################
-# Install kube-prometheus-stack.
-#
-######################################################
-//resource "helm_release" "kube_prometheus_stack" {
-//  name       = "prometheus"
-//  repository = "https://prometheus-community.github.io/helm-charts"
-//  chart      = "kube-prometheus-stack"
-//
-//  namespace = kubernetes_namespace.operators.id
-//}
-
 
 ######################################################
 # Install Elastic Cloud For Kubernetes Operator
 #
 ######################################################
-resource "helm_release" "elastic_operator" {
-  name       = "elastic-operator"
-  repository = "https://helm.elastic.co"
-  chart      = "eck-operator"
+resource "kubernetes_manifest" "elastic_operator" {
+  depends_on = [helm_release.helm_operator]
+  provider   = kubernetes-alpha
 
-  namespace = kubernetes_namespace.operators.id
-
-  set {
-    name = "webhook.enabled"
-    value = "false"
+  manifest = {
+    "apiVersion" = "helm.fluxcd.io/v1"
+    "kind"       = "HelmRelease"
+    "metadata" = {
+      "namespace" = kubernetes_namespace.operators.id
+      "name"      = "eck-operator"
+    }
+    "spec" = {
+      "chart" = {
+        "repository" = "https://helm.elastic.co"
+        "name" = "eck-operator"
+        "version" = "1.3.1"
+      }
+    }
   }
-  set {
-    name = "managedNamespaces"
-    value = "{services}"
+}
+
+######################################################
+# Install kube-prometheus-stack.
+#
+######################################################
+resource "kubernetes_manifest" "kube_prometheus_stack" {
+  depends_on = [helm_release.helm_operator]
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "helm.fluxcd.io/v1"
+    "kind"       = "HelmRelease"
+    "metadata" = {
+      "namespace" = kubernetes_namespace.operators.id
+      "name"      = "kube-prometheus-stack"
+    }
+    "spec" = {
+      "chart" = {
+        "repository" = "https://prometheus-community.github.io/helm-charts"
+        "name" = "kube-prometheus-stack"
+        "version" = "13.4.1"
+      }
+    }
   }
 }
