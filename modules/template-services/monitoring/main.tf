@@ -41,19 +41,6 @@ resource "aws_route53_record" "prometheus_alias_record" {
 }
 
 ######################################################
-# Install kube-prometheus-stack.
-#
-######################################################
-resource "helm_release" "kube_prometheus_stack" {
-  name       = "prometheus"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
-
-#  version   = var.traefik_helm_release_version
-  namespace = var.name_prefix
-}
-
-######################################################
 # expose Grafana.
 #
 ######################################################
