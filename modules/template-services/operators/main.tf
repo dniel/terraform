@@ -1,4 +1,4 @@
-data "kubernetes_namespace" "operators" {
+resource "kubernetes_namespace" "operators" {
   metadata {
     name = "operators"
   }
@@ -12,7 +12,7 @@ resource "helm_release" "helm_release_spinnaker_operator" {
   repository = "https://armory.jfrog.io/artifactory/charts/"
   chart      = "armory-spinnaker-operator"
 
-  namespace = data.kubernetes_namespace.operators.id
+  namespace = kubernetes_namespace.operators.id
 }
 
 
