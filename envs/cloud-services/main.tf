@@ -31,6 +31,14 @@ locals {
   forwardauth_helm_chart_version     = "2.0.13"
 }
 
+#########################################
+#
+#
+#########################################
+provider "k8s" {
+  config_context = local.kube_context
+  config_path    = local.kube_config
+}
 provider "auth0" {
   domain        = local.auth0_domain
   client_id     = local.auth0_client_id
