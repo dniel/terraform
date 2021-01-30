@@ -29,6 +29,11 @@ locals {
   traefik_pilot_token                = "685b7f76-2f1e-4f30-8b00-8e54e58ce6a8"
   forwardauth_helm_chart_version     = "2.0.13"
 }
+
+provider "k8s" {
+  config_context = local.kube_context
+  config_path    = local.kube_config
+}
 #########################################
 #
 #

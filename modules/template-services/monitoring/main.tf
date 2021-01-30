@@ -1,6 +1,5 @@
 ######################################################
 # create ingress route with middleware for Traefik Dashboard
-
 locals {
   labels = merge(var.labels, {
   })
