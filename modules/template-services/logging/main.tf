@@ -36,3 +36,10 @@ resource "k8s_manifest" "kibana" {
   content = file("${path.module}/manifests/kibana.yml")
 }
 
+######################################################
+# Deploy Filebeat using CRD from operator.
+#
+######################################################
+resource "k8s_manifest" "filebeat" {
+  content = file("${path.module}/manifests/filebeat.yml")
+}
