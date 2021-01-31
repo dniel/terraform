@@ -13,6 +13,8 @@
 locals {
   labels = merge(var.labels, {
   })
+  forwardauth_middleware_namespace = var.name_prefix
+  forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
 # this is a workaround for this module to use the correct provider
@@ -50,4 +52,74 @@ resource "k8s_manifest" "kibana" {
 ######################################################
 resource "k8s_manifest" "filebeat" {
   content = file("${path.module}/manifests/filebeat.yml")
+}
+
+data "kubernetes_service" "kibana" {
+  depends_on = [k8s_manifest.kibana]
+  metadata {
+    name = "services-kb-http"
+    namespace = var.name_prefix
+  }
+}
+
+output "kibana_service" {
+  value = data.kubernetes_service.kibana
+}
+
+######################################################
+# Expose Kibana in Traefik load balancer using a dns alias.
+#
+######################################################
+module "kibana_alias_record"{
+  source = "../../dns_alias_record"
+
+  alias_name = "kibana"
+  alias_target = "lb.${var.domain_name}"
+  domain_name = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  labels = local.labels
+  name_prefix = var.name_prefix
+}
+
+resource "kubernetes_manifest" "ingressroute_kibana" {
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
+      },
+      "namespace" = var.name_prefix
+      "labels"    = local.labels
+      "name"      = "kibana"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "websecure",
+      ]
+      "routes" = [
+        {
+          "kind"  = "Rule"
+          "match" = "Host(`kibana.${var.domain_name}`)"
+          "middlewares" = [
+            {
+              "name"      = local.forwardauth_middleware_name
+              "namespace" = local.forwardauth_middleware_namespace
+            },
+          ]
+          "services" = [
+            {
+              "name" = "services-kb-http"
+              "port" = 5601
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
 }

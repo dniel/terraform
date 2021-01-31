@@ -39,32 +39,30 @@ resource "kubernetes_manifest" "kube_prometheus_stack" {
 # Create Alias A records for grafana
 #
 ######################################################
-resource "aws_route53_record" "grafana_alias_record" {
-  zone_id = var.hosted_zone_id
-  name    = "grafana"
-  type    = "A"
+module "grafana_alias_record"{
+  source = "../../dns_alias_record"
 
-  alias {
-    name                   = "lb.${var.domain_name}"
-    zone_id                = var.hosted_zone_id
-    evaluate_target_health = false
-  }
+  alias_name = "grafana"
+  alias_target = "lb.${var.domain_name}"
+  domain_name = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  labels = local.labels
+  name_prefix = var.name_prefix
 }
 
 ######################################################
 # Create Alias A records for prometheus
 #
 ######################################################
-resource "aws_route53_record" "prometheus_alias_record" {
-  zone_id = var.hosted_zone_id
-  name    = "prometheus"
-  type    = "A"
+module "prometheus_alias_record"{
+  source = "../../dns_alias_record"
 
-  alias {
-    name                   = "lb.${var.domain_name}"
-    zone_id                = var.hosted_zone_id
-    evaluate_target_health = false
-  }
+  alias_name = "prometheus"
+  alias_target = "lb.${var.domain_name}"
+  domain_name = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  labels = local.labels
+  name_prefix = var.name_prefix
 }
 
 ######################################################
