@@ -51,21 +51,6 @@ module "grafana_alias_record"{
 }
 
 ######################################################
-# Create Alias A records for prometheus
-#
-######################################################
-module "prometheus_alias_record"{
-  source = "../../dns_alias_record"
-
-  alias_name = "prometheus"
-  alias_target = "lb.${var.domain_name}"
-  domain_name = var.domain_name
-  hosted_zone_id = var.hosted_zone_id
-  labels = local.labels
-  name_prefix = var.name_prefix
-}
-
-######################################################
 # expose Grafana.
 #
 ######################################################
@@ -99,7 +84,7 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
          ]
           "services" = [
             {
-              "name" = "prometheus-grafana"
+              "name" = "services-kube-prometheus-stack-grafana"
               "port" = 80
             },
           ]
@@ -112,6 +97,20 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
   }
 }
 
+######################################################
+# Create Alias A records for prometheus
+#
+######################################################
+module "prometheus_alias_record"{
+  source = "../../dns_alias_record"
+
+  alias_name = "prometheus"
+  alias_target = "lb.${var.domain_name}"
+  domain_name = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  labels = local.labels
+  name_prefix = var.name_prefix
+}
 ######################################################
 # expose Prometheus.
 #
