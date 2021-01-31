@@ -54,18 +54,6 @@ resource "k8s_manifest" "filebeat" {
   content = file("${path.module}/manifests/filebeat.yml")
 }
 
-data "kubernetes_service" "kibana" {
-  depends_on = [k8s_manifest.kibana]
-  metadata {
-    name = "services-kb-http"
-    namespace = var.name_prefix
-  }
-}
-
-output "kibana_service" {
-  value = data.kubernetes_service.kibana
-}
-
 ######################################################
 # Expose Kibana in Traefik load balancer using a dns alias.
 #
