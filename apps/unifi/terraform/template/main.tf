@@ -6,19 +6,19 @@ locals {
 }
 
 module "unifi" {
-  source            = "github.com/dniel/terraform?ref=master/modules/helm-app"
-  name_prefix       = var.name_prefix
-  domain_name       = var.domain_name
+  source      = "github.com/dniel/terraform?ref=master/modules/helm-app"
+  name_prefix = var.name_prefix
+  domain_name = var.domain_name
 
-  name       = "unifi"
-  repository = "https://k8s-at-home.com/charts"
-  chart      = "unifi"
-  chart_version    = "1.0.0"
+  name          = "unifi"
+  repository    = "https://k8s-at-home.com/charts"
+  chart         = "unifi"
+  chart_version = "1.0.0"
 
   # Custom values for Chart.
   values = [
     {
-      name = "image.tag"
+      name  = "image.tag"
       value = var.unifi_image_tag
     }
   ]
@@ -30,12 +30,12 @@ resource "helm_release" "helm_release_unifi_poller" {
   chart      = "unifi-poller"
   namespace  = var.name_prefix
 
-  set{
-    name = "config.unifi.defaults.url"
+  set {
+    name  = "config.unifi.defaults.url"
     value = "https://unifi-gui:8443"
   }
-  set{
-    name = "prometheus.serviceMonitor.enabled"
+  set {
+    name  = "prometheus.serviceMonitor.enabled"
     value = "true"
   }
   set {

@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     k8s = {
-      source  = "banzaicloud/k8s"
+      source = "banzaicloud/k8s"
     }
     aws = {
       source = "hashicorp/aws"

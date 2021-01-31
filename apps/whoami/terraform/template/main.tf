@@ -3,14 +3,14 @@
 #
 #############################################
 module "whoami" {
-  source            = "github.com/dniel/terraform?ref=master/modules/helm-app"
-  name_prefix       = var.name_prefix
-  domain_name       = var.domain_name
+  source      = "github.com/dniel/terraform?ref=master/modules/helm-app"
+  name_prefix = var.name_prefix
+  domain_name = var.domain_name
 
   repository = "https://dniel.github.com/charts"
 
-  name       = "whoami"
-  chart      = "whoami"
+  name          = "whoami"
+  chart         = "whoami"
   chart_version = "0.8.1"
 
   # Custom values for Chart.

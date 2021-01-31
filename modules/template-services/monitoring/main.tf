@@ -16,7 +16,7 @@ locals {
 #
 ######################################################
 resource "kubernetes_manifest" "kube_prometheus_stack" {
-  provider   = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "helm.fluxcd.io/v1"
@@ -28,8 +28,8 @@ resource "kubernetes_manifest" "kube_prometheus_stack" {
     "spec" = {
       "chart" = {
         "repository" = "https://prometheus-community.github.io/helm-charts"
-        "name" = "kube-prometheus-stack"
-        "version" = "13.4.1"
+        "name"       = "kube-prometheus-stack"
+        "version"    = "13.4.1"
       }
     }
   }
@@ -39,15 +39,15 @@ resource "kubernetes_manifest" "kube_prometheus_stack" {
 # Create Alias A records for grafana
 #
 ######################################################
-module "grafana_alias_record"{
+module "grafana_alias_record" {
   source = "../../dns_alias_record"
 
-  alias_name = "grafana"
-  alias_target = "lb.${var.domain_name}"
-  domain_name = var.domain_name
+  alias_name     = "grafana"
+  alias_target   = "lb.${var.domain_name}"
+  domain_name    = var.domain_name
   hosted_zone_id = var.hosted_zone_id
-  labels = local.labels
-  name_prefix = var.name_prefix
+  labels         = local.labels
+  name_prefix    = var.name_prefix
 }
 
 ######################################################
@@ -55,7 +55,7 @@ module "grafana_alias_record"{
 #
 ######################################################
 resource "kubernetes_manifest" "ingressroute_grafana" {
-  provider   = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
@@ -81,7 +81,7 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
               "name"      = local.forwardauth_middleware_name
               "namespace" = local.forwardauth_middleware_namespace
             },
-         ]
+          ]
           "services" = [
             {
               "name" = "services-kube-prometheus-stack-grafana"
@@ -101,22 +101,22 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
 # Create Alias A records for prometheus
 #
 ######################################################
-module "prometheus_alias_record"{
+module "prometheus_alias_record" {
   source = "../../dns_alias_record"
 
-  alias_name = "prometheus"
-  alias_target = "lb.${var.domain_name}"
-  domain_name = var.domain_name
+  alias_name     = "prometheus"
+  alias_target   = "lb.${var.domain_name}"
+  domain_name    = var.domain_name
   hosted_zone_id = var.hosted_zone_id
-  labels = local.labels
-  name_prefix = var.name_prefix
+  labels         = local.labels
+  name_prefix    = var.name_prefix
 }
 ######################################################
 # expose Prometheus.
 #
 ######################################################
 resource "kubernetes_manifest" "ingressroute_prometheus" {
-  provider   = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"

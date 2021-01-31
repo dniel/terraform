@@ -41,11 +41,11 @@ variable "traefik_pilot_token" {
 }
 
 variable "aws_access_key" {
-  type        = string
+  type = string
 }
 variable "aws_secret_access_key" {
-  type        = string
+  type = string
 }
 variable "aws_hosted_zone_id" {
-  type        = string
+  type = string
 }

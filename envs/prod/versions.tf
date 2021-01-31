@@ -10,7 +10,7 @@ terraform {
       source = "hashicorp/kubernetes"
     }
     kubernetes-alpha = {
-      source = "hashicorp/kubernetes-alpha"
+      source  = "hashicorp/kubernetes-alpha"
       version = "0.2.0"
     }
     auth0 = {

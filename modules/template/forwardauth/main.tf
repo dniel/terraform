@@ -103,7 +103,7 @@ resource "kubernetes_manifest" "middleware_forwardauth" {
         "address" : "http://forwardauth/authorize"
         "trustForwardHeader" : true
         "authResponseHeaders" : [
-#          "authorization",
+          #          "authorization",
           "x-forwardauth-nickname",
           "x-forwardauth-family-name",
           "x-forwardauth-given-name",

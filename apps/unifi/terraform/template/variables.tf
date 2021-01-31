@@ -14,7 +14,7 @@ variable "unifi_helm_release_version" {
 }
 
 variable "unifi_image_tag" {
-  type = string
+  type        = string
   description = "Thre Docker container tag to deploy."
 }
 

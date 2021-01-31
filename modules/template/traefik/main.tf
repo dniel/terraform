@@ -16,7 +16,7 @@ resource "kubernetes_secret" "route53-credentials" {
     namespace = var.name_prefix
   }
   data = {
-    AWS_ACCESS_KEY = var.aws_access_key,
+    AWS_ACCESS_KEY        = var.aws_access_key,
     AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key,
   }
   type = "Opaque"
@@ -104,45 +104,45 @@ resource "helm_release" "traefik" {
     value = "--serverstransport.insecureskipverify=true"
   }
   set {
-    name = "additionalArguments[8]"
+    name  = "additionalArguments[8]"
     value = "--metrics.prometheus=true"
   }
   set {
-    name = "additionalArguments[9]"
+    name  = "additionalArguments[9]"
     value = "--log.level=DEBUG"
   }
 
   # set environment variables to generate certificates for using Lets Encrypt.
   set {
-    name = "env[0].name"
+    name  = "env[0].name"
     value = "AWS_ACCESS_KEY"
   }
   set {
-    name = "env[0].valueFrom.secretKeyRef.name"
+    name  = "env[0].valueFrom.secretKeyRef.name"
     value = kubernetes_secret.route53-credentials.metadata[0].name
   }
   set {
-    name = "env[0].valueFrom.secretKeyRef.key"
+    name  = "env[0].valueFrom.secretKeyRef.key"
     value = "AWS_ACCESS_KEY"
   }
   set {
-    name = "env[1].name"
+    name  = "env[1].name"
     value = "AWS_SECRET_ACCESS_KEY"
   }
   set {
-    name = "env[1].valueFrom.secretKeyRef.name"
+    name  = "env[1].valueFrom.secretKeyRef.name"
     value = kubernetes_secret.route53-credentials.metadata[0].name
   }
   set {
-    name = "env[1].valueFrom.secretKeyRef.key"
+    name  = "env[1].valueFrom.secretKeyRef.key"
     value = "AWS_SECRET_ACCESS_KEY"
   }
   set {
-    name = "env[2].name"
+    name  = "env[2].name"
     value = "AWS_HOSTED_ZONE_ID"
   }
   set {
-    name = "env[2].value"
+    name  = "env[2].value"
     value = var.aws_hosted_zone_id
   }
 }
@@ -199,7 +199,7 @@ resource "kubernetes_manifest" "ingressroute_traefik_dashboard" {
 data "kubernetes_service" "traefik" {
   depends_on = [helm_release.traefik]
   metadata {
-    name = "traefik"
+    name      = "traefik"
     namespace = var.namespace.id
   }
 }

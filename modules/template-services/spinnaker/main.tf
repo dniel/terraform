@@ -58,7 +58,7 @@ resource "kubernetes_manifest" "middleware_strip_api_prefix" {
 #
 ######################################################
 resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
-  provider   = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
@@ -87,8 +87,8 @@ resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
           ]
           "services" = [
             {
-              "name" = "spin-gate"
-              "port" = 8084
+              "name"      = "spin-gate"
+              "port"      = 8084
               "namespace" = "spinnaker"
             },
           ]
@@ -106,7 +106,7 @@ resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
 #
 ######################################################
 resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
-  provider   = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
@@ -131,8 +131,8 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
           ]
           "services" = [
             {
-              "name" = "spin-deck"
-              "port" = 9000
+              "name"      = "spin-deck"
+              "port"      = 9000
               "namespace" = "spinnaker"
             },
           ]
@@ -159,7 +159,7 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
 # TODO: need to define a s3 bucket policy
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "bucket" {
-  bucket        = "198596758466-spinnaker-deploy"
+  bucket = "198596758466-spinnaker-deploy"
 }
 
 # Sns Topic
@@ -199,7 +199,7 @@ resource "aws_sns_topic_subscription" "spinnaker_deployment_subscription" {
 
 # Allow S3 to Publish event to SNS topic.
 resource "aws_sns_topic_policy" "allow_publish_events_from_s3" {
-  arn = aws_sns_topic.spinnaker_deployment_topic.arn
+  arn    = aws_sns_topic.spinnaker_deployment_topic.arn
   policy = <<POLICY
   {
       "Version":"2012-10-17",
@@ -219,7 +219,7 @@ resource "aws_sns_topic_policy" "allow_publish_events_from_s3" {
 # Allow SNS topic to SendMessage to SQS queue
 resource "aws_sqs_queue_policy" "allow_sendmessage_from_sns_to_sqs" {
   queue_url = aws_sqs_queue.spinnaker_deployment_queue.id
-  policy = <<POLICY
+  policy    = <<POLICY
 {
   "Version": "2012-10-17",
   "Id": "allow-sns-send",
@@ -250,7 +250,7 @@ POLICY
 # TODO: need to define a s3 bucket policy
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "bucket_terraform_artifacts" {
-  bucket        = "198596758466-spinnaker-artifact-uploads"
+  bucket = "198596758466-spinnaker-artifact-uploads"
 }
 
 # Sns Topic
@@ -279,7 +279,7 @@ resource "aws_sns_topic_subscription" "spinnaker_pubsub_custom_subscription" {
 # Allow SNS topic to SendMessage to SQS queue
 resource "aws_sqs_queue_policy" "allow_sendmessage_from_custom_sns_to_custom_sqs" {
   queue_url = aws_sqs_queue.spinnaker_pubsub_custom_queue.id
-  policy = <<POLICY
+  policy    = <<POLICY
 {
   "Version": "2012-10-17",
   "Id": "allow-sns-send",
@@ -307,7 +307,7 @@ POLICY
 ####################################################################
 resource "kubernetes_secret" "spinnaker_echo_custom_templates" {
   metadata {
-    name = "echo-custom-templates"
+    name      = "echo-custom-templates"
     namespace = "spinnaker"
   }
   data = {
@@ -317,11 +317,11 @@ resource "kubernetes_secret" "spinnaker_echo_custom_templates" {
 
 resource "kubernetes_config_map" "spinnaker_echo_custom_templates" {
   metadata {
-    name = "echo-custom-templates"
+    name      = "echo-custom-templates"
     namespace = "spinnaker"
   }
   data = {
     "pubsub_embedded_artifact.json" = file("${path.module}/templates/pubsub_embedded_artifact.json")
-    "pubsub_custom_object.json" = file("${path.module}/templates/pubsub_custom_object.json")
+    "pubsub_custom_object.json"     = file("${path.module}/templates/pubsub_custom_object.json")
   }
 }

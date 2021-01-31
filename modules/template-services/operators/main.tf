@@ -16,7 +16,7 @@ resource "helm_release" "helm_operator" {
   namespace = kubernetes_namespace.operators.id
 
   set {
-    name = "helm.versions"
+    name  = "helm.versions"
     value = "v3"
   }
 }
@@ -38,8 +38,8 @@ resource "kubernetes_manifest" "spinnaker_operator" {
     "spec" = {
       "chart" = {
         "repository" = "https://armory.jfrog.io/artifactory/charts/"
-        "name" = "armory-spinnaker-operator"
-        "version" = "1.2.3"
+        "name"       = "armory-spinnaker-operator"
+        "version"    = "1.2.3"
       }
     }
   }
@@ -63,8 +63,8 @@ resource "kubernetes_manifest" "elastic_operator" {
     "spec" = {
       "chart" = {
         "repository" = "https://helm.elastic.co"
-        "name" = "eck-operator"
-        "version" = "1.3.1"
+        "name"       = "eck-operator"
+        "version"    = "1.3.1"
       }
     }
   }
