@@ -8,7 +8,7 @@ variable "name_prefix" {
   description = "prefix to put on resources to be able to deploy multiple parallel versions of the env."
 }
 
-variable "unifi_helm_release_version" {
+variable "unifi_chart_version" {
   type        = string
   description = "Version of Helm Chart to deploy"
 }

@@ -21,6 +21,7 @@ provider "auth0" {
 }
 provider "kubernetes" {
   config_context = local.kube_context
+  config_path    = local.kube_config
 }
 provider "kubernetes-alpha" {
   config_context = local.kube_context
@@ -36,7 +37,6 @@ provider "aws" {
   region = local.aws_region
 }
 
-
 #########################################
 #
 #
@@ -45,7 +45,7 @@ module "unifi" {
   source                     = "../template"
   name_prefix                = local.name_prefix
   domain_name                = "${local.name_prefix}.${local.domain_name}"
-  unifi_helm_release_version = "1.3.1"
+  unifi_chart_version        = "1.5.1"
   unifi_image_tag            = "stable-6"
 }
 

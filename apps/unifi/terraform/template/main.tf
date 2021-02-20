@@ -13,7 +13,7 @@ module "unifi" {
   name          = "unifi"
   repository    = "https://k8s-at-home.com/charts"
   chart         = "unifi"
-  chart_version = "1.0.0"
+  chart_version = var.unifi_chart_version
 
   # Custom values for Chart.
   values = [
