@@ -7,27 +7,12 @@ resource "aws_route53_zone" "hosted_zone" {
 # The record that points to the external load balancer
 # infront of kubernetes that load balances ingress requests
 # between the different kubernetes worker nodes.
-module "load_balancer_record_alias" {
+# Take all subdomains and make a wildcard pointing to the load balancer.
+module "wildcard_dns_alias_record" {
   source = "../../dns-cname-record"
-  count   = length(var.load_balancer_alias_dns_name) > 0 ? 1 : 0
 
-  alias_name     = "lb.${var.domain_name}"
+  alias_name     = "*"
   alias_target   = var.load_balancer_alias_dns_name
-  domain_name    = var.domain_name
-  hosted_zone_id = aws_route53_zone.hosted_zone.zone_id
-  labels         = var.labels
-  name_prefix    = var.name_prefix
-}
-
-# Create Alias A records for all domain names provided
-# in the input list of domain names.
-module "dns_alias_record" {
-  source = "../../dns-cname-record"
-  depends_on = [module.load_balancer_record_alias]
-  for_each   = toset(var.dns_names)
-
-  alias_name     = each.key
-  alias_target   = "lb.${var.domain_name}"
   domain_name    = var.domain_name
   hosted_zone_id = aws_route53_zone.hosted_zone.zone_id
   labels         = var.labels
