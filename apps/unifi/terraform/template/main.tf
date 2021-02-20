@@ -1,4 +1,7 @@
+###################################################
 # Template to configure a Unifi controller.
+#
+###################################################
 locals {
   dns_name = "${var.name}.${var.domain_name}"
   labels = merge(var.labels, {
