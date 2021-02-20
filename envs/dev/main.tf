@@ -17,9 +17,9 @@ locals {
   aws_region                         = "eu-north-1"
   name_prefix                        = "dev"
   base_domain_name                   = "dniel.in"
-  load_balancer_public_ip            = "10.0.50.165"
+  load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
-  load_balancer_alias_dns_name       = ""
+  load_balancer_alias_dns_name       = "dniel.chickenkiller.com"
   primary_hosted_zone_id             = "Z25Z86AZE76SY4"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]

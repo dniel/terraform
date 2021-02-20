@@ -20,17 +20,14 @@ data "kubernetes_namespace" "spinnaker" {
   }
 }
 
-# Create Alias A records for Spinnaker
-resource "aws_route53_record" "spin_alias_record" {
-  zone_id = var.hosted_zone_id
-  name    = "spin"
-  type    = "A"
-
-  alias {
-    name                   = "lb.${var.domain_name}"
-    zone_id                = var.hosted_zone_id
-    evaluate_target_health = false
-  }
+module "spin_alias_record" {
+  source         = "github.com/dniel/terraform?ref=master/modules/dns-cname-record"
+  alias_name     = "spin"
+  alias_target   = "lb.${var.domain_name}"
+  domain_name    = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  labels         = var.labels
+  name_prefix    = var.name_prefix
 }
 
 resource "kubernetes_manifest" "middleware_strip_api_prefix" {

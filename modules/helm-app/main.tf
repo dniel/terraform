@@ -12,17 +12,14 @@ data "aws_route53_zone" "selected_zone" {
   name = var.domain_name
 }
 
-# create the dns record in hosted zone.
-resource "aws_route53_record" "dns_record" {
-  zone_id = data.aws_route53_zone.selected_zone.zone_id
-  name    = "${var.name}.${data.aws_route53_zone.selected_zone.name}"
-  type    = "A"
-
-  alias {
-    name                   = "lb.${data.aws_route53_zone.selected_zone.name}"
-    zone_id                = data.aws_route53_zone.selected_zone.zone_id
-    evaluate_target_health = false
-  }
+module "dns_alias_record" {
+  source         = "github.com/dniel/terraform?ref=master/modules/dns-cname-record"
+  alias_name     = var.name
+  alias_target   = "lb.${data.aws_route53_zone.selected_zone.name}"
+  domain_name    = var.domain_name
+  hosted_zone_id = data.aws_route53_zone.selected_zone.zone_id
+  labels         = []
+  name_prefix    = var.name_prefix
 }
 
 # create helm release for application

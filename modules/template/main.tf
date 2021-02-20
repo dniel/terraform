@@ -74,7 +74,7 @@ module "dns" {
 
   # if service is of type load balancer, use the load balancer dns name as alias for dns.
   load_balancer_alias_dns_name = (lower(var.traefik_service_type) == "loadbalancer" ?
-  module.traefik.traefik_load_balancer_ingress[0].hostname : "")
+  module.traefik.traefik_load_balancer_ingress[0].hostname : var.load_balancer_alias_dns_name)
 
   load_balancer_alias_hosted_zone_id = var.load_balancer_alias_hosted_zone_id
 

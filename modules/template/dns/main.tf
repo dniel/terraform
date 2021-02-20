@@ -3,51 +3,35 @@ resource "aws_route53_zone" "hosted_zone" {
   tags = var.labels
 }
 
-# Address record for external load balancer.
-# The record that points to the external load balancer
-# infront of kubernetes that load balances ingress requests
-# between the different kubernetes worker nodes.
-resource "aws_route53_record" "load_balancer_record" {
-  count   = length(var.load_balancer_public_ip) > 0 ? 1 : 0
-  zone_id = aws_route53_zone.hosted_zone.zone_id
-  name    = "lb.${var.domain_name}"
-  type    = "A"
-  ttl     = "300"
-  records = [var.load_balancer_public_ip]
-}
-
 # Alias record for external load balancer.
 # The record that points to the external load balancer
 # infront of kubernetes that load balances ingress requests
 # between the different kubernetes worker nodes.
-resource "aws_route53_record" "load_balancer_record_alias" {
+module "load_balancer_record_alias" {
+  source = "../../dns-cname-record"
   count   = length(var.load_balancer_alias_dns_name) > 0 ? 1 : 0
-  zone_id = aws_route53_zone.hosted_zone.zone_id
-  name    = "lb.${var.domain_name}"
-  type    = "A"
 
-  alias {
-    name                   = var.load_balancer_alias_dns_name
-    zone_id                = var.load_balancer_alias_hosted_zone_id
-    evaluate_target_health = false
-  }
+  alias_name     = "lb.${var.domain_name}"
+  alias_target   = var.load_balancer_alias_dns_name
+  domain_name    = var.domain_name
+  hosted_zone_id = aws_route53_zone.hosted_zone.zone_id
+  labels         = var.labels
+  name_prefix    = var.name_prefix
 }
 
 # Create Alias A records for all domain names provided
 # in the input list of domain names.
-resource "aws_route53_record" "alias_record" {
-  depends_on = [aws_route53_record.load_balancer_record_alias]
+module "dns_alias_record" {
+  source = "../../dns-cname-record"
+  depends_on = [module.load_balancer_record_alias]
   for_each   = toset(var.dns_names)
 
-  zone_id = aws_route53_zone.hosted_zone.zone_id
-  name    = each.key
-  type    = "A"
-
-  alias {
-    name                   = "lb.${var.domain_name}"
-    zone_id                = aws_route53_zone.hosted_zone.id
-    evaluate_target_health = false
-  }
+  alias_name     = each.key
+  alias_target   = "lb.${var.domain_name}"
+  domain_name    = var.domain_name
+  hosted_zone_id = aws_route53_zone.hosted_zone.zone_id
+  labels         = var.labels
+  name_prefix    = var.name_prefix
 }
 
 # Validate that the primary hosted zone if provided exists.

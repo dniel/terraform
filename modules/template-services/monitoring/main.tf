@@ -40,7 +40,7 @@ resource "kubernetes_manifest" "kube_prometheus_stack" {
 #
 ######################################################
 module "grafana_alias_record" {
-  source = "../../dns_alias_record"
+  source = "../../dns-cname-record"
 
   alias_name     = "grafana"
   alias_target   = "lb.${var.domain_name}"
@@ -102,7 +102,7 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
 #
 ######################################################
 module "prometheus_alias_record" {
-  source = "../../dns_alias_record"
+  source = "../../dns-cname-record"
 
   alias_name     = "prometheus"
   alias_target   = "lb.${var.domain_name}"

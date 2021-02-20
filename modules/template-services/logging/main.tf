@@ -59,7 +59,7 @@ resource "k8s_manifest" "filebeat" {
 #
 ######################################################
 module "kibana_alias_record" {
-  source = "../../dns_alias_record"
+  source = "../../dns-cname-record"
 
   alias_name     = "kibana"
   alias_target   = "lb.${var.domain_name}"
