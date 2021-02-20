@@ -9,6 +9,10 @@ on:
       - main
       - master
 
+    paths:
+      - '.github/workflows/terraform.yml'
+      - 'envs/**'
+      - 'modules/**'
 jobs:
   docker:
     runs-on: ubuntu-latest
