@@ -1,7 +1,7 @@
 locals {
-  dns_name = "unifi.${var.domain_name}"
+  dns_name = "${var.name}.${var.domain_name}"
   labels = merge(var.labels, {
-    "app" = "unifi"
+    "app" = var.name
   })
 }
 
@@ -10,47 +10,54 @@ module "unifi" {
   name_prefix = var.name_prefix
   domain_name = var.domain_name
 
-  name          = "unifi"
-  repository    = "https://k8s-at-home.com/charts"
-  chart         = "unifi"
+  name          = var.name
+  repository    = var.unifi_chart_repo
+  chart         = var.unifi_chart_name
   chart_version = var.unifi_chart_version
 
   # Custom values for Chart.
   values = [
     {
       name  = "image.tag"
-      value = var.unifi_image_tag
+      value = var.unifi_chart_image_tag
     }
   ]
 }
 
-resource "helm_release" "helm_release_unifi_poller" {
-  name       = "unifi-poller"
-  repository = "https://k8s-at-home.com/charts"
-  chart      = "unifi-poller"
-  namespace  = var.name_prefix
+module "unifi_poller" {
+  count = var.install_unifi_poller ? 1 : 0
+  source = "github.com/dniel/terraform?ref=master/modules/helm-app"
+  name_prefix = var.name_prefix
+  domain_name = var.domain_name
 
-  set {
-    name  = "config.unifi.defaults.url"
-    value = "https://unifi-gui:8443"
-  }
-  set {
-    name  = "prometheus.serviceMonitor.enabled"
-    value = "true"
-  }
-  set {
-    name  = "prometheus.serviceMonitor.additionalLabels.release"
-    value = "prometheus"
-  }
-  set {
-    name  = "prometheus.serviceMonitor.additionalLabels.monitor"
-    value = "prometheus"
-  }
+  name       = "unifi-poller"
+  repository = var.unifi_chart_repo
+  chart      = "unifi-poller"
+  chart_version = "6.0.1"
+
+  values = [
+    {
+      name  = "config.unifi.defaults.url"
+      value = "https://${var.name}-gui:8443"
+    },
+    {
+      name  = "prometheus.serviceMonitor.enabled"
+      value = "true"
+    },
+    {
+      name  = "prometheus.serviceMonitor.additionalLabels.release"
+      value = "prometheus"
+    },
+    {
+      name  = "prometheus.serviceMonitor.additionalLabels.monitor"
+      value = "prometheus"
+    }
+  ]
 }
 
 resource "kubernetes_ingress" "unifi_gui_ingress" {
   metadata {
-    name      = "unifi-gui"
+    name      = "${var.name}-gui"
     namespace = var.name_prefix
     annotations = {
       "kubernetes.io/ingress.class"                           = "traefik-${var.name_prefix}"
@@ -67,7 +74,7 @@ resource "kubernetes_ingress" "unifi_gui_ingress" {
       http {
         path {
           backend {
-            service_name = "unifi-gui"
+            service_name = "${var.name}-gui"
             service_port = "https-gui"
           }
         }
@@ -78,7 +85,7 @@ resource "kubernetes_ingress" "unifi_gui_ingress" {
 
 resource "kubernetes_ingress" "unifi_inform_ingress" {
   metadata {
-    name      = "unifi-inform"
+    name      = "${var.name}-inform"
     namespace = var.name_prefix
     annotations = {
       "kubernetes.io/ingress.class"                      = "traefik-${var.name_prefix}"
@@ -94,7 +101,7 @@ resource "kubernetes_ingress" "unifi_inform_ingress" {
         path {
           path = "/inform"
           backend {
-            service_name = "unifi-controller"
+            service_name = "${var.name}-controller"
             service_port = "controller"
           }
         }

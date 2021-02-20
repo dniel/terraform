@@ -5,7 +5,7 @@ locals {
   kube_context        = "juju-context"
   kube_config         = "~/.kube/config"
   aws_region          = "eu-north-1"
-  name_prefix         = "test"
+  name_prefix         = "services"
   domain_name         = "dniel.in"
 }
 
@@ -42,10 +42,15 @@ provider "aws" {
 #
 #########################################
 module "unifi" {
-  source                     = "../template"
-  name_prefix                = local.name_prefix
-  domain_name                = "${local.name_prefix}.${local.domain_name}"
-  unifi_chart_version        = "1.5.1"
-  unifi_image_tag            = "latest"
+  source                = "../template"
+  name_prefix           = local.name_prefix
+  domain_name           = "${local.name_prefix}.${local.domain_name}"
+  unifi_chart_version   = "1.5.1"
+  unifi_chart_image_tag = "latest"
+  name                  = "unifilatest"
+
+  # dont install an additional unifi poller
+  # in the same namespace because it already exists.
+  install_unifi_poller  = false
 }
 

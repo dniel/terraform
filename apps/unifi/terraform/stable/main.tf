@@ -42,10 +42,10 @@ provider "aws" {
 #
 #########################################
 module "unifi" {
-  source                     = "../template"
-  name_prefix                = local.name_prefix
-  domain_name                = "${local.name_prefix}.${local.domain_name}"
-  unifi_chart_version        = "1.5.1"
-  unifi_image_tag            = "stable-6"
+  source                = "../template"
+  name_prefix           = local.name_prefix
+  domain_name           = "${local.name_prefix}.${local.domain_name}"
+  unifi_chart_version   = "1.5.1"
+  unifi_chart_image_tag = "stable-6"
 }
 
