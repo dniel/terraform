@@ -21,3 +21,9 @@ variable "values" {
   default     = []
   description = "Custom set of values to set on helm chart"
 }
+
+variable "labels" {
+  type = map
+  default = {}
+  description = "Labels to add to dns record."
+}

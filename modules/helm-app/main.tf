@@ -18,7 +18,7 @@ module "dns_alias_record" {
   alias_target   = "lb.${data.aws_route53_zone.selected_zone.name}"
   domain_name    = var.domain_name
   hosted_zone_id = data.aws_route53_zone.selected_zone.zone_id
-  labels         = []
+  labels         = var.labels
   name_prefix    = var.name_prefix
 }
 
