@@ -84,6 +84,10 @@ resource "kubernetes_manifest" "spinnaker_gate_ingressroute" {
               "name"      = "strip-api-prefix"
               "namespace" = "spinnaker"
             },
+            {
+              "name"      = local.forwardauth_middleware_name
+              "namespace" = local.forwardauth_middleware_namespace
+            }
           ]
           "services" = [
             {
@@ -128,6 +132,10 @@ resource "kubernetes_manifest" "spinnaker_deck_ingressroute" {
           "kind"  = "Rule"
           "match" = "Host(`spin.${var.domain_name}`)"
           "middlewares" = [
+            {
+              "name"      = local.forwardauth_middleware_name
+              "namespace" = local.forwardauth_middleware_namespace
+            }
           ]
           "services" = [
             {
