@@ -7,21 +7,6 @@ locals {
   forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
-# the hosted_zone to create whoami fqdn in.
-data "aws_route53_zone" "selected_zone" {
-  name = var.domain_name
-}
-
-module "dns_alias_record" {
-  source         = "github.com/dniel/terraform?ref=master/modules/dns-cname-record"
-  alias_name     = var.name
-  alias_target   = "lb.${data.aws_route53_zone.selected_zone.name}"
-  domain_name    = var.domain_name
-  hosted_zone_id = data.aws_route53_zone.selected_zone.zone_id
-  labels         = var.labels
-  name_prefix    = var.name_prefix
-}
-
 # create helm release for application
 resource "helm_release" "release" {
   name       = var.name
