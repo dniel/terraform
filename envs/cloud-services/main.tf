@@ -95,7 +95,7 @@ module "template" {
 #########################################
 module "template-services" {
   source           = "../../modules/template-services"
-  base_domain_name = local.base_domain_name
+  domain_name      = local.domain_name
   name_prefix      = local.name_prefix
   hosted_zone_id   = module.template.hosted_zone_id
 
