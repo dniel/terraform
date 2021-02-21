@@ -18,7 +18,7 @@ locals {
   name_prefix                        = "prod"
   domain_name                        = "${local.name_prefix}.dniel.se"
   load_balancer_public_ip            = ""
-  load_balancer_alias_hosted_zone_id = "Z23TAZ6LKFMNIO"
+  load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = ""
   primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
   traefik_pilot_token                = ""
