@@ -54,21 +54,6 @@ resource "k8s_manifest" "filebeat" {
   content = file("${path.module}/manifests/filebeat.yml")
 }
 
-######################################################
-# Expose Kibana in Traefik load balancer using a dns alias.
-#
-######################################################
-module "kibana_alias_record" {
-  source = "../../dns-cname-record"
-
-  alias_name     = "kibana"
-  alias_target   = "lb.${var.domain_name}"
-  domain_name    = var.domain_name
-  hosted_zone_id = var.hosted_zone_id
-  labels         = local.labels
-  name_prefix    = var.name_prefix
-}
-
 resource "kubernetes_manifest" "ingressroute_kibana" {
   provider = kubernetes-alpha
 
