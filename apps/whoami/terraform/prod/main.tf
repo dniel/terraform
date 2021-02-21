@@ -43,6 +43,6 @@ provider "aws" {
 module "whoami" {
   source      = "../template"
   name_prefix = local.name_prefix
-  domain_name = "${local.name_prefix}.${local.domain_name}"
+  domain_name = local.domain_name
 }
 

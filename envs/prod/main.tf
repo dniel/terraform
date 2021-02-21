@@ -16,11 +16,11 @@ locals {
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
   name_prefix                        = "prod"
-  domain_name                        = "${local.name_prefix}.dniel.se"
+  domain_name                        = "dniel.se"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = ""
-  primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
+  primary_hosted_zone_id             = ""
   traefik_pilot_token                = ""
   traefik_websecure_port             = 31443
   traefik_service_type               = "LoadBalancer"
