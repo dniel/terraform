@@ -16,7 +16,7 @@ locals {
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
   name_prefix                        = "dev"
-  base_domain_name                   = "dniel.in"
+  domain_name                        = "${local.name_prefix}.dniel.in"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = "dniel.chickenkiller.com"
@@ -64,7 +64,7 @@ provider "aws" {
 #########################################
 module "template" {
   source           = "../../modules/template"
-  base_domain_name = local.base_domain_name
+  domain_name      = local.domain_name
   name_prefix      = local.name_prefix
 
   # parameters for traefik

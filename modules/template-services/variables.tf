@@ -1,4 +1,4 @@
-variable "base_domain_name" {}
+variable "domain_name" {}
 variable "name_prefix" {}
 variable "hosted_zone_id" {}
 

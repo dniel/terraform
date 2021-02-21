@@ -1,5 +1,4 @@
 locals {
-  domain_name = "${var.name_prefix}.${var.base_domain_name}"
   labels = {
     env = var.name_prefix
   }
@@ -11,7 +10,7 @@ locals {
 ##################################
 module "operators" {
   source      = "./operators"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
 }
@@ -23,7 +22,7 @@ module "operators" {
 module "logging" {
   depends_on  = [module.operators]
   source      = "./logging"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
 
@@ -53,7 +52,7 @@ module "spinnaker" {
   depends_on  = [module.operators]
   count       = var.feature_spinnaker ? 1 : 0
   source      = "./spinnaker"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
 
@@ -68,7 +67,7 @@ module "spinnaker" {
 module "vsphere" {
   count       = var.feature_vsphere ? 1 : 0
   source      = "./vsphere"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
 }

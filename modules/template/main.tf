@@ -1,15 +1,15 @@
 locals {
-  domain_name = "${var.name_prefix}.${var.base_domain_name}"
   labels = {
     env = var.name_prefix
   }
 }
 
 
-##################################
-#
-#
-##################################
+##################################################################################
+# Just to make sure that we have the environment namespace that must be
+# created before deploying an environment. This is not created by
+# the terraform script.
+##################################################################################
 data "kubernetes_namespace" "env_namespace" {
   metadata {
     name   = var.name_prefix
@@ -17,13 +17,13 @@ data "kubernetes_namespace" "env_namespace" {
   }
 }
 
-##################################
+##################################################################################
+# Deploy Traefik ingress controller
 #
-#
-##################################
+##################################################################################
 module "traefik" {
   source      = "./traefik"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
   namespace   = data.kubernetes_namespace.env_namespace
@@ -38,13 +38,13 @@ module "traefik" {
   aws_hosted_zone_id    = module.dns.hosted_zone_id
 }
 
-##################################
+##################################################################################
+# Deploy ForwardAuth in all environments.
 #
-#
-##################################
+##################################################################################
 module "forwardauth" {
   source      = "./forwardauth"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
   namespace   = data.kubernetes_namespace.env_namespace
@@ -53,21 +53,19 @@ module "forwardauth" {
   forwardauth_tenant               = var.forwardauth_auth0_domain
 }
 
-##################################
+##################################################################################
+# Configure central DNS settings for environment.
 #
-#
-##################################
+##################################################################################
 module "dns" {
   source      = "./dns"
-  domain_name = local.domain_name
+  domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
   namespace   = data.kubernetes_namespace.env_namespace
 
-  dns_names = [
-    module.traefik.dns_name,
-    module.forwardauth.dns_name
-  ]
+  # TODO remove, deprecated.
+  dns_names = []
 
   # if service is of type load balancer, use the load balancer dns name as alias for dns.
   load_balancer_alias_dns_name = (
