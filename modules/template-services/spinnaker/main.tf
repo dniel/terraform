@@ -20,16 +20,6 @@ data "kubernetes_namespace" "spinnaker" {
   }
 }
 
-module "spin_alias_record" {
-  source         = "github.com/dniel/terraform?ref=master/modules/dns-cname-record"
-  alias_name     = "spin"
-  alias_target   = "lb.${var.domain_name}"
-  domain_name    = var.domain_name
-  hosted_zone_id = var.hosted_zone_id
-  labels         = var.labels
-  name_prefix    = var.name_prefix
-}
-
 resource "kubernetes_manifest" "middleware_strip_api_prefix" {
   provider = kubernetes-alpha
   manifest = {
