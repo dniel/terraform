@@ -26,7 +26,7 @@ locals {
   traefik_websecure_port             = 31443
   traefik_service_type               = "NodePort"
   traefik_default_tls_secretName     = "traefik-default-tls"
-  traefik_helm_chart_version         = "9.12.3"
+  traefik_helm_chart_version         = "9.14.3"
   traefik_pilot_token                = ""
   forwardauth_helm_chart_version     = "2.0.13"
 }
