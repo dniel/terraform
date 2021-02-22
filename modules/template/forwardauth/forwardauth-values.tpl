@@ -68,11 +68,7 @@ applicationYaml:
   apps:
   - name: traefik.${domain_name}
   - name: whoami.${domain_name}
-  - name: www.${domain_name}
   - name: spin.${domain_name}
-  - name: ubnt.${domain_name}
-  - name: api-graphql.${domain_name}
-  - name: api-posts.${domain_name}
 
 resources:
   limits:
