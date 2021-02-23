@@ -51,6 +51,6 @@ module "unifi" {
 
   # dont install an additional unifi poller
   # in the same namespace because it already exists.
-  install_unifi_poller  = false
+  install_unifi_poller = false
 }
 

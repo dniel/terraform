@@ -17,8 +17,8 @@ variable "traefik_default_tls_secretName" {}
 variable "traefik_helm_chart_version" {}
 
 variable "traefik_observe_namespaces" {
-  type = list(string)
-  default      = []
+  type        = list(string)
+  default     = []
   description = "Additional namepaces to observe with Traefik, default is only observe the name_prefix namespace."
 }
 

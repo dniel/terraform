@@ -59,9 +59,9 @@ provider "aws" {
 }
 
 module "template" {
-  source           = "../../modules/template"
-  domain_name      = local.domain_name
-  name_prefix      = local.name_prefix
+  source      = "../../modules/template"
+  domain_name = local.domain_name
+  name_prefix = local.name_prefix
 
   # parameters for traefik
   traefik_websecure_port         = local.traefik_websecure_port

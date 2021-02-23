@@ -23,7 +23,7 @@ variable "values" {
 }
 
 variable "labels" {
-  type = map
-  default = {}
+  type        = map
+  default     = {}
   description = "Labels to add to dns record."
 }

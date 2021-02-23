@@ -13,8 +13,8 @@ variable "namespace" {
 }
 
 variable "traefik_observe_namespaces" {
-  type = list(string)
-  default      = []
+  type        = list(string)
+  default     = []
   description = "Additional namepaces to observe with Traefik, default is only observe the name_prefix namespace."
 }
 

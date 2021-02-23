@@ -46,5 +46,5 @@ variable "labels" {
 variable "install_unifi_poller" {
   type        = bool
   description = "Deploy unifi poller as well. Default is True."
-  default = true
+  default     = true
 }

@@ -29,14 +29,14 @@ module "unifi" {
 }
 
 module "unifi_poller" {
-  count = var.install_unifi_poller ? 1 : 0
-  source = "github.com/dniel/terraform?ref=master/modules/helm-app"
+  count       = var.install_unifi_poller ? 1 : 0
+  source      = "github.com/dniel/terraform?ref=master/modules/helm-app"
   name_prefix = var.name_prefix
   domain_name = var.domain_name
 
-  name       = "unifi-poller"
-  repository = var.unifi_chart_repo
-  chart      = "unifi-poller"
+  name          = "unifi-poller"
+  repository    = var.unifi_chart_repo
+  chart         = "unifi-poller"
   chart_version = "6.0.1"
 
   values = [

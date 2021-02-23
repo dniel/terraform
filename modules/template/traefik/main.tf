@@ -76,7 +76,7 @@ resource "helm_release" "traefik" {
   dynamic "set" {
     for_each = local.traefik_observe_namespaces
     content {
-      name = "providers.kubernetesIngress.namespaces[${set.key}]"
+      name  = "providers.kubernetesIngress.namespaces[${set.key}]"
       value = set.value
     }
   }
@@ -84,7 +84,7 @@ resource "helm_release" "traefik" {
   dynamic "set" {
     for_each = local.traefik_observe_namespaces
     content {
-      name = "providers.kubernetesCRD.namespaces[${set.key}]"
+      name  = "providers.kubernetesCRD.namespaces[${set.key}]"
       value = set.value
     }
   }

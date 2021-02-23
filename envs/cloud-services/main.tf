@@ -63,9 +63,9 @@ provider "aws" {
 }
 
 module "template" {
-  source           = "../../modules/template"
+  source      = "../../modules/template"
   domain_name = local.domain_name
-  name_prefix      = local.name_prefix
+  name_prefix = local.name_prefix
 
   # parameters for traefik
   traefik_websecure_port         = local.traefik_websecure_port
@@ -94,10 +94,10 @@ module "template" {
 #
 #########################################
 module "template-services" {
-  source           = "../../modules/template-services"
-  domain_name      = local.domain_name
-  name_prefix      = local.name_prefix
-  hosted_zone_id   = module.template.hosted_zone_id
+  source         = "../../modules/template-services"
+  domain_name    = local.domain_name
+  name_prefix    = local.name_prefix
+  hosted_zone_id = module.template.hosted_zone_id
 
   feature_monitoring = true
   feature_spinnaker  = false
