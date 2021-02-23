@@ -78,6 +78,7 @@ module "template" {
   traefik_aws_access_key         = local.traefik_aws_access_key
   traefik_aws_secret_key         = local.traefik_aws_secret_key
   traefik_helm_chart_version     = local.traefik_helm_chart_version
+  traefik_observe_namespaces     = ["spinnaker"]
 
   # DNS configuration and load balancer parameters.
   load_balancer_public_ip            = local.load_balancer_public_ip

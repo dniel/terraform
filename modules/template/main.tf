@@ -32,6 +32,7 @@ module "traefik" {
   traefik_websecure_port       = var.traefik_websecure_port
   traefik_service_type         = var.traefik_service_type
   traefik_pilot_token          = var.traefik_pilot_token
+  traefik_observe_namespaces = var.traefik_observe_namespaces
 
   aws_access_key        = var.traefik_aws_access_key
   aws_secret_access_key = var.traefik_aws_secret_key

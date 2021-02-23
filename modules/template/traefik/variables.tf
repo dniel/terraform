@@ -12,6 +12,12 @@ variable "namespace" {
   description = "Namespace to install apps in."
 }
 
+variable "traefik_observe_namespaces" {
+  type = list(string)
+  default      = []
+  description = "Additional namepaces to observe with Traefik, default is only observe the name_prefix namespace."
+}
+
 variable "traefik_helm_release_version" {
   type        = string
   description = "Version of Helm Chart to deploy"

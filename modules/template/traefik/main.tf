@@ -5,6 +5,7 @@ locals {
   })
   forwardauth_middleware_namespace = var.name_prefix
   forwardauth_middleware_name      = "forwardauth-authorize"
+  traefik_observe_namespaces       = concat([var.name_prefix], var.traefik_observe_namespaces)
 }
 
 #############################################
@@ -71,6 +72,22 @@ resource "helm_release" "traefik" {
     name  = "ingressRoute.dashboard.enabled"
     value = "false"
   }
+
+  dynamic "set" {
+    for_each = local.traefik_observe_namespaces
+    content {
+      name = "providers.kubernetesIngress.namespaces[${set.key}]"
+      value = set.value
+    }
+  }
+
+  dynamic "set" {
+    for_each = local.traefik_observe_namespaces
+    content {
+      name = "providers.kubernetesCRD.namespaces[${set.key}]"
+      value = set.value
+    }
+  }
   set {
     name  = "additionalArguments[0]"
     value = "--providers.kubernetesingress.ingressclass=traefik-${var.name_prefix}"
@@ -109,7 +126,7 @@ resource "helm_release" "traefik" {
   }
   set {
     name  = "additionalArguments[9]"
-    value = "--log.level=DEBUG"
+    value = "--log.level=INFO"
   }
 
   # set environment variables to generate certificates for using Lets Encrypt.
