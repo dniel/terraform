@@ -62,14 +62,6 @@ resource "helm_release" "traefik" {
     value = var.traefik_service_type
   }
   set {
-    name  = "ports.traefik.expose"
-    value = "false"
-  }
-  set {
-    name  = "ports.web.expose"
-    value = "true"
-  }
-  set {
     name  = "ports.websecure.nodePort"
     value = var.traefik_websecure_port
   }
