@@ -36,6 +36,11 @@ resource "helm_release" "traefik" {
   namespace = var.namespace.id
 
   skip_crds = true
+
+  set {
+    name  = "persistence.enabled"
+    value = true
+  }
   set {
     name  = "pilot.enabled"
     value = length(var.traefik_pilot_token) > 0
