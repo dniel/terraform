@@ -44,28 +44,3 @@ resource "kubernetes_manifest" "spinnaker_operator" {
     }
   }
 }
-
-######################################################
-# Install Elastic Cloud For Kubernetes Operator
-#
-######################################################
-resource "kubernetes_manifest" "elastic_operator" {
-  depends_on = [helm_release.helm_operator]
-  provider   = kubernetes-alpha
-
-  manifest = {
-    "apiVersion" = "helm.fluxcd.io/v1"
-    "kind"       = "HelmRelease"
-    "metadata" = {
-      "namespace" = kubernetes_namespace.operators.id
-      "name"      = "eck-operator"
-    }
-    "spec" = {
-      "chart" = {
-        "repository" = "https://helm.elastic.co"
-        "name"       = "eck-operator"
-        "version"    = "1.3.1"
-      }
-    }
-  }
-}

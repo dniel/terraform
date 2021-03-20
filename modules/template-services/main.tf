@@ -19,15 +19,27 @@ module "operators" {
 #
 #
 ##################################
-module "logging" {
+module "secrets" {
   depends_on  = [module.operators]
-  source      = "./logging"
+  source      = "./secrets"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
-
-  hosted_zone_id = var.hosted_zone_id
 }
+
+##################################
+#
+#
+##################################
+//module "logging" {
+//  depends_on  = [module.operators]
+//  source      = "./logging"
+//  domain_name = var.domain_name
+//  name_prefix = var.name_prefix
+//  labels      = local.labels
+//
+//  hosted_zone_id = var.hosted_zone_id
+//}
 
 ##################################
 #

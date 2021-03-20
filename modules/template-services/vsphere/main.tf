@@ -46,7 +46,6 @@ resource "kubernetes_manifest" "vsphere_cloudprovider_cluster_role_binding" {
     "kind"       = "ClusterRoleBinding"
     "metadata" = {
       "name"      = "vsphere-cloud-provider-2"
-      "namespace" = "kube-system"
       "labels"    = local.labels
     }
     "roleRef" = {
