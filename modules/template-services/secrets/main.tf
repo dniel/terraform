@@ -93,20 +93,6 @@ resource "aws_iam_user_policy" "external_secrets_user_policy" {
       "Effect": "Allow",
       "Action": "ssm:GetParameter",
       "Resource": "arn:aws:ssm:${local.current_region}:${local.current_account_id}:parameter/${var.name_prefix}/*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "secretsmanager:GetResourcePolicy",
-        "secretsmanager:GetSecretValue",
-        "secretsmanager:DescribeSecret",
-        "secretsmanager:ListSecretVersionIds"
-      ],
-      "Resource": [
-        "arn:aws:secretsmanager:${local.current_region}:${local.current_account_id}:secret:aes128-1a2b3c",
-        "arn:aws:secretsmanager:${local.current_region}:${local.current_account_id}:secret:aes192-4D5e6F",
-        "arn:aws:secretsmanager:${local.current_region}:${local.current_account_id}:secret:aes256-7g8H9i"
-      ]
     }
   ]
 }
