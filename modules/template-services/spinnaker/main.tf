@@ -20,6 +20,74 @@ data "kubernetes_namespace" "spinnaker" {
   }
 }
 
+# IAM User to use when running pipeline terraform jobs.
+resource "aws_iam_user" "pipeline_job_user" {
+  name = "${var.name_prefix}-pipeline"
+  path = "/system/"
+
+  tags = local.labels
+}
+
+resource "aws_iam_policy" "allow_access_from_terraform_to_aws" {
+  name        = "spinnaker-pipeline-job-policy"
+  description = "A policy to provide access to AWS services for Terraform running in Spinnaker pipelines."
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "route53:*",
+          "sns:*",
+          "sqs:*",
+          "s3:*",
+          "ssm:*",
+          "secretsmanager:*",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "test-attach" {
+  user       = aws_iam_user.pipeline_job_user.name
+  policy_arn = aws_iam_policy.allow_access_from_terraform_to_aws.arn
+}
+
+# Create Access Key for IAM User.
+resource "aws_iam_access_key" "pipeline_user_access_key" {
+  user = aws_iam_user.pipeline_job_user.name
+}
+
+# the access key id
+resource "aws_ssm_parameter" "aws_credentials_id" {
+  name = "/spinnaker/aws_credentials/key"
+  type  = "String"
+  value = aws_iam_access_key.pipeline_user_access_key.id
+}
+
+# the access key secret
+resource "aws_ssm_parameter" "aws_credentials_secret" {
+  name = "/spinnaker/aws_credentials/secret"
+  type  = "String"
+  value = aws_iam_access_key.pipeline_user_access_key.secret
+}
+
+# Store the access key and id as a secret in kubernetes.
+resource "kubernetes_secret" "external_secrets_secret" {
+  metadata {
+    name = "pipeline-aws-credentials"
+    namespace = "spinnaker"
+  }
+  data = {
+    id = aws_iam_access_key.pipeline_user_access_key.id
+    secret = aws_iam_access_key.pipeline_user_access_key.secret
+  }
+  type = "Opaque"
+}
+
 resource "kubernetes_manifest" "middleware_strip_api_prefix" {
   provider = kubernetes-alpha
   manifest = {
