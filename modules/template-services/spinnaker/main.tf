@@ -84,6 +84,7 @@ resource "kubernetes_secret" "external_secrets_secret" {
   data = {
     id = aws_iam_access_key.pipeline_user_access_key.id
     secret = aws_iam_access_key.pipeline_user_access_key.secret
+    region = "eu-north-1"
   }
   type = "Opaque"
 }
