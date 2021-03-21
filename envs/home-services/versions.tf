@@ -26,6 +26,7 @@ terraform {
     bucket     = "198596758466-terraform-state"
     key        = "home-services/terraform.tfstate"
     region     = "eu-north-1"
+    acl        = "bucket-owner-full-control"
     encrypt    = "true"
     kms_key_id = "arn:aws:kms:eu-north-1:198596758466:alias/terraform-state"
   }
