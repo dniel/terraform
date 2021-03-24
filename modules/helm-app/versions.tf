@@ -20,5 +20,5 @@ terraform {
       source = "terraform-providers/auth0"
     }
   }
-  required_version = "0.15.0-beta2"
+  required_version = "0.15.0"
 }

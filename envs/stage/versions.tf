@@ -17,7 +17,7 @@ terraform {
       source = "terraform-providers/auth0"
     }
   }
-  required_version = "0.15.0-beta2"
+  required_version = "0.15.0"
 
   backend "s3" {
     bucket     = "198596758466-terraform-state"
