@@ -20,7 +20,7 @@ locals {
 # this is a workaround for this module to use the correct provider
 # https://github.com/banzaicloud/terraform-provider-k8s/issues/63
 terraform {
-  required_version = "0.15.0"
+  required_version = "0.14.9"
 
   required_providers {
     k8s = {
