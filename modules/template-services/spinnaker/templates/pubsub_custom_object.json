@@ -4,7 +4,11 @@
     "type": "custom/object",
     "reference": "{{ reference }}",
     "name": "{{ name }}",
-    "sha_short": "{{ commit }}",
-    "branch": "{{ branch }}"
+    "version": "{{ branch }}-{{ commit }}",
+    "provenance": "https://github.com",
+    "metadata": {
+      "meta1": "test1",
+      "meta2": "test2"
+    }
   }
 ]
