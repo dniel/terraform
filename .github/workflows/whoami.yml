@@ -1,6 +1,6 @@
 ######################################################################
 # Workflow that zip, uploads artifact and notify SNS to start pipeline.
-# trigger build
+# trigger build, and again,
 ######################################################################
 name: 'Whoami'
 on:
