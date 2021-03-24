@@ -7,5 +7,5 @@ terraform {
       source = "hashicorp/helm"
     }
   }
-  required_version = ">= 0.13"
+  required_version = "0.15.0-beta2"
 }
