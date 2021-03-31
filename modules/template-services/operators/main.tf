@@ -44,3 +44,24 @@ resource "kubernetes_manifest" "spinnaker_operator" {
     }
   }
 }
+
+resource "kubernetes_manifest" "minio_operator" {
+  depends_on = [helm_release.helm_operator]
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "helm.fluxcd.io/v1"
+    "kind"       = "HelmRelease"
+    "metadata" = {
+      "namespace" = kubernetes_namespace.operators.id
+      "name"      = "minio-operator"
+    }
+    "spec" = {
+      "chart" = {
+        "repository" = "https://operator.min.io/"
+        "name"       = "minio-operator"
+        "version"    = "4.0.4"
+      }
+    }
+  }
+}
