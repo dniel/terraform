@@ -320,7 +320,7 @@ resource "aws_sns_topic_policy" "allow_publish_events_from_s3" {
   policy = <<POLICY
   {
       "Version":"2012-10-17",
-      "Statement":[{
+      "Statement":[ {
           "Effect": "Allow",
           "Principal": {"Service":"s3.amazonaws.com"},
           "Action": "SNS:Publish",

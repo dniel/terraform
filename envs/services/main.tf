@@ -102,7 +102,6 @@ module "template-services" {
   name_prefix    = local.name_prefix
   hosted_zone_id = module.template.hosted_zone_id
 
-  feature_monitoring = true
   feature_spinnaker  = true
   feature_vsphere    = true
 

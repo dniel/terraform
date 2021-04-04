@@ -12,8 +12,3 @@ variable "labels" {
   type        = map(string)
   description = "Labels to add to resources created"
 }
-
-variable "kube_prometheus_stack_chart_version" {
-  type        = string
-  description = "Version of Helm Chart to deploy"
-}

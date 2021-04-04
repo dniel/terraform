@@ -47,13 +47,24 @@ module "logging" {
 ##################################
 module "monitoring" {
   depends_on  = [module.operators]
-  count       = var.feature_monitoring ? 1 : 0
   source      = "./monitoring"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
 
-  hosted_zone_id = var.hosted_zone_id
+  kube_prometheus_stack_chart_version = var.kube_prometheus_stack_chart_version
+}
+
+##################################
+#
+#
+##################################
+module "storage" {
+  depends_on  = [module.operators]
+  source      = "./storage"
+  domain_name = var.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
 }
 
 ##################################
