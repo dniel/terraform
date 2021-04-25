@@ -6,12 +6,24 @@
 #
 ####################################################################
 locals {
+  service_account_name = "pipeline-cleanup-sa"
+  pipeline_namespace = "pipeline"
+  cleanup_cronjob_schedule = "*/30 * * * *"
+}
+
+locals {
   app_name = "spinnaker"
   labels = merge(var.labels, {
     "app" = local.app_name
   })
   forwardauth_middleware_namespace = var.name_prefix
   forwardauth_middleware_name      = "forwardauth-authorize"
+}
+
+resource "kubernetes_namespace" "pipeline" {
+  metadata {
+    name = local.pipeline_namespace
+  }
 }
 
 data "kubernetes_namespace" "spinnaker" {
