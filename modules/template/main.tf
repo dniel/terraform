@@ -68,11 +68,13 @@ module "dns" {
   # TODO remove, deprecated.
   dns_names = []
 
-  # if service is of type load balancer, use the load balancer dns name as alias for dns.
+  # if load balancer alias is manually specified, use that
+  # else use the hostname comming out of the ingres object
+  # from traefik ingress router.
   load_balancer_alias_dns_name = (
-    lower(var.traefik_service_type) == "loadbalancer" ?
-    module.traefik.traefik_load_balancer_ingress[0].hostname :
-    var.load_balancer_alias_dns_name
+    length(var.load_balancer_alias_dns_name)>0 ?
+    var.load_balancer_alias_dns_name :
+    module.traefik.traefik_load_balancer_ingress[0].hostname
   )
 
   # the primary hosted zone if the new zone if a nested zone.
