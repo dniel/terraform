@@ -32,7 +32,7 @@ resource "auth0_resource_server" "env_meta_server" {
 
 resource "helm_release" "forwardauth" {
   name       = local.app_name
-  repository = "https://dniel.github.com/charts"
+  repository = "https://dniel.github.io/charts"
   chart      = local.app_name
   namespace  = var.namespace.id
   version    = var.forwardauth_helm_release_version
