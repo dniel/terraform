@@ -11,15 +11,15 @@ locals {
   auth0_domain                       = "dniel.eu.auth0.com"
   auth0_client_id                    = jsondecode(data.aws_secretsmanager_secret_version.auth0.secret_string)["client_id"]
   auth0_client_secret                = jsondecode(data.aws_secretsmanager_secret_version.auth0.secret_string)["client_secret"]
-  kube_context                       = "juju-context"
+  kube_context                       = "tkg-test-01"
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
   name_prefix                        = "services"
-  domain_name                        = "${local.name_prefix}.dniel.in"
+  domain_name                        = "${local.name_prefix}.nordlab.io"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = "dniel.chickenkiller.com"
-  primary_hosted_zone_id             = "Z25Z86AZE76SY4"
+  primary_hosted_zone_id             = "Z0377759ONY4I87XFN01"
   traefik_websecure_port             = 32443
   traefik_service_type               = "NodePort"
   traefik_default_tls_secretName     = "traefik-default-tls"
@@ -103,7 +103,7 @@ module "template-services" {
   hosted_zone_id = module.template.hosted_zone_id
 
   feature_spinnaker  = true
-  feature_vsphere    = true
+  feature_vsphere    = false
 
   unifi_helm_release_version = "1.0.0"
   unifi_image_tag            = "stable-6"

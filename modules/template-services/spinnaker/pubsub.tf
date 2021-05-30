@@ -158,13 +158,12 @@ POLICY
 # Configure custom templates for ECHO as custom volumes.
 # Like described https://spinnaker.io/reference/halyard/custom/#using-custom-volumes
 ####################################################################
-resource "kubernetes_secret" "spinnaker_echo_custom_templates" {
+resource "kubernetes_secret" "spinnaker_echo_webhook_templates" {
   metadata {
-    name      = "echo-custom-templates"
+    name      = "echo-webhook-templates"
     namespace = "spinnaker"
   }
   data = {
-    "mytemplate" = file("${path.module}/templates/pubsub_custom_object.json")
   }
 }
 

@@ -21,7 +21,7 @@ module "operators" {
 ##################################
 module "secrets" {
   depends_on  = [module.operators]
-  source      = "./secrets"
+ source      = "./secrets"
   domain_name = var.domain_name
   name_prefix = var.name_prefix
   labels      = local.labels
@@ -59,20 +59,19 @@ module "monitoring" {
 #
 #
 ##################################
-module "storage" {
-  depends_on  = [module.operators]
-  source      = "./storage"
-  domain_name = var.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-}
+#module "storage" {
+#  depends_on  = [module.operators]
+#  source      = "./storage"
+#  domain_name = var.domain_name
+#  name_prefix = var.name_prefix
+#  labels      = local.labels
+#}
 
 ##################################
 #
 #
 ##################################
 module "spinnaker" {
-  depends_on  = [module.operators]
   count       = var.feature_spinnaker ? 1 : 0
   source      = "./spinnaker"
   domain_name = var.domain_name
@@ -87,10 +86,10 @@ module "spinnaker" {
 #
 #
 ##################################
-module "vsphere" {
-  count       = var.feature_vsphere ? 1 : 0
-  source      = "./vsphere"
-  domain_name = var.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-}
+#module "vsphere" {
+#  count       = var.feature_vsphere ? 1 : 0
+#  source      = "./vsphere"
+#  domain_name = var.domain_name
+#  name_prefix = var.name_prefix
+#  labels      = local.labels
+#}
