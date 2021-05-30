@@ -59,7 +59,7 @@ resource "helm_release" "external-secrets" {
   repository = "https://external-secrets.github.io/kubernetes-external-secrets/"
   chart      = "kubernetes-external-secrets"
   namespace  = var.name_prefix
-  version    = "6.4.0"
+  version    = "8.0.1"
 
   # set environment variables to generate certificates for using Lets Encrypt.
   set {
