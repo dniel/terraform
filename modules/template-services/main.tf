@@ -80,16 +80,3 @@ module "spinnaker" {
 
   hosted_zone_id = var.hosted_zone_id
 }
-
-
-##################################
-#
-#
-##################################
-#module "vsphere" {
-#  count       = var.feature_vsphere ? 1 : 0
-#  source      = "./vsphere"
-#  domain_name = var.domain_name
-#  name_prefix = var.name_prefix
-#  labels      = local.labels
-#}
