@@ -21,7 +21,7 @@ locals {
   load_balancer_alias_dns_name       = "dniel.chickenkiller.com"
   primary_hosted_zone_id             = "Z0377759ONY4I87XFN01"
   traefik_websecure_port             = 32443
-  traefik_service_type               = "NodePort"
+  traefik_service_type               = "LoadBalancer"
   traefik_default_tls_secretName     = "traefik-default-tls"
   traefik_helm_chart_version         = "9.14.3"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]

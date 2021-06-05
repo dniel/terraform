@@ -2,15 +2,19 @@ terraform {
   required_providers {
     k8s = {
       source = "banzaicloud/k8s"
+      version = "0.9.1"
     }
     aws = {
       source = "hashicorp/aws"
+      version = "3.44.0"
     }
     helm = {
       source = "hashicorp/helm"
+      version = "2.1.2"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
+      version = "2.3.1"
     }
     kubernetes-alpha = {
       source = "hashicorp/kubernetes-alpha"
@@ -18,6 +22,7 @@ terraform {
     }
     auth0 = {
       source = "terraform-providers/auth0"
+      version = "0.14"
     }
   }
   required_version = "0.14.9"
