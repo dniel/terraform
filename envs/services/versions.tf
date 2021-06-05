@@ -14,7 +14,7 @@ terraform {
     }
     kubernetes-alpha = {
       source = "hashicorp/kubernetes-alpha"
-      version = "0.2.1"
+      version = "0.4.1"
     }
     auth0 = {
       source = "terraform-providers/auth0"
