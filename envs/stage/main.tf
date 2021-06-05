@@ -16,7 +16,7 @@ locals {
   kube_config                        = "~/.kube/config"
   aws_region                         = "eu-north-1"
   name_prefix                        = "stage"
-  domain_name                        = "${local.name_prefix}.dniel.se"
+  domain_name                        = "${local.name_prefix}.nordlab.io"
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = ""
@@ -25,7 +25,7 @@ locals {
   traefik_websecure_port             = 30443
   traefik_service_type               = "LoadBalancer"
   traefik_default_tls_secretName     = "traefik-default-tls"
-  traefik_helm_chart_version         = "9.12.3"
+  traefik_helm_chart_version         = "9.19.1"
   traefik_aws_access_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["access_key"]
   traefik_aws_secret_key             = jsondecode(data.aws_secretsmanager_secret_version.traefik.secret_string)["secret_key"]
   forwardauth_helm_chart_version     = "2.0.13"
