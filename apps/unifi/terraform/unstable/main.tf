@@ -6,7 +6,7 @@ locals {
   kube_config         = "~/.kube/config"
   aws_region          = "eu-north-1"
   name_prefix         = "services"
-  domain_name         = "dniel.in"
+  domain_name         = "nordlab.io"
 }
 
 # auth0 credentials
