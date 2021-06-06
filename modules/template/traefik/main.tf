@@ -159,6 +159,24 @@ resource "helm_release" "traefik" {
     name  = "env[2].value"
     value = var.aws_hosted_zone_id
   }
+
+  # run traefik as root to be able to create acme.json in data volume.
+  set {
+    name  = "securityContext.readOnlyRootFilesystem"
+    value = "False"
+  }
+  set {
+    name  = "securityContext.runAsGroup"
+    value = "0"
+  }
+  set {
+    name  = "securityContext.runAsUser"
+    value = "0"
+  }
+  set {
+    name  = "securityContext.runAsNonRoot"
+    value = "False"
+  }
 }
 
 
