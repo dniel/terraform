@@ -1,9 +1,5 @@
 terraform {
   required_providers {
-    uptimerobot = {
-      source  = "louy/uptimerobot"
-      version = "0.5.1"
-    }
     aws = {
       source = "hashicorp/aws"
     }
@@ -24,7 +20,7 @@ terraform {
 
   backend "s3" {
     bucket     = "198596758466-terraform-state"
-    key        = "unifi/stable.tfstate"
+    key        = "whoami/services.tfstate"
     region     = "eu-north-1"
     encrypt    = "true"
     kms_key_id = "arn:aws:kms:eu-north-1:198596758466:alias/terraform-state"

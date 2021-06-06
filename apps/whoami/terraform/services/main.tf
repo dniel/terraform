@@ -21,7 +21,6 @@ provider "auth0" {
 }
 provider "kubernetes" {
   config_context = local.kube_context
-  config_path    = local.kube_config
 }
 provider "kubernetes-alpha" {
   config_context = local.kube_context
@@ -41,16 +40,9 @@ provider "aws" {
 #
 #
 #########################################
-module "unifi" {
-  source                = "../template"
-  name_prefix           = local.name_prefix
-  domain_name           = "${local.name_prefix}.${local.domain_name}"
-  unifi_chart_version   = "1.5.1"
-  unifi_chart_image_tag = "6.1.67-rc"
-  name                  = "unifilatest"
-
-  # dont install an additional unifi poller
-  # in the same namespace because it already exists.
-  install_unifi_poller = false
+module "whoami" {
+  source      = "../template"
+  name_prefix = local.name_prefix
+  domain_name = "${local.name_prefix}.${local.domain_name}"
 }
 
