@@ -57,7 +57,7 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
           ]
           "services" = [
             {
-              "name" = "services-kube-prometheus-stack-grafana"
+              "name" = "kube-prometheus-stack-grafana"
               "port" = 80
             },
           ]
@@ -104,7 +104,7 @@ resource "kubernetes_manifest" "ingressroute_prometheus" {
           ]
           "services" = [
             {
-              "name" = "prometheus-operated"
+              "name" = "kube-prometheus-stack-prometheus"
               "port" = 9090
             },
           ]
