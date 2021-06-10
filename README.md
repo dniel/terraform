@@ -11,8 +11,7 @@ Providers used to deploy manifests to Kubernetes.
 
 ## Kubernetes deployment
 The terraform scripts does NOT contain the provisioning of Kubernetes itself. I have two clusters 
-running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with 
-Canonical JUJU.
+running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with Tanzu Kubernetes Grid (TKG).
 
 ## Init manifests
 Some stuff I havent managed yet to deploy with Terraform and will ned to be deployed to Kubernetes
