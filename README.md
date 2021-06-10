@@ -26,12 +26,11 @@ Under the directory `envs` there is one directory for each deployment.
 The different development environments for software development.
 - prod is deployed to Amazon.
 - stage is deployed to Amazon.
-- test is deployed to on-prem.
-- dev is deployed to on-prem.
+- test is deployed to on-prem on VMWare Tanzu.
+- dev is deployed to on-prem  on VMWare Tanzu.
 
 In addition
-- cloud-services is a shared services stack in the cloud.
-- home-services is a shared services stack at home.
+- services is a shared services stack at home.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
 Secrets are stored in encrypted files in the repo and contains a couple of variables 
