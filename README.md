@@ -11,8 +11,7 @@ Providers used to deploy manifests to Kubernetes.
 
 ## Kubernetes deployment
 The terraform scripts does NOT contain the provisioning of Kubernetes itself. I have two clusters 
-running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with 
-Canonical JUJU.
+running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with Tanzu Kubernetes Grid (TKG).
 
 ## Init manifests
 Some stuff I havent managed yet to deploy with Terraform and will ned to be deployed to Kubernetes
@@ -26,12 +25,11 @@ Under the directory `envs` there is one directory for each deployment.
 The different development environments for software development.
 - prod is deployed to Amazon.
 - stage is deployed to Amazon.
-- test is deployed to on-prem.
-- dev is deployed to on-prem.
+- test is deployed to on-prem on VMWare Tanzu.
+- dev is deployed to on-prem  on VMWare Tanzu.
 
 In addition
-- cloud-services is a shared services stack in the cloud.
-- home-services is a shared services stack at home.
+- services is a shared services stack at home.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
 Secrets are stored in encrypted files in the repo and contains a couple of variables 
