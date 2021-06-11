@@ -13,6 +13,16 @@ locals {
     app = "external-secrets"
   }
 }
+# this is a workaround for this module to use the correct provider
+# https://github.com/banzaicloud/terraform-provider-k8s/issues/63
+terraform {
+  required_providers {
+    k8s = {
+      source  = "banzaicloud/k8s"
+      version = ">=0.9.0"
+    }
+  }
+}
 
 # Create IAM user for external-secrets to read from SSM and SecretsManager
 resource "aws_iam_user" "external_secrets_iam_user" {
@@ -44,45 +54,43 @@ resource "kubernetes_secret" "external_secrets_secret" {
 locals {
   secretKeyRef = trimprefix(kubernetes_secret.external_secrets_secret.id, "${var.name_prefix}/")
 }
+resource "helm_release" "external-secrets" {
+  name       = "external-secrets"
+  repository = "https://external-secrets.github.io/kubernetes-external-secrets/"
+  chart      = "kubernetes-external-secrets"
+  namespace  = var.name_prefix
+  version    = "8.1.2"
 
-# Deploy External-Secrets controller using the credentials from above.
-resource "kubernetes_manifest" "external-secrets-helm-release" {
-  provider = kubernetes-alpha
-
-  manifest = {
-    "apiVersion" = "helm.fluxcd.io/v1"
-    "kind" = "HelmRelease"
-    "metadata" = {
-      "name" = "external-secrets"
-      "namespace" = var.name_prefix
-      "labels" = var.labels
-    }
-    "spec" = {
-      "chart" = {
-        "repository" = "https://external-secrets.github.io/kubernetes-external-secrets/"
-        "name" = "kubernetes-external-secrets"
-        "version" = "6.4.0"
-
-      }
-      "skipCRDs" = true
-      "values" = {
-        "env" = {
-          "AWS_REGION" = local.current_region
-          "AWS_DEFAULT_REGION" = local.current_region
-        },
-        "envVarsFromSecret" = {
-          "AWS_ACCESS_KEY_ID" = {
-            "secretKeyRef" = trimprefix(kubernetes_secret.external_secrets_secret.id, "${var.name_prefix}/")
-            "key" = "id"
-          }
-          "AWS_SECRET_ACCESS_KEY" = {
-            "secretKeyRef" = trimprefix(kubernetes_secret.external_secrets_secret.id, "${var.name_prefix}/")
-            "key" = "key"
-          }
-        }
-      }
-    }
+  # set environment variables to generate certificates for using Lets Encrypt.
+  set {
+    name  = "env.AWS_REGION"
+    value = local.current_region
   }
+
+  # set envVarsFromSecret.AWS_ACCESS_KEY_ID
+  set {
+    name  = "envVarsFromSecret.AWS_ACCESS_KEY_ID.secretKeyRef"
+    value = local.secretKeyRef
+  }
+  set {
+    name  = "envVarsFromSecret.AWS_ACCESS_KEY_ID.key"
+    value = "id"
+  }
+
+  # set envVarsFromSecret.AWS_SECRET_ACCESS_KEY
+  set {
+    name  = "envVarsFromSecret.AWS_SECRET_ACCESS_KEY.secretKeyRef"
+    value = local.secretKeyRef
+  }
+  set {
+    name  = "envVarsFromSecret.AWS_SECRET_ACCESS_KEY.key"
+    value = "key"
+  }
+  set {
+    name  = "serviceMonitor.enabled"
+    value = "true"
+  }
+
 }
 
 # Add Policy to IAM user so that it can read from SSM and SecretsManager.
