@@ -1,3 +1,4 @@
+# just a comment
 terraform {
   required_providers {
     k8s = {
