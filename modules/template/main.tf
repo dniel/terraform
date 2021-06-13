@@ -9,6 +9,7 @@ locals {
 # Just to make sure that we have the environment namespace that must be
 # created before deploying an environment. This is not created by
 # the terraform script.
+# trigger
 ##################################################################################
 data "kubernetes_namespace" "env_namespace" {
   metadata {
