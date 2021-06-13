@@ -63,7 +63,7 @@ resource "aws_ssm_parameter" "aws_credentials_secret" {
 resource "kubernetes_secret" "external_secrets_secret" {
   metadata {
     name = "pipeline-aws-credentials"
-    namespace = "spinnaker"
+    namespace = "pipeline"
   }
   data = {
     id = aws_iam_access_key.pipeline_user_access_key.id
