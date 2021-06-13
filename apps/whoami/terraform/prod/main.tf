@@ -41,7 +41,7 @@ provider "aws" {
 #
 #########################################
 module "whoami" {
-  source      = "../template"
+  source      = "github.com/dniel/terraform?ref=master/modules/whoami"
   name_prefix = local.name_prefix
   domain_name = local.domain_name
 }
