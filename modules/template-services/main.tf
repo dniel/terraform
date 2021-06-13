@@ -59,13 +59,13 @@ module "monitoring" {
 #
 #
 ##################################
-#module "storage" {
-#  depends_on  = [module.operators]
-#  source      = "./storage"
-#  domain_name = var.domain_name
-#  name_prefix = var.name_prefix
-#  labels      = local.labels
-#}
+module "storage" {
+  depends_on  = [module.operators]
+  source      = "./storage"
+  domain_name = var.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+}
 
 ##################################
 #
