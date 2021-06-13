@@ -45,8 +45,8 @@ module "unifi" {
   source                = "github.com/dniel/terraform?ref=master/modules/unifi"
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
-  unifi_chart_version   = "1.5.1"
-  unifi_chart_image_tag = "6.1.67-rc"
+  unifi_chart_version   = "2.0.4"
+  unifi_chart_image_tag = "6.2.25"
   name                  = "unifi"
 }
 
