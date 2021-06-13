@@ -71,6 +71,18 @@ module "storage" {
 #
 #
 ##################################
+module "tracing" {
+  depends_on  = [module.operators]
+  source      = "./tracing"
+  domain_name = var.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+}
+
+##################################
+#
+#
+##################################
 module "spinnaker" {
   count       = var.feature_spinnaker ? 1 : 0
   source      = "../spinnaker"
