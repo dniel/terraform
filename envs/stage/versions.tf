@@ -18,7 +18,7 @@ terraform {
     }
     auth0 = {
       source = "alexkappa/auth0"
-      version = "0.14"
+      version = "0.21"
     }
   }
   required_version = "1.0.0"
