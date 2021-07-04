@@ -17,4 +17,11 @@ locals {
   forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
-# TODO implement a more lightweight centralized logging than ElasticCloud.
+# deploy Loki-Stack with promtail
+resource "helm_release" "loki-stack" {
+  name       = "loki-stack"
+  repository = "https://grafana.github.io/helm-charts"
+  chart      = "loki-stack"
+  namespace  = var.name_prefix
+  version    = "2.4.1"
+}
