@@ -1,0 +1,30 @@
+#############################################
+# Install Minecraft Java edition.
+#
+#############################################
+module "minecraft" {
+  source      = "github.com/dniel/terraform?ref=master/modules/helm-app"
+  name_prefix = var.name_prefix
+  domain_name = var.domain_name
+
+  repository = "https://itzg.github.io/minecraft-server-charts"
+
+  name          = "minecraft"
+  chart         = "minecraft"
+  chart_version = "3.2.0"
+
+  values = [
+    {
+      name  = "minecraftServer.eula"
+      value = "yes"
+    },
+    {
+      name  = "minecraftServer.type"
+      value = "FORGE"
+    },
+    {
+      name  = "minecraftServer.forgeVersion"
+      value = "36.1.32"
+    }
+  ]
+}
