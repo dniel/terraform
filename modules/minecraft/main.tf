@@ -24,7 +24,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.forgeVersion"
-      value = "36.1.32"
+      value = "36.1.123124"
     },
     {
       name  = "securityContext.runAsUser"
