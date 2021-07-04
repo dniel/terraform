@@ -1,6 +1,6 @@
 #############################################
 # Install Minecraft Java edition.
-#
+# bump
 #############################################
 module "minecraft" {
   source      = "github.com/dniel/terraform?ref=master/modules/helm-app"
