@@ -16,7 +16,7 @@ module "minecraft" {
   values = [
     {
       name  = "minecraftServer.eula"
-      value = "yes"
+      value = "true"
     },
     {
       name  = "minecraftServer.type"
@@ -25,6 +25,14 @@ module "minecraft" {
     {
       name  = "minecraftServer.forgeVersion"
       value = "36.1.32"
+    },
+    {
+      name  = "securityContext.runAsUser"
+      value = "0"
+    },
+    {
+      name  = "securityContext.fsGroup"
+      value = "0"
     }
   ]
 }
