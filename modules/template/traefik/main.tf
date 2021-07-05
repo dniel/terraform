@@ -125,6 +125,10 @@ resource "helm_release" "traefik" {
     name  = "additionalArguments[9]"
     value = "--log.level=INFO"
   }
+  set {
+    name  = "additionalArguments[10]"
+    value = "--entryPoints.minecraft.address=:25565"
+  }
 
   # set environment variables to generate certificates for using Lets Encrypt.
   set {
