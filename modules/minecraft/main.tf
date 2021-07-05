@@ -41,6 +41,15 @@ module "minecraft" {
     {
       name  = "securityContext.fsGroup"
       value = "0"
+    },
+    {
+      name  = "persistence.dataDir.enabled"
+      value = "true"
     }
+# Add persistence annotations for directory permissions
+#    {
+#      name  = "persistence.annotations"
+#      value = ""
+#    }
   ]
 }
