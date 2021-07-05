@@ -15,6 +15,10 @@ module "minecraft" {
 
   values = [
     {
+      name  = "imageTag"
+      value = "java8"
+    },
+    {
       name  = "minecraftServer.version"
       value = "1.16.5"
     },
