@@ -15,6 +15,10 @@ module "minecraft" {
 
   values = [
     {
+      name  = "minecraftServer.version"
+      value = "1.16.5"
+    },
+    {
       name  = "minecraftServer.eula"
       value = "true"
     },
