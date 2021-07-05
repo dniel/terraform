@@ -53,3 +53,39 @@ module "minecraft" {
 #    }
   ]
 }
+
+# Expose minecraft server on Traefik.
+resource "kubernetes_manifest" "ingressroute_minecraft" {
+  provider = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRouteTCP"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
+      },
+      "namespace" = var.name_prefix
+      "name"      = "mc"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "minecraft",
+      ]
+      "routes" = [
+        {
+          "services" = [
+            {
+              "name" = "minecraft-minecraft"
+              "port" = 25565
+            }
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
+}
+
