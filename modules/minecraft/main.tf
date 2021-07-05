@@ -82,9 +82,6 @@ resource "kubernetes_manifest" "ingressroute_minecraft" {
           ]
         },
       ]
-      "tls" = {
-        "certResolver" = "default"
-      }
     }
   }
 }
