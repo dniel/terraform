@@ -31,6 +31,18 @@ module "minecraft" {
       value = "FORGE"
     },
     {
+      name  = "minecraftServer.ops"
+      value = "RoboMemin64,Gorgon1609"
+    },
+    {
+      name  = "minecraftServer.motd"
+      value = "Welcome to RoboMemin64s Burning Hellscape"
+    },
+    {
+      name  = "minecraftServer.downloadModpackUrl"
+      value = "https://www.curseforge.com/minecraft/modpacks/kimetsu-no-yaiba-demon-slayer-mod-pack/download/3374376/file"
+    },
+    {
       name  = "minecraftServer.forgeVersion"
       value = "36.1.32"
     },
