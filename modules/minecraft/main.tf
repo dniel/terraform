@@ -28,7 +28,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.type"
-      value = "FORGE"
+      value = "CURSEFORGE"
     },
     {
       name  = "minecraftServer.motd"
