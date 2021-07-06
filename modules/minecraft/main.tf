@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.downloadModpackUrl"
-      value = "https://www.curseforge.com/minecraft/modpacks/kimetsu-no-yaiba-demon-slayer-mod-pack/download/3374376/file"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Kimetsu%2Bno%2BYaiba%2B(Demon%2Bslayer)%2BMod%2Bpack%2B0.3-5.zip"
     },
     {
       name  = "minecraftServer.forgeVersion"
