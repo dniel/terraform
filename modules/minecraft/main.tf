@@ -74,6 +74,7 @@ resource "kubernetes_manifest" "ingressroute_minecraft" {
       ]
       "routes" = [
         {
+          "match" = "HostSNI(`*`)",
           "services" = [
             {
               "name" = "minecraft-minecraft"

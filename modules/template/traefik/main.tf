@@ -65,6 +65,21 @@ resource "helm_release" "traefik" {
     name  = "ports.websecure.nodePort"
     value = var.traefik_websecure_port
   }
+
+  ## Add port for minecraft.
+  set {
+    name  = "ports.minecraft.expose"
+    value = "true"
+  }
+  set {
+    name  = "ports.minecraft.port"
+    value = "25565"
+  }
+  set {
+    name  = "ports.minecraft.protocol"
+    value = "TCP"
+  }
+
   set {
     name  = "ingressRoute.dashboard.enabled"
     value = "false"
@@ -124,10 +139,6 @@ resource "helm_release" "traefik" {
   set {
     name  = "additionalArguments[9]"
     value = "--log.level=INFO"
-  }
-  set {
-    name  = "additionalArguments[10]"
-    value = "--entryPoints.minecraft.address=:25565/tcp"
   }
 
   # set environment variables to generate certificates for using Lets Encrypt.
