@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.downloadModpackUrl"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Kimetsu%2Bno%2BYaiba%2B(Demon%2Bslayer)%2BMod%2Bpack%2B0.3-5.zip"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Better%2BMinecraft%2BServer%2BPack%2B%5BFORGE%5D%2Bv26.zip"
     },
     {
       name  = "minecraftServer.forgeVersion"
