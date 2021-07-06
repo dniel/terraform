@@ -31,10 +31,6 @@ module "minecraft" {
       value = "FORGE"
     },
     {
-      name  = "minecraftServer.ops"
-      value = "RoboMemin64,Gorgon1609"
-    },
-    {
       name  = "minecraftServer.motd"
       value = "Welcome to RoboMemin64s Burning Hellscape"
     },
