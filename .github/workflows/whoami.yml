@@ -96,8 +96,10 @@ jobs:
 #            }
 #          TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
       - name: Spinnaker
-        uses: ExpediaGroup/spinnaker-pipeline-trigger@v1
+        uses: ExpediaGroup/spinnaker-pipeline-trigger@v1.0.0
         with:
           topic_arn: ${{ secrets.TOPIC_ARN }}
-          parameters: |
-            reference: "${{ steps.zip_and_upload.outputs.s3_filename }}"
+#          parameters: |
+#            reference: "${{ steps.zip_and_upload.outputs.s3_filename }}"
+
+            
