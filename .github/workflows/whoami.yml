@@ -103,6 +103,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           topic_arn: ${{ secrets.TOPIC_ARN }}
+          aws_region: ${{ secrets.AWS_REGION }}
 
 #          parameters: |
 #            reference: "${{ steps.zip_and_upload.outputs.s3_filename }}"
