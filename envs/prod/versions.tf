@@ -21,7 +21,7 @@ terraform {
       version = "0.21"
     }
   }
-  required_version = "1.0.0"
+  required_version = "1.0.2"
 
   backend "s3" {
     bucket     = "198596758466-terraform-state"
