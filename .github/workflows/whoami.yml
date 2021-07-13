@@ -82,21 +82,21 @@ jobs:
           echo ${{ steps.zip_and_upload.outputs.s3_filename }}
           echo ${{ steps.zip_and_upload.outputs.artifact_filename }}
 
-#      - name: Publish SNS Topic
-#        uses: nothingalike/sns-publish-topic@v1.6
-#        with:
-#          TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
-#          MESSAGE: |
-#            {
-#              "reference":"${{ steps.zip_and_upload.outputs.s3_filename }}",
-#              "name": "${{ steps.vars.outputs.application }}",
-#              "commit": "${{ steps.vars.outputs.sha_short }}",
-#              "branch": "${{ steps.vars.outputs.branch }}",
-#              "provenance": "test123"
-#            }
-
-      - name: Spinnaker
-        uses: ExpediaGroup/spinnaker-pipeline-trigger@v1
+      - name: Publish SNS Topic
+        uses: nothingalike/sns-publish-topic@v1.6
         with:
-          topic_arn: ${{ secrets.TOPIC_ARN }}
-          aws_region: ${{ secrets.AWS_REGION }}
+          TOPIC_ARN: ${{ secrets.TOPIC_ARN }}
+          MESSAGE: |
+            {
+              "reference":"${{ steps.zip_and_upload.outputs.s3_filename }}",
+              "name": "${{ steps.vars.outputs.application }}",
+              "commit": "${{ steps.vars.outputs.sha_short }}",
+              "branch": "${{ steps.vars.outputs.branch }}",
+              "provenance": "test123"
+            }
+
+#      - name: Spinnaker
+#        uses: ExpediaGroup/spinnaker-pipeline-trigger@v1
+#        with:
+#          topic_arn: ${{ secrets.TOPIC_ARN }}
+#          aws_region: ${{ secrets.AWS_REGION }}
