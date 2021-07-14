@@ -143,4 +143,4 @@ jobs:
 
       - name: Sync documentation.
         shell: bash
-        run: aws s3 sync ./build s3://198596758466-docs/whoami --acl public-read --delete
+        run: aws s3 sync ./build/html s3://198596758466-docs/whoami --acl public-read --delete
