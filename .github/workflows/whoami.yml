@@ -27,11 +27,6 @@ jobs:
           echo "::set-output name=application::whoami"
           echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      - name: Check outputs
-        run: |
-          echo ${{ steps.vars.outputs.application }}
-          echo ${{ steps.vars.outputs.sha_short }}
-          echo ${{ steps.vars.outputs.branch }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -91,7 +86,6 @@ jobs:
               "name": "${{ steps.vars.outputs.application }}",
               "commit": "${{ steps.vars.outputs.sha_short }}",
               "branch": "${{ steps.vars.outputs.branch }}",
-              "provenance": "test123"
             }
 
 #      - name: Spinnaker
@@ -107,6 +101,14 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set outputs
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=application::whoami"
+          echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -143,4 +145,8 @@ jobs:
 
       - name: Sync documentation.
         shell: bash
-        run: aws s3 sync ./build/html s3://198596758466-docs/whoami --acl public-read --delete
+        run: |
+          aws s3 sync ./build/html \
+          s3://198596758466-docs/${{ steps.vars.outputs.application }}/${{ steps.vars.outputs.branch }} \
+          --acl public-read \
+          --delete
