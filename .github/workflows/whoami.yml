@@ -11,12 +11,11 @@ on:
       - '.github/workflows/whoami.yml'
       - 'apps/whoami/**'
 
-defaults:
-  run:
-    working-directory: ./apps/whoami
-
 jobs:
   docker:
+    defaults:
+      run:
+        working-directory: ./apps/whoami
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -100,3 +99,33 @@ jobs:
 #        with:
 #          topic_arn: ${{ secrets.TOPIC_ARN }}
 #          aws_region: ${{ secrets.AWS_REGION }}
+
+  docs:
+    defaults:
+      run:
+        working-directory: ./apps/whoami/docs
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Upgrade pip
+        run: |
+          # install pip=>20.1 to use "pip cache dir"
+          python3 -m pip install --upgrade pip
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
