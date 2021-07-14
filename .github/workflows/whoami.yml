@@ -133,3 +133,14 @@ jobs:
       - name: Generate documentation.
         shell: bash
         run: pip install -r requirements.txt && make html
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Sync documentation.
+        shell: bash
+        run: aws s3 sync ./build s3://198596758466-docs/whoami --acl public-read --delete
