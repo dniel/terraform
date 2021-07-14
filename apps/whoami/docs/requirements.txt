@@ -1,6 +1,7 @@
+sphinx
+sphinx-rtd-theme
 sphinx_markdown_tables
 sphinxcontrib-plantuml
 sphinxcontrib-openapi
-recommonmark
-sphinx-rtd-theme
 sphinxcontrib-kroki
+recommonmark
