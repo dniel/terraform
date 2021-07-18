@@ -13,6 +13,12 @@ locals {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "docs_bucket" {
   bucket = "198596758466-docs"
+  acl    = "public-read"
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
 }
 
 # TODO add ingress route for docs pointing to S3 bucket.
