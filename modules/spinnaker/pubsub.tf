@@ -9,10 +9,16 @@
 # - https://spinnaker.io/setup/triggers/amazon/
 ####################################################################
 # Bucket to upload trigger to.
-# TODO: need to define a s3 bucket policy
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket" "bucket" {
   bucket = "198596758466-spinnaker-deploy"
+
+  lifecycle_rule {
+    id      = "artifacts"
+    enabled = true
+    expiration {
+      days = 30
+    }
+  }
 }
 
 # Sns Topic
