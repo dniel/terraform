@@ -1,24 +1,44 @@
 ######################################################
-#
+# Docs
 ######################################################
 locals {
   labels = merge(var.labels, {
   })
-  forwardauth_middleware_namespace = var.name_prefix
-  forwardauth_middleware_name      = "forwardauth-authorize"
 }
 
-# Bucket to upload docs to.
-# TODO: need to define a s3 bucket policy
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
+# Create the Docs storage bucket where docs are stored as
+# static websites and accessed through Traefik.
 resource "aws_s3_bucket" "docs_bucket" {
   bucket = "198596758466-docs"
   acl    = "public-read"
-
+  tags = local.labels
   website {
     index_document = "index.html"
     error_document = "error.html"
   }
 }
 
-# TODO add ingress route for docs pointing to S3 bucket.
+# Create K8s Service with Externalname to use for ingressroutes.
+resource "kubernetes_manifest" "docs-external-website-service" {
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "v1"
+    "kind"       = "Service"
+    "metadata" = {
+      "namespace" = var.name_prefix
+      "labels"    = local.labels
+      "name"      = "docs-external-website"
+    }
+    "spec" = {
+      "externalName" = aws_s3_bucket.docs_bucket.website_endpoint
+      "type" = "ExternalName"
+      "ports" = [
+        {
+          "port" = 80
+          "protocol" = "TCP"
+        }
+      ]
+    }
+  }
+}
