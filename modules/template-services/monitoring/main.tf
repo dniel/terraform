@@ -20,7 +20,7 @@ resource "helm_release" "kube-prometheus-stack" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = var.name_prefix
-  version    = "16.12.1"
+  version    = "16.15.0"
 }
 
 ######################################################
