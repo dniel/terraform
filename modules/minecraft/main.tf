@@ -43,6 +43,10 @@ module "minecraft" {
       value = "36.1.32"
     },
     {
+      name  = "minecraftServer.removeOldMods"
+      value = "TRUE"
+    },    
+    {
       name  = "securityContext.runAsUser"
       value = "0"
     },
