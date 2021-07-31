@@ -60,7 +60,7 @@ module "minecraft" {
 #    },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Better%2BMinecraft%2BServer%2BPack%2B%5BFORGE%5D%2Bv30%2Bhf.zip"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/DS_ServerFile.zip"
 #      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
     },
     {
