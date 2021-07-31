@@ -23,6 +23,14 @@ module "minecraft" {
       value = "java8"
     },
     {
+      name  = "minecraftServer.memory"
+      value = "4096"
+    },
+    {
+      name = "resources.requests.memory"
+      value = "4Gi"
+    },
+    {
       name  = "minecraftServer.motd"
       value = "Welcome to RoboMemin64s Burning Hellscape"
     },
