@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
+      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800"
     },    
 #    {
 #      name  = "minecraftServer.downloadModpackUrl"
