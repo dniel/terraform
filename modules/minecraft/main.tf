@@ -34,10 +34,10 @@ module "minecraft" {
       name  = "minecraftServer.type"
       value = "FTB"
     },
-#    {
-#      name  = "minecraftServer.ftbServerMod"
-#      value = "35"
-#    },    
+    {
+      name  = "minecraftServer.ftbServerMod"
+      value = "ftp_revelation"
+    },    
     {
       name  = "minecraftServer.downloadModpackUrl"
       value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/ftp_revelation.zip"
