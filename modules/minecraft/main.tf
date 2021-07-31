@@ -23,6 +23,10 @@ module "minecraft" {
       value = "java8"
     },
     {
+      name  = "minecraftServer.cpu"
+      value = "2000m"
+    },
+    {
       name  = "minecraftServer.memory"
       value = "4096"
     },
