@@ -38,10 +38,10 @@ module "minecraft" {
       name  = "minecraftServer.cfServerMod"
       value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
     },    
-#    {
-#      name  = "minecraftServer.downloadModpackUrl"
-#      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
-#    },
+    {
+      name  = "minecraftServer.downloadModpackUrl"
+      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
+    },
     {
       name  = "minecraftServer.forgeVersion"
       value = "36.1.32"
