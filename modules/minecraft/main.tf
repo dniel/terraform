@@ -86,12 +86,11 @@ module "minecraft" {
     {
       name  = "persistence.dataDir.enabled"
       value = "true"
+    },
+    {
+      name  = "persistence.dataDir.Size"
+      value = "2Gi"
     }
-# Add persistence annotations for directory permissions
-#    {
-#      name  = "persistence.annotations"
-#      value = ""
-#    }
   ]
 }
 
