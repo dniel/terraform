@@ -42,10 +42,10 @@ module "minecraft" {
       name  = "minecraftServer.downloadModpackUrl"
       value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/ftp_revelation.zip"
     },
-#    {
-#      name  = "minecraftServer.forgeVersion"
-#      value = "36.1.32"
-#    },
+    {
+      name  = "minecraftServer.forgeVersion"
+      value = "36.1.32"
+    },
     {
       name  = "minecraftServer.removeOldMods"
       value = "TRUE"
