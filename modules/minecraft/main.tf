@@ -15,6 +15,10 @@ module "minecraft" {
 
   values = [
     {
+      name = "extraEnv.DEBUG"
+      value = "TRUE"
+    },
+    {
       name  = "imageTag"
       value = "java8"
     },
