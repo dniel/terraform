@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "https://www.curseforge.com/minecraft/modpacks/kimetsu-no-yaiba-demon-slayer-mod-pack/download/3374376/file"
+      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
     },    
 #    {
 #      name  = "minecraftServer.downloadModpackUrl"
