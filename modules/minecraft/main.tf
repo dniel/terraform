@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "SkyFactory-4_Server_4.2.2.zip"
+      value = "SkyFactory-4_Server_4.2.2"
     },    
     {
       name  = "minecraftServer.downloadModpackUrl"
