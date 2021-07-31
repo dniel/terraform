@@ -36,12 +36,12 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "SkyFactory-4_Server_4.2.2"
+      value = "https://www.curseforge.com/minecraft/modpacks/kimetsu-no-yaiba-demon-slayer-mod-pack/download/3374376/file"
     },    
-    {
-      name  = "minecraftServer.downloadModpackUrl"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
-    },
+#    {
+#      name  = "minecraftServer.downloadModpackUrl"
+#      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
+#    },
     {
       name  = "minecraftServer.forgeVersion"
       value = "36.1.32"
