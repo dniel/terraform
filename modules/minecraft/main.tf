@@ -32,15 +32,15 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.type"
-      value = "FTB"
+      value = "CURSEFORGE"
     },
     {
       name  = "minecraftServer.ftbServerMod"
-      value = "ftp_revelation"
+      value = "SkyFactory-4_Server_4.2.2.zip"
     },    
     {
       name  = "minecraftServer.downloadModpackUrl"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/ftp_revelation.zip"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
     },
     {
       name  = "minecraftServer.forgeVersion"
