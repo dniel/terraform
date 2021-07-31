@@ -34,14 +34,14 @@ module "minecraft" {
       name  = "minecraftServer.type"
       value = "FTB"
     },
-    {
-      name  = "minecraftServer.ftbServerMod"
-      value = "35"
-    },    
 #    {
-#      name  = "minecraftServer.downloadModpackUrl"
-#      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Better%2BMinecraft%2BServer%2BPack%2B%5BFORGE%5D%2Bv26.zip"
-#    },
+#      name  = "minecraftServer.ftbServerMod"
+#      value = "35"
+#    },    
+    {
+      name  = "minecraftServer.downloadModpackUrl"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/ftp_revelation.zip"
+    },
 #    {
 #      name  = "minecraftServer.forgeVersion"
 #      value = "36.1.32"
