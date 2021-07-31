@@ -18,10 +18,10 @@ module "minecraft" {
       name = "extraEnv.DEBUG"
       value = "TRUE"
     },
-#    {
-#      name  = "imageTag"
-#      value = "java8"
-#    },
+    {
+      name  = "imageTag"
+      value = "java8"
+    },
     {
       name  = "minecraftServer.motd"
       value = "Welcome to RoboMemin64s Burning Hellscape"
