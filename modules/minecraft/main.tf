@@ -28,16 +28,16 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cpu"
-      value = "2000m"
+      value = "1000m"
     },
-    {
-      name  = "minecraftServer.memory"
-      value = "4096"
-    },
-    {
-      name = "resources.requests.memory"
-      value = "4Gi"
-    },
+#    {
+#      name  = "minecraftServer.memory"
+#      value = "4096"
+#    },
+#    {
+#      name = "resources.requests.memory"
+#      value = "4Gi"
+#    },
     {
       name  = "minecraftServer.motd"
       value = "Welcome to RoboMemin64s Burning Hellscape"
