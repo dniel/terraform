@@ -11,7 +11,7 @@ module "minecraft" {
 
   name          = "minecraft"
   chart         = "minecraft"
-  chart_version = "3.2.0"
+  chart_version = "3.4.2"
 
   values = [
     {
@@ -36,7 +36,7 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800"
+      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
     },    
 #    {
 #      name  = "minecraftServer.downloadModpackUrl"
