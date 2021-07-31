@@ -64,6 +64,10 @@ module "minecraft" {
 #      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
     },
     {
+      name  = "minecraftServer.ftbServerMod"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/DS_ServerFile.zip"
+    },
+    {
       name  = "minecraftServer.forceReDownload"
       value = "TRUE"
     },    
