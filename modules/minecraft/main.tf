@@ -35,7 +35,7 @@ module "minecraft" {
       value = "CURSEFORGE"
     },
     {
-      name  = "minecraftServer.ftbServerMod"
+      name  = "minecraftServer.cfServerMod"
       value = "SkyFactory-4_Server_4.2.2.zip"
     },    
     {
