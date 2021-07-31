@@ -23,6 +23,10 @@ module "minecraft" {
       value = "java8"
     },
     {
+      name  = "startupProbe.enabled"
+      value = "true"
+    },
+    {
       name  = "minecraftServer.cpu"
       value = "2000m"
     },
