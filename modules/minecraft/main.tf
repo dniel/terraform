@@ -42,7 +42,6 @@ module "minecraft" {
       name  = "minecraftServer.ftbServerMod"
       value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
     },
-    },
     {
       name  = "minecraftServer.cfServerMod"
       value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
