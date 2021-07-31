@@ -54,17 +54,15 @@ module "minecraft" {
       name  = "minecraftServer.type"
       value = "CURSEFORGE"
     },
-#    {
-#      name  = "minecraftServer.ftbServerMod"
-#      value = "https://www.curseforge.com/minecraft/modpacks/skyfactory-4/download/3012800/file"
-#    },
     {
       name  = "minecraftServer.cfServerMod"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/atm6.zip"
+#      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
     },
     {
       name  = "minecraftServer.ftbServerMod"
-      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
+      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/atm6.zip"
+#      value = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/SkyFactory-4_Server_4.2.2.zip"
     },
     {
       name  = "minecraftServer.forceReDownload"
