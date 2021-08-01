@@ -97,6 +97,10 @@ module "minecraft-server" {
     {
       name  = "persistence.dataDir.Size"
       value = "2Gi"
+    },
+    {
+      name  = "extraEnv.FORCE_WORLD_COPY"
+      value = "TRUE"
     }
   ]
 }
