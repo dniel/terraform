@@ -32,7 +32,7 @@ module "minecraft-server" {
     },
     {
       name  = "minecraftServer.memory"
-      value = var.memory
+      value = "${var.memory}M"
     },
     {
       name  = "resources.requests.cpu"
