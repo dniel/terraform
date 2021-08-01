@@ -20,7 +20,7 @@ module "minecraft-server" {
     },
     {
       name  = "imageTag"
-      value = "java8"
+      value = var.image_tag
     },
     {
       name  = "startupProbe.enabled"

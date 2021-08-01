@@ -4,6 +4,11 @@ variable "name_prefix" {
 variable "domain_name" {
 }
 
+variable "" {
+  description = "The image tag for the minecraft container to use"
+  default     = "latest"
+}
+
 variable "server_version" {
   description = "Minecraft server version"
 }
