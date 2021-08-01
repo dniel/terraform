@@ -39,6 +39,6 @@ variable "cpu" {
 }
 
 variable "memory" {
-  default     = "2048Mi"
-  description = "(Optional) Requested memory units to the pod."
+  default     = "2048"
+  description = "(Optional) Requested memory units in megabytes to the pod."
 }
