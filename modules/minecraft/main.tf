@@ -27,8 +27,8 @@ module "minecraft" {
       value = "true"
     },
     {
-      name  = "startupProbe.enabled"
-      value = "true"
+      name  = "startupProbe.failureThreshold"
+      value = "60"
     },
     {
       name  = "minecraftServer.cpu"
