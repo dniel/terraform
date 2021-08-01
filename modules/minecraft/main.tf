@@ -32,15 +32,15 @@ module "minecraft" {
     },
     {
       name  = "minecraftServer.cpu"
-      value = "2000m"
+      value = "4000m"
     },
     {
       name  = "minecraftServer.memory"
-      value = "4096"
+      value = "8192"
     },
     {
       name = "resources.requests.memory"
-      value = "4Gi"
+      value = "8192Mi"
     },
     {
       name  = "minecraftServer.motd"
