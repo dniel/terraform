@@ -15,7 +15,7 @@ module "minecraft-server" {
 
   values = [
     {
-      name = "extraEnv.DEBUG"
+      name  = "extraEnv.DEBUG"
       value = "TRUE"
     },
     {
@@ -39,7 +39,7 @@ module "minecraft-server" {
       value = var.cpu
     },
     {
-      name = "resources.requests.memory"
+      name  = "resources.requests.memory"
       value = "${var.memory}Mi"
     },
     {
@@ -73,11 +73,11 @@ module "minecraft-server" {
     {
       name  = "minecraftServer.forceReDownload"
       value = "TRUE"
-    },    
+    },
     {
       name  = "minecraftServer.removeOldMods"
       value = "TRUE"
-    },    
+    },
     {
       name  = "securityContext.runAsUser"
       value = "0"
