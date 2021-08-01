@@ -44,11 +44,11 @@ module "minecraft-server" {
     },
     {
       name  = "minecraftServer.motd"
-      value = var.motd
+      value = var.server_motd
     },
     {
       name  = "minecraftServer.version"
-      value = var.version
+      value = var.server_version
     },
     {
       name  = "minecraftServer.eula"
@@ -56,7 +56,11 @@ module "minecraft-server" {
     },
     {
       name  = "minecraftServer.type"
-      value = var.type
+      value = var.server_type
+    },
+    {
+      name  = "minecraftServer.mode"
+      value = var.server_mode
     },
     {
       name  = "minecraftServer.cfServerMod"
