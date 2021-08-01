@@ -27,8 +27,12 @@ module "minecraft" {
       value = "true"
     },
     {
+      name  = "startupProbe.enabled"
+      value = "true"
+    },
+    {
       name  = "minecraftServer.cpu"
-      value = "1000m"
+      value = "2000m"
     },
     {
       name  = "minecraftServer.memory"
