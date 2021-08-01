@@ -29,14 +29,14 @@ module "minecraft" {
     {
       name  = "startupProbe.failureThreshold"
       value = "60"
-    },
-    {
-      name  = "minecraftServer.cpu"
-      value = "4000m"
-    },
     {
       name  = "minecraftServer.memory"
       value = "8192"
+    },
+    },
+    {
+      name  = "resources.requests.cpu"
+      value = "4000m"
     },
     {
       name = "resources.requests.memory"
