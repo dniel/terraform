@@ -59,12 +59,16 @@ module "minecraft-server" {
       value = var.server_type
     },
     {
-      name  = "minecraftServer.mode"
+      name  = "minecraftServer.gameMode"
       value = var.server_mode
     },
     {
       name  = "minecraftServer.cfServerMod"
       value = var.modpack_url
+    },
+    {
+      name  = "minecraftServer.downloadWorldUrl"
+      value = var.world_url
     },
     {
       name  = "minecraftServer.ftbServerMod"
