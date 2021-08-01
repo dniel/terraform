@@ -29,6 +29,7 @@ module "minecraft-server" {
     {
       name  = "startupProbe.failureThreshold"
       value = "60"
+    },
     {
       name  = "minecraftServer.memory"
       value = var.memory
