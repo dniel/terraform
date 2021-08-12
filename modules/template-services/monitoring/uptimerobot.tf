@@ -9,7 +9,7 @@ resource "helm_release" "uptimerobot-prometheus" {
   repository = "https://k8s-at-home.com/charts/"
   chart      = "uptimerobot-prometheus"
   namespace  = var.name_prefix
-  version    = "3.0.0"
+  version    = "5.0.0"
 
   # API key used for uptimerobot stored in AWS Secrets Manager.
   set {
