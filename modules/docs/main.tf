@@ -15,6 +15,7 @@ resource "aws_s3_bucket" "docs_bucket" {
 # Create K8s Service with Externalname that points to the S3 bucket
 # with the static sites of documentation.
 resource "kubernetes_manifest" "docs-external-website-service" {
+  depends_on = [aws_s3_bucket.docs_bucket]
   provider   = kubernetes-alpha
 
   manifest = {
