@@ -57,7 +57,7 @@ resource "kubernetes_manifest" "docs-external-website-service" {
       "routes" = [
         {
           "kind" = "Rule"
-          "match" = "Host(`docs.services.nordlab.io`)"
+          "match" = "Host(`docs.${var.domain_name}`)"
           "middlewares" = [
             {
               "name"      = "add-docs-sub-path"
@@ -97,8 +97,8 @@ resource "kubernetes_manifest" "middleware_redirect_docs_root" {
     }
     "spec" : {
       "redirectRegex" : {
-        "regex" = "^https://docs.services.nordlab.io/?$"
-        "replacement" = "https://docs.services.nordlab.io/docs/master"
+        "regex" = "^https://docs.${var.domain_name}/?$"
+        "replacement" = "https://docs.${var.domain_name}/docs/master"
       }
     }
   }
