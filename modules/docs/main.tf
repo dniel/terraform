@@ -39,7 +39,7 @@ resource "kubernetes_manifest" "docs-external-website-service" {
 }
 
 # Create the IngressRoute for Traefik to route to the S3 external service above.
-resource "kubernetes_manifest" "docs-external-website-service" {
+resource "kubernetes_manifest" "docs-external-website-ingress-route" {
   depends_on = [kubernetes_manifest.middleware_redirect_docs_root]
   provider   = kubernetes-alpha
 
