@@ -12,7 +12,8 @@ resource "aws_s3_bucket" "docs_bucket" {
   }
 }
 
-# Create K8s Service with Externalname to use for ingressroutes.
+# Create K8s Service with Externalname that points to the S3 bucket
+# with the static sites of documentation.
 resource "kubernetes_manifest" "docs-external-website-service" {
   provider   = kubernetes-alpha
 
@@ -32,6 +33,73 @@ resource "kubernetes_manifest" "docs-external-website-service" {
           "protocol" = "TCP"
         }
       ]
+    }
+  }
+}
+
+# Create the IngressRoute for Traefik to route to the S3 external service above.
+resource "kubernetes_manifest" "docs-external-website-service" {
+  depends_on = [kubernetes_manifest.middleware_redirect_docs_root]
+  provider   = kubernetes-alpha
+
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "namespace" = local.name_prefix
+      "name"      = "docs-external"
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
+      }
+    }
+    "spec" = {
+      "entryPoints" = ["websecure"]
+      "routes" = [
+        {
+          "kind" = "Rule"
+          "match" = "Host(`docs.services.nordlab.io`)"
+          "middlewares" = [
+            {
+              "name"      = "add-docs-sub-path"
+              "namespace" = local.name_prefix
+            }
+          ]
+          "services" = [
+            {
+              "kind" = "Service"
+              "name" = "docs-external-website"
+              "namespace" = local.name_prefix
+              "passHostHeader" = false
+              "port" = 80
+              "scheme" = "http"
+            }
+          ]
+        }
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
+}
+
+# Middleware that redirects from https://docs.services.nordlab.io to
+# https://docs.services.nordlab.io/docs/master for more conventient
+# start url of the root documentation site.
+resource "kubernetes_manifest" "middleware_redirect_docs_root" {
+  provider = kubernetes-alpha
+  manifest = {
+    "apiVersion" : "traefik.containo.us/v1alpha1"
+    "kind" : "Middleware"
+    "metadata" : {
+      "namespace" : local.name_prefix
+      "name" : "add-docs-sub-path"
+    }
+    "spec" : {
+      "redirectRegex" : {
+        "regex" = "^https://docs.services.nordlab.io/?$"
+        "replacement" = "https://docs.services.nordlab.io/docs/master"
+      }
     }
   }
 }
