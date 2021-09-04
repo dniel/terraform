@@ -47,10 +47,10 @@ resource "kubernetes_manifest" "docs-external-website-ingress-route" {
     "apiVersion" = "traefik.containo.us/v1alpha1"
     "kind"       = "IngressRoute"
     "metadata" = {
-      "namespace" = local.name_prefix
+      "namespace" = var.name_prefix
       "name"      = "docs-external"
       "annotations" = {
-        "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
+        "kubernetes.io/ingress.class" = "traefik-${var.name_prefix}"
       }
     }
     "spec" = {
@@ -62,14 +62,14 @@ resource "kubernetes_manifest" "docs-external-website-ingress-route" {
           "middlewares" = [
             {
               "name"      = "add-docs-sub-path"
-              "namespace" = local.name_prefix
+              "namespace" = var.name_prefix
             }
           ]
           "services" = [
             {
               "kind" = "Service"
               "name" = "docs-external-website"
-              "namespace" = local.name_prefix
+              "namespace" = var.name_prefix
               "passHostHeader" = false
               "port" = 80
               "scheme" = "http"
@@ -93,7 +93,7 @@ resource "kubernetes_manifest" "middleware_redirect_docs_root" {
     "apiVersion" : "traefik.containo.us/v1alpha1"
     "kind" : "Middleware"
     "metadata" : {
-      "namespace" : local.name_prefix
+      "namespace" : var.name_prefix
       "name" : "add-docs-sub-path"
     }
     "spec" : {
