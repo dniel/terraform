@@ -1,17 +1,11 @@
 ######################################################
 # Docs
 ######################################################
-locals {
-  labels = merge(var.labels, {
-  })
-}
-
 # Create the Docs storage bucket where docs are stored as
 # static websites and accessed through Traefik.
 resource "aws_s3_bucket" "docs_bucket" {
   bucket = "198596758466-docs"
   acl    = "public-read"
-  tags = local.labels
   website {
     index_document = "index.html"
     error_document = "error.html"
@@ -27,7 +21,6 @@ resource "kubernetes_manifest" "docs-external-website-service" {
     "kind"       = "Service"
     "metadata" = {
       "namespace" = var.name_prefix
-      "labels"    = local.labels
       "name"      = "docs-external-website"
     }
     "spec" = {

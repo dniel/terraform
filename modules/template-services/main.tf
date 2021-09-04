@@ -92,17 +92,3 @@ module "spinnaker" {
 
   hosted_zone_id = var.hosted_zone_id
 }
-
-##################################
-#
-#
-##################################
-module "docs" {
-  depends_on  = [module.operators]
-  source      = "./docs"
-  domain_name = var.domain_name
-  name_prefix = var.name_prefix
-  labels      = local.labels
-
-  hosted_zone_id = var.hosted_zone_id
-}
