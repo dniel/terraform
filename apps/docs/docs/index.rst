@@ -16,4 +16,5 @@ Features
    :titlesonly:
    :glob:
 
-    Downloads <../downloads#http://>
+    Whoami <../whoami/master#http://>
+    Unifi <../unifi/master#http://>
