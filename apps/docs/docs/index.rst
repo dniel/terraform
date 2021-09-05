@@ -16,5 +16,5 @@ Features
    :titlesonly:
    :glob:
 
-    Whoami <../whoami/master#http://>
-    Unifi <../unifi/master#http://>
+    Whoami </whoami/master#http://>
+    Unifi </unifi/master#http://>
