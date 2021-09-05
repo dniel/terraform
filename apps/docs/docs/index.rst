@@ -18,3 +18,6 @@ Features
 
     Whoami </whoami/master#http://>
     Unifi </unifi/master#http://>
+    Terraform </terraform/master#http://>
+    Spinnaker </spinnaker/master#http://>
+    Minecraft </minecraft/master#http://>
