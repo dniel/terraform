@@ -15,3 +15,5 @@ Features
    :name: mastertoc
    :titlesonly:
    :glob:
+
+    Downloads <../downloads#http://>
