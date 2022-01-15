@@ -1,8 +1,0 @@
-sphinx
-sphinx-rtd-theme
-sphinx-book-theme
-sphinx_markdown_tables
-sphinxcontrib-plantuml
-sphinxcontrib-openapi
-sphinxcontrib-kroki
-recommonmark

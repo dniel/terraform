@@ -45,6 +45,7 @@ module "minecraft" {
   source                = "github.com/dniel/terraform?ref=master/modules/minecraft-server"
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
+  image_tag		= "java8"
   server_version        = "1.12.2"
   server_motd           = "Welcome to the PixelMon server"
   server_type           = "CURSEFORGE"
