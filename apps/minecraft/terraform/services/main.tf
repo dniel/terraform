@@ -45,10 +45,10 @@ module "minecraft" {
   source                = "github.com/dniel/terraform?ref=master/modules/minecraft-server"
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
-  server_version        = "1.17.1"
-  server_motd           = "Welcome to the server"
-  server_type           = "VANILLA"
-  server_mode           = "creative"
-# modpack_url
-  world_url             = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Oneblock%2B-%2BParty%2Bmode.zip"
+  server_version        = "1.12.2"
+  server_motd           = "Welcome to the PixelMon server"
+  server_type           = "CURSEFORGE"
+  server_mode           = "survival"
+  modpack_url           = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/serverpack836.zip"
+  #world_url             = "https://198596758466-minecraft-modpacks.s3.eu-north-1.amazonaws.com/Oneblock%2B-%2BParty%2Bmode.zip"
 }
