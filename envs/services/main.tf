@@ -46,6 +46,9 @@ provider "auth0" {
 provider "kubernetes" {
   config_context = local.kube_context
   config_path    = local.kube_config
+  experiments {
+    manifest_resource = true
+  }
 }
 provider "kubernetes-alpha" {
   config_context = local.kube_context

@@ -92,3 +92,14 @@ module "spinnaker" {
 
   hosted_zone_id = var.hosted_zone_id
 }
+
+##################################
+#
+#
+##################################
+module "docs" {
+  source      = "../docs"
+  domain_name = var.domain_name
+  name_prefix = var.name_prefix
+  labels      = local.labels
+}
