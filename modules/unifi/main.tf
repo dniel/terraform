@@ -41,7 +41,7 @@ module "unifi" {
     },
     {
       name  = "mongodb.enabled"
-      value = "true"
+      value = "false"
     },
     {
       name  = "mongodb.persistence.enabled"
