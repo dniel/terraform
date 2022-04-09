@@ -21,10 +21,12 @@ module "unifi" {
 
   # Custom values for Chart.
   values = [
+/*
     {
       name  = "image.tag"
       value = var.unifi_chart_image_tag
     },
+*/
     {
       name  = "persistence.data.enabled"
       value = "true"
