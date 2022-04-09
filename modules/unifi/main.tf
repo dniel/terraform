@@ -37,7 +37,7 @@ module "unifi" {
     },
     {
       name  = "persistence.data.size"
-      value = "128Mi"
+      value = "512Mi"
     },
     {
       name  = "mongodb.enabled"
@@ -45,7 +45,7 @@ module "unifi" {
     },
     {
       name  = "mongodb.persistence.enabled"
-      value = "true"
+      value = "false"
     },
     {
       name  = "mongodb.persistence.size"
