@@ -24,6 +24,10 @@ module "unifi" {
     {
       name  = "image.tag"
       value = var.unifi_chart_image_tag
+    },
+    {
+      name  = "persistence.data.enabled"
+      value = "true"
     }
   ]
 }
@@ -37,12 +41,12 @@ module "unifi_poller" {
   name          = "unifi-poller"
   repository    = var.unifi_chart_repo
   chart         = "unifi-poller"
-  chart_version = "6.0.1"
+  chart_version = "10.2.0"
 
   values = [
     {
       name  = "config.unifi.defaults.url"
-      value = "https://${var.name}-gui:8443"
+      value = "https://${var.name}:8443"
     },
     {
       name  = "prometheus.serviceMonitor.enabled"

@@ -7,6 +7,8 @@ locals {
   aws_region          = "eu-north-1"
   name_prefix         = "services"
   domain_name         = "nordlab.io"
+  tags                = {}
+  name                = "unifi"
 }
 
 # auth0 credentials
@@ -45,8 +47,87 @@ module "unifi" {
   source                = "github.com/dniel/terraform?ref=master/modules/unifi"
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
-  unifi_chart_version   = "2.0.4"
-  unifi_chart_image_tag = "6.2.25"
+  unifi_chart_version   = "4.7.0"
+  unifi_chart_image_tag = "v6.5.55"
   name                  = "unifi"
 }
 
+######################################################
+# expose Unifi Controller UI.
+#
+######################################################
+resource "kubernetes_manifest" "unifi_gui_ingressroute" {
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
+      },
+      "namespace" = local.name_prefix
+#      "labels"    = local.tags
+      "name"      = "${local.name}-gui"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "websecure",
+      ]
+      "routes" = [
+        {
+          "kind"  = "Rule"
+          "match" = "Host(`${local.name}.${local.name_prefix}.${local.domain_name}`)"
+          "middlewares" = [ ]
+          "services" = [
+            {
+              "name" = local.name
+              "port" = "http"
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
+}
+
+######################################################
+# expose Unifi Controller UI.
+#
+######################################################
+resource "kubernetes_manifest" "unifi_inform_ingressroute" {
+  manifest = {
+    "apiVersion" = "traefik.containo.us/v1alpha1"
+    "kind"       = "IngressRoute"
+    "metadata" = {
+      "annotations" = {
+        "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
+      },
+      "namespace" = local.name_prefix
+      #      "labels"    = local.tags
+      "name"      = "${local.name}-inform"
+    }
+    "spec" = {
+      "entryPoints" = [
+        "web",
+      ]
+      "routes" = [
+        {
+          "kind"  = "Rule"
+          "match" = "Host(`${local.name}.${local.name_prefix}.${local.domain_name}`) && PathPrefix(`/inform`)"
+          "middlewares" = [ ]
+          "services" = [
+            {
+              "name" = local.name
+              "port" = "controller"
+            },
+          ]
+        },
+      ]
+      "tls" = {
+        "certResolver" = "default"
+      }
+    }
+  }
+}
