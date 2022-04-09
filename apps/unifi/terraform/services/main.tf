@@ -65,7 +65,6 @@ resource "kubernetes_manifest" "unifi_gui_ingressroute" {
         "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
       },
       "namespace" = local.name_prefix
-#      "labels"    = local.tags
       "name"      = "${local.name}-gui"
     }
     "spec" = {
@@ -76,11 +75,11 @@ resource "kubernetes_manifest" "unifi_gui_ingressroute" {
         {
           "kind"  = "Rule"
           "match" = "Host(`${local.name}.${local.name_prefix}.${local.domain_name}`)"
-          "middlewares" = [ ]
           "services" = [
             {
               "name" = local.name
-              "port" = "http"
+              "port" = 8443
+              "scheme" = "https"
             },
           ]
         },
@@ -96,6 +95,7 @@ resource "kubernetes_manifest" "unifi_gui_ingressroute" {
 # expose Unifi Controller UI.
 #
 ######################################################
+
 resource "kubernetes_manifest" "unifi_inform_ingressroute" {
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
@@ -105,7 +105,6 @@ resource "kubernetes_manifest" "unifi_inform_ingressroute" {
         "kubernetes.io/ingress.class" = "traefik-${local.name_prefix}"
       },
       "namespace" = local.name_prefix
-      #      "labels"    = local.tags
       "name"      = "${local.name}-inform"
     }
     "spec" = {
@@ -116,18 +115,14 @@ resource "kubernetes_manifest" "unifi_inform_ingressroute" {
         {
           "kind"  = "Rule"
           "match" = "Host(`${local.name}.${local.name_prefix}.${local.domain_name}`) && PathPrefix(`/inform`)"
-          "middlewares" = [ ]
           "services" = [
             {
               "name" = local.name
-              "port" = "controller"
+              "port" = 8080
             },
           ]
         },
       ]
-      "tls" = {
-        "certResolver" = "default"
-      }
     }
   }
 }
