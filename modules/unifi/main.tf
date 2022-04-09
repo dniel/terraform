@@ -32,6 +32,22 @@ module "unifi" {
     {
       name  = "persistence.data.accessMode"
       value = "ReadWriteOnce"
+    },
+    {
+      name  = "persistence.data.size"
+      value = "128Mi"
+    },
+    {
+      name  = "mongodb.enabled"
+      value = "true"
+    },
+    {
+      name  = "mongodb.persistence.enabled"
+      value = "true"
+    },
+    {
+      name  = "mongodb.persistence.size"
+      value = "2Gi"
     }
   ]
 }
