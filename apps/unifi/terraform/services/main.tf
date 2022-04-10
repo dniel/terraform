@@ -48,7 +48,7 @@ module "unifi" {
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
   unifi_chart_version   = "4.7.0"
-  unifi_chart_image_tag = "v6.5.55"
+  unifi_chart_image_tag = "v7.0.25"
   name                  = "unifi"
 }
 
