@@ -21,6 +21,16 @@ resource "helm_release" "kube-prometheus-stack" {
   chart      = "kube-prometheus-stack"
   namespace  = var.name_prefix
   version    = "34.9.0"
+
+  set{
+    name="grafana.persistence.enabled"
+    value="true"
+  }
+
+  set{
+    name="prometheus.persistence.enabled"
+    value="true"
+  }
 }
 
 ######################################################
