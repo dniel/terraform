@@ -95,5 +95,13 @@ module "unifi_poller" {
       name  = "env.UP_PROMETHEUS_DISABLE"
       value = "false"
     },
+    {
+      name  = "metrics.enabled"
+      value = "true"
+    },
+    {
+      name  = "metrics.serviceMonitor.labels.release"
+      value = "kube-prometheus-stack"
+    },
   ]
 }
