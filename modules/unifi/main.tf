@@ -34,6 +34,10 @@ module "unifi" {
       value = "ReadWriteOnce"
     },
     {
+      name  = "persistence.data.retain"
+      value = "true"
+    },
+    {
       name  = "persistence.data.size"
       value = "128Mi"
     },
@@ -48,6 +52,10 @@ module "unifi" {
     {
       name  = "mongodb.persistence.size"
       value = "512Mi"
+    },
+    {
+      name  = "mongodb.persistence.retain"
+      value = "true"
     }
   ]
 }
