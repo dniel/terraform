@@ -72,20 +72,28 @@ module "unifi_poller" {
 
   values = [
     {
-      name  = "config.unifi.defaults.url"
+      name  = "env.TZ"
+      value = "UTC"
+    },
+    {
+      name  = "env.UP_UNIFI_DEFAULT_URL"
       value = "https://${var.name}:8443"
     },
     {
-      name  = "prometheus.serviceMonitor.enabled"
+      name  = "env.UP_UNIFI_DEFAULT_USER"
+      value = "unifipoller"
+    },
+    {
+      name  = "env.UP_UNIFI_DEFAULT_PASS"
+      value = "unifipoller"
+    },
+    {
+      name  = "env.UP_INFLUXDB_DISABLE"
       value = "true"
     },
     {
-      name  = "prometheus.serviceMonitor.additionalLabels.release"
-      value = "prometheus"
+      name  = "env.UP_PROMETHEUS_DISABLE"
+      value = "false"
     },
-    {
-      name  = "prometheus.serviceMonitor.additionalLabels.monitor"
-      value = "prometheus"
-    }
   ]
 }
