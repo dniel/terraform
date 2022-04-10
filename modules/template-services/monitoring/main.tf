@@ -28,8 +28,13 @@ resource "helm_release" "kube-prometheus-stack" {
   }
 
   set{
-    name="prometheus.persistence.enabled"
-    value="true"
+    name="prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.accessModes[0]"
+    value="ReadWriteOnce"
+  }
+
+  set{
+    name="prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.resources.requests.storage"
+    value="20Gi"
   }
 }
 
