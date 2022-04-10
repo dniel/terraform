@@ -3,7 +3,7 @@ resource "helm_release" "prometheus_snmp_exporter" {
   repository = "https://dniel.github.io/charts"
   chart = "snmp-exporter"
   namespace = var.name_prefix
-  version = "0.0.2"
+  version = "0.0.3"
 }
 
 resource "kubernetes_manifest" "servicemonitor_services_snmp_exporter" {

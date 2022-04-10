@@ -103,5 +103,9 @@ module "unifi_poller" {
       name  = "metrics.serviceMonitor.labels.release"
       value = "kube-prometheus-stack"
     },
+    {
+      name  = "dummy"
+      value = "trigger"
+    }
   ]
 }

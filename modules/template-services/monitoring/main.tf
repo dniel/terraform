@@ -20,7 +20,7 @@ resource "helm_release" "kube-prometheus-stack" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = var.name_prefix
-  version    = "17.2.2"
+  version    = "34.9.0"
 }
 
 ######################################################
@@ -28,8 +28,6 @@ resource "helm_release" "kube-prometheus-stack" {
 #
 ######################################################
 resource "kubernetes_manifest" "ingressroute_grafana" {
-  provider = kubernetes-alpha
-
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
     "kind"       = "IngressRoute"
@@ -75,8 +73,6 @@ resource "kubernetes_manifest" "ingressroute_grafana" {
 #
 ######################################################
 resource "kubernetes_manifest" "ingressroute_prometheus" {
-  provider = kubernetes-alpha
-
   manifest = {
     "apiVersion" = "traefik.containo.us/v1alpha1"
     "kind"       = "IngressRoute"
