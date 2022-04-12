@@ -83,7 +83,7 @@ resource "kubernetes_manifest" "unifi_gui_ingressroute" {
       "routes" = [
         {
           "kind"  = "Rule"
-          "match" = "Host(`${var.name}.${var.name_prefix}.${var.domain_name}`)"
+          "match" = "Host(`${var.name}.${var.domain_name}`)"
           "services" = [
             {
               "name" = var.name
@@ -123,7 +123,7 @@ resource "kubernetes_manifest" "unifi_inform_ingressroute" {
       "routes" = [
         {
           "kind"  = "Rule"
-          "match" = "Host(`${var.name}.${var.name_prefix}.${var.domain_name}`) && PathPrefix(`/inform`)"
+          "match" = "Host(`${var.name}.${var.domain_name}`) && PathPrefix(`/inform`)"
           "services" = [
             {
               "name" = var.name
