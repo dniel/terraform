@@ -13,11 +13,6 @@ Providers used to deploy manifests to Kubernetes.
 The terraform scripts does NOT contain the provisioning of Kubernetes itself. I have two clusters 
 running, one in Amazon EKS deployed by cloudformation and one on-prem on VMWare deployed with Tanzu Kubernetes Grid (TKG).
 
-## Init manifests
-Some stuff I havent managed yet to deploy with Terraform and will ned to be deployed to Kubernetes
-manually with `kubectl` before running Terraform. The directory `init` contains manifests for k8s
-and should be deployed using `kubectl create -f init/` before running `terraform apply`. 
-
 ## Environments
 I run several deployments at the same time, both on-prem in parallel and in Amazon EKS.
 Under the directory `envs` there is one directory for each deployment.
@@ -29,7 +24,7 @@ The different development environments for software development.
 - dev is deployed to on-prem  on VMWare Tanzu.
 
 In addition
-- services is a shared services stack at home.
+- services is a shared services on-prem on VMWare Tanzu.
   
 To deploy an environment its meant to stand in its directory and do `terraform apply`
 Secrets are stored in encrypted files in the repo and contains a couple of variables 
@@ -44,8 +39,9 @@ a default configuration of traefik and forwardauth and not much more.
 
 ### template-services
 Is a more specialized template that contains some applications that are
-meant to be installed just once for each cluster and contains common tools
-like prometheus, grafana.
+meant to be installed just once for each cluster and contains tools for
+cross-cutting concerns like logging and observability implemented with 
+prometheus, grafana, loki and more.
 
 ## Modules
 Under modules I have put all my re-usable code, the environments should not contain much code itself

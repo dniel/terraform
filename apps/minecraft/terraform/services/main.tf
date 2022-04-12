@@ -42,7 +42,7 @@ provider "aws" {
 #
 #########################################
 module "minecraft" {
-  source                = "github.com/dniel/terraform?ref=master/modules/minecraft-server"
+  source                = "../minecraft-server"
   name_prefix           = local.name_prefix
   domain_name           = "${local.name_prefix}.${local.domain_name}"
   image_tag		= "java8"

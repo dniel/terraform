@@ -7,6 +7,9 @@ locals {
   aws_region          = "eu-north-1"
   name_prefix         = "services"
   domain_name         = "nordlab.io"
+  labels = {
+    env = local.name_prefix
+  }
 }
 
 # auth0 credentials
@@ -41,8 +44,8 @@ provider "aws" {
 #
 ##################################
 module "docs" {
-  source      = "github.com/dniel/terraform?ref=master/modules/docs"
+  source      = "../docs"
   name_prefix = local.name_prefix
   domain_name = "${local.name_prefix}.${local.domain_name}"
+  labels      = local.labels
 }
-
