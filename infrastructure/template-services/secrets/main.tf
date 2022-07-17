@@ -13,16 +13,6 @@ locals {
     app = "external-secrets"
   }
 }
-# this is a workaround for this module to use the correct provider
-# https://github.com/banzaicloud/terraform-provider-k8s/issues/63
-terraform {
-  required_providers {
-    k8s = {
-      source  = "banzaicloud/k8s"
-      version = ">=0.9.0"
-    }
-  }
-}
 
 # Create IAM user for external-secrets to read from SSM and SecretsManager
 resource "aws_iam_user" "external_secrets_iam_user" {
