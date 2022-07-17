@@ -20,7 +20,7 @@ locals {
   load_balancer_public_ip            = ""
   load_balancer_alias_hosted_zone_id = ""
   load_balancer_alias_dns_name       = ""
-  primary_hosted_zone_id             = "ZAIGXBQLLBZ7R"
+  primary_hosted_zone_id             = "Z0377759ONY4I87XFN01"
   traefik_pilot_token                = ""
   traefik_websecure_port             = 30443
   traefik_service_type               = "LoadBalancer"
