@@ -1,2 +1,2 @@
-FROM traefik/whoami:v1.6.1
+FROM traefik/whoami:v1.10.1
 MAINTAINER Daniel Engfeldt <daniel@engfeldt.net>
